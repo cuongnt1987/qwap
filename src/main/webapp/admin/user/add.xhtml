@@ -1,0 +1,24 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/admin/template/admin-temp.xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="page-wrapper">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Add new user</h1>
+            </div><!-- end div.col-lg-12 -->
+        </div>
+
+        <br/>
+
+        <ui:include src="common_edit.xhtml">
+            <ui:param name="mode" value="add"/>
+        </ui:include>
+    </ui:define>
+
+
+</ui:composition>

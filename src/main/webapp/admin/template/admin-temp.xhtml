@@ -1,0 +1,18 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="base.xhtml">
+
+    <ui:define name="body">
+
+        <div id="wrapper">
+            <ui:include src="navigation.xhtml"/>
+            
+            <div id="page-wrapper">
+                <ui:insert name="page-wrapper"></ui:insert>
+            </div><!-- end div#page-wrapper-->
+        </div><!--end div#wrapper-->
+
+    </ui:define>
+
+</ui:composition>

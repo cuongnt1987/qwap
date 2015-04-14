@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:component>
+        <div class="row">
+            <div class="col-lg-6 col-sm 12">
+                <h:form role="form">
+                    <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
+                    <div class="form-group">
+                        <h:outputLabel for="fullname" value="Full name"/>
+                        <h:inputText id="fullname" styleClass="form-control" value="#{userBean.current.fullname}"/>
+                        <h:message for="fullname" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="username" value="Username"/>
+                        <h:inputText id="username" styleClass="form-control" value="#{userBean.current.username}"
+                                     readonly="#{mode == 'edit'}"/>
+                        <h:message for="username"
+                                   styleClass="help-block"
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="password" value="Password"/>
+                        <h:inputSecret id="password" styleClass="form-control" value="#{userBean.current.password}"/>
+                        <h:message for="password" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="groups" value="Group"/>
+                        <h:selectManyMenu  id="groups" styleClass="form-control" 
+                                           value="#{userBean.current.groups}"
+                                           converter="enumConverter">
+                            <f:passThroughAttribute name="size" value="2"/>
+                            <f:selectItems value="#{userBean.userGroupItems}"/>
+                        </h:selectManyMenu>
+                        <h:message for="groups" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="email" value="Email"/>
+                        <h:inputText id="email" styleClass="form-control" value="#{userBean.current.email}"/>
+                        <h:message for="email" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="description" value="Description"/>
+                        <h:inputTextarea id="description" styleClass="form-control" value="#{userBean.current.description}"/>
+                        <h:message for="description" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="btn-toolbar">
+                        <div class="btn-group">
+                            <h:commandButton value="Save" 
+                                             styleClass="btn btn-success" 
+                                             actionListener="#{userBean.persist()}"
+                                             rendered="#{mode == 'add'}">
+                                <f:ajax execute="@form" render="@form"/>
+                            </h:commandButton>
+                            <h:commandButton value="Save" 
+                                             styleClass="btn btn-success" 
+                                             actionListener="#{userBean.update()}"
+                                             rendered="#{mode == 'edit'}">
+                                <f:ajax execute="@form" render="@form"/>
+                            </h:commandButton>
+
+                            <button type="reset" class="btn btn-default">Reset</button>
+                        </div>
+                        <div class="btn-group">
+
+                            <button type="button" jsf:outcome="index" class="btn btn-default">Back</button>
+                        </div>
+                    </div>
+
+
+                </h:form>
+            </div>
+        </div>
+    </ui:component>
+</html>
+
