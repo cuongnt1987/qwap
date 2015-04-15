@@ -23,7 +23,6 @@ public abstract class PaginationHelper<T> implements Pagination<T> {
     private int pageSize = 20;
     private int count;
 
-
     @Override
     public int getCount() {
         return this.count;
@@ -45,7 +44,7 @@ public abstract class PaginationHelper<T> implements Pagination<T> {
     public int getPage() {
         return page;
     }
-    
+
     public void setPage(int page) {
         this.page = page;
     }
@@ -68,63 +67,6 @@ public abstract class PaginationHelper<T> implements Pagination<T> {
     }
 
     @Override
-    public boolean hasNext1() {
-        return page < getPageCount();
-    }
-
-    @Override
-    public boolean hasNext2() {
-        return page < (getPageCount() -1);
-    }
-
-    @Override
-    public boolean hasPreview1() {
-        return page > 1;
-    }
-
-    @Override
-    public boolean hasPreview2() {
-        return page > 2;
-    }
-
-    @Override
-    public void next1() {
-        if (hasNext1()) {
-            page = page + 1;
-        } else {
-            goToEnd();
-        }
-    }
-
-    @Override
-    public void next2() {
-        if (hasNext2()) {
-            page = page + 2;
-        } else {
-            goToEnd();
-        }
-    }
-
-    @Override
-    public void preview1() {
-        if (hasPreview1()) {
-            page = page - 1;
-        } else {
-            goToStart();
-        }
-    }
-
-    @Override
-    public void preview2() {
-        if (hasPreview2()) {
-            page = page -2;
-        } else {
-            goToStart();
-        }
-        
-    }
-
-    @Override
     public void goToStart() {
         this.page = 1;
     }
@@ -143,7 +85,116 @@ public abstract class PaginationHelper<T> implements Pagination<T> {
     public boolean isEnd() {
         return this.page == getPageCount();
     }
-    
+
+    @Override
+    public int getPosOnePage() {
+        if (page > 3) {
+            return page - 3;
+        }
+        return 1;
+    }
+
+    @Override
+    public int getPosTwoPage() {
+        if (page > 3) {
+            return page - 2;
+        }
+        return 2;
+    }
+
+    @Override
+    public int getPosThreePage() {
+        if (page > 3) {
+            return page - 3;
+        }
+        return 3;
+    }
+
+    @Override
+    public int getPosFourPage() {
+        if (page > 3) {
+            return page + 1;
+        }
+        return 4;
+    }
+
+    @Override
+    public int getPosFivePage() {
+        if (page > 3) {
+            return page + 3;
+        }
+        return 5;
+    }
+
+    @Override
+    public void one() {
+        if (page > 3) {
+            page = page - 3;
+        } else {
+            page = 1;
+        }
+    }
+
+    @Override
+    public void two() {
+        if (page > 3) {
+            page = page - 2;
+        } else {
+            page = 2;
+        }
+    }
+
+    @Override
+    public void three() {
+        if (page < 3) {
+            page = 3;
+        }
+    }
+
+    @Override
+    public void four() {
+        if (page > 3) {
+            page = page + 1;
+        } else {
+            page = 4;
+        }
+    }
+
+    @Override
+    public void five() {
+        if (page > 3) {
+            page = page + 2;
+        } else {
+            page = 5;
+        }
+    }
+
+    @Override
+    public boolean isHasOne() {
+        return getPageCount() >= 1;
+    }
+
+    @Override
+    public boolean isHasTwo() {
+        return getPageCount() >= 2;
+    }
+
+    @Override
+    public boolean isHasThree() {
+        return getPageCount() >= 3;
+    }
+
+    @Override
+    public boolean isHasFour() {
+        return getPageCount() >= 4;
+    }
+
+    @Override
+    public boolean isHasFive() {
+        return getPageCount() >= 5;
+    }
+
     public abstract List<T> load(int start, int range);
+
     public abstract int count();
 }

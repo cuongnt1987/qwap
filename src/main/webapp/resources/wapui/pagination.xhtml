@@ -1,0 +1,79 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"   
+              xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+              xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+              xmlns:jsf="http://xmlns.jcp.org/jsf"
+              xmlns:h="http://xmlns.jcp.org/jsf/html"
+              xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <cc:interface>
+        <cc:attribute name="value" required="true" type="com.cuongnt.qwap.web.pagging.Pagination"/>
+    </cc:interface>
+    <cc:implementation>
+        <nav>
+            <ul class="pagination">
+                <li>
+                    <a href="#"
+                       jsf:actionListener="#{cc.attrs.value.goToStart()}"
+                       disabled="#{cc.attrs.value.start}"
+                       aria-label="Start">
+                        <span aria-hidden="true">${msg['pagging.start.label']}</span>
+                        <f:ajax render="@form"/>
+                    </a>
+                </li>
+                <li class="#{cc.attrs.value.page eq 1 ? 'active': ''}">
+                    <a href="#"
+                       jsf:rendered="#{cc.attrs.value.hasOne}"
+                       disabled="#{cc.attrs.value.page eq 1}"
+                       jsf:actionListener="#{cc.attrs.value.one()}">
+                        <f:ajax render="@form"/>
+                        #{cc.attrs.value.posOnePage}
+                    </a>
+                </li>
+                <li class="#{cc.attrs.value.page eq 2 ? 'active': ''}">
+                    <a href="#"
+                       jsf:rendered="#{cc.attrs.value.hasTwo}"
+                       disabled="#{cc.attrs.value.page == 2}"
+                       jsf:actionListener="#{cc.attrs.value.two()}">
+                        <f:ajax render="@form"/>
+                        #{cc.attrs.value.posTwoPage}
+                    </a>
+                </li>
+                <li class="#{((cc.attrs.value.page gt 3 and cc.attrs.value.page lt cc.attrs.value.pageCount - 2) or (cc.attrs.value.page eq 3)) ? 'active': ''}"
+                    jsf:rendered="#{cc.attrs.value.hasThree}">
+                    <a href="#"
+                       disabled="#{(cc.attrs.value.page gt 3 and cc.attrs.value.page lt cc.attrs.value.pageCount - 2) or (cc.attrs.value.page eq 3)}"
+                       jsf:actionListener="#{cc.attrs.value.three()}">
+                        <f:ajax render="@form"/>
+                        #{cc.attrs.value.posThreePage}
+                    </a>
+                </li>
+                <li class="#{(cc.attrs.value.page eq 4 or cc.attrs.value.page eq cc.attrs.value.pageCount - 1) ? 'active': ''}"
+                    jsf:rendered="#{cc.attrs.value.hasFour}">
+                    <a href="#"
+                       jsf:actionListener="#{cc.attrs.value.four()}">
+                        <f:ajax render="@form"/>
+                        #{cc.attrs.value.posFourPage}
+                    </a>
+                </li>
+                <li class="#{(cc.attrs.value.page eq 5 or cc.attrs.value.page eq cc.attrs.value.pageCount) ? 'active': ''}"
+                    jsf:rendered="#{cc.attrs.value.hasFive}">
+                    <a href="#"
+                       disabled="#{cc.attrs.value.page eq 5 or cc.attrs.value.page eq cc.attrs.value.pageCount}"
+                       jsf:actionListener="#{cc.attrs.value.five()}">
+                        <f:ajax render="@form"/>
+                        #{cc.attrs.value.posFivePage}
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                       jsf:actionListener="#{cc.attrs.value.goToEnd()}"
+                       disabled="#{cc.attrs.value.end}"
+                       aria-label="End">
+                        <span aria-hidden="true">${msg['pagging.end.label']}</span>
+                        <f:ajax render="@form"/>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </cc:implementation>
+</ui:component>
+

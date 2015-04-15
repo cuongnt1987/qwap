@@ -4,7 +4,8 @@
     template="/admin/template/admin-temp.xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui">
 
     <ui:define name="page-wrapper">
         <h:form>
@@ -18,94 +19,69 @@
 
             <div class="row">
                 <div class="col-lg-12">
+                    <div class="alert alert-warning" 
+                         jsf:rendered="#{!userBean.pagePaginationHelper.dataModel.rowAvailable}">
+                        No row was found
+                    </div>
+                    <!--</div>-->
+                    <div class="table-responsive">
+                        <h:dataTable class="table table-bordered table-hover"
+                                     value="#{userBean.pagePaginationHelper.dataModel}"
+                                     var="user"
+                                     rendered="#{userBean.pagePaginationHelper.dataModel.rowCount > 0}">
+                            <h:column>
+                                <f:facet name="header">
+                                    Full name
+                                </f:facet>
+                                <h:link value="#{user.fullname}" outcome="edit">
+                                    <f:param name="id" value="#{user.id}"/>
+                                </h:link>
+                            </h:column>
 
-<!--                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">List of users</h3>
-                        </div>
-                        <div class="panel-body">-->
-                            <div class="alert alert-warning" 
-                                 jsf:rendered="#{!userBean.pagePaginationHelper.dataModel.rowAvailable}">
-                                No row was found
-                            </div>
-                        <!--</div>-->
-                        <div class="table-responsive">
-                            <h:dataTable class="table table-bordered table-hover"
-                                         value="#{userBean.pagePaginationHelper.dataModel}"
-                                         var="user"
-                                         rendered="#{userBean.pagePaginationHelper.dataModel.rowCount > 0}">
-                                <h:column>
-                                    <f:facet name="header">
-                                        Full name
-                                    </f:facet>
-                                    <h:link value="#{user.fullname}" outcome="edit">
-                                        <f:param name="id" value="#{user.id}"/>
-                                    </h:link>
-                                </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Username
+                                </f:facet>
+                                <h:outputText value="#{user.username}"/>
+                            </h:column>
 
-                                <h:column>
-                                    <f:facet name="header">
-                                        Username
-                                    </f:facet>
-                                    <h:outputText value="#{user.username}"/>
-                                </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Email
+                                </f:facet>
+                                <h:outputText value="#{user.email}"/>
+                            </h:column>
 
-                                <h:column>
-                                    <f:facet name="header">
-                                        Email
-                                    </f:facet>
-                                    <h:outputText value="#{user.email}"/>
-                                </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Group
+                                </f:facet>
+                                <ui:repeat value="#{user.groups}" var="group" varStatus="vs" rendered="#{user.groups != null and not empty user.groups}">
+                                    <h:outputText value="#{group}"/>
+                                    <h:outputText value=", " rendered="#{!vs.last}"/>
+                                </ui:repeat>
+                            </h:column>
 
-                                <h:column>
-                                    <f:facet name="header">
-                                        Group
-                                    </f:facet>
-                                    <ui:repeat value="#{user.groups}" var="group" varStatus="vs" rendered="#{user.groups != null and not empty user.groups}">
-                                        <h:outputText value="#{group}"/>
-                                        <h:outputText value=", " rendered="#{!vs.last}"/>
-                                    </ui:repeat>
-                                </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Description
+                                </f:facet>
+                                <h:outputText value="#{user.description}"/>
+                            </h:column>
 
-                                <h:column>
-                                    <f:facet name="header">
-                                        Description
-                                    </f:facet>
-                                    <h:outputText value="#{user.description}"/>
-                                </h:column>
+                            <h:column>
+                                <button class="btn btn-sm btn-danger"
+                                        jsf:actionListener="#{userBean.remove(user)}"
+                                        onclick="return confirm('Do you want delete this user?');">
+                                    <i class="fa fa-trash"></i>
+                                    Delete
+                                </button>   
+                            </h:column>
+                        </h:dataTable>
+                    </div>
 
-                                <h:column>
-                                    <button class="btn btn-sm btn-danger"
-                                            jsf:actionListener="#{userBean.remove(user)}"
-                                            onclick="return confirm('Do you want delete this user?');">
-                                        <i class="fa fa-trash"></i>
-                                        Delete
-                                    </button>   
-                                </h:column>
-                            </h:dataTable>
-                        </div>
-
-<!--                    </div>-->
                     <center>
-                        <nav>
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">sdfdsf</span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">sdfsdf</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <wapui:pagination value="#{userBean.pagePaginationHelper}"/>
                     </center>
                 </div>
             </div>
