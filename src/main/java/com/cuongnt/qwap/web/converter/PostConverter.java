@@ -5,10 +5,30 @@
  */
 package com.cuongnt.qwap.web.converter;
 
+import com.cuongnt.qwap.ejb.BaseService;
+import com.cuongnt.qwap.ejb.PostService;
+import com.cuongnt.qwap.entity.Post;
+import javax.ejb.EJB;
+import javax.faces.convert.FacesConverter;
+
 /**
  *
  * @author richard
  */
-public class PostConverter {
-    
+@FacesConverter(forClass = Post.class, value = "postConverter")
+public class PostConverter extends AbstractEntityConverter<Post> {
+
+    @EJB
+    private PostService service;
+
+    @Override
+    protected BaseService<Post> getBaseService() {
+        return service;
+    }
+
+    @Override
+    protected Class<Post> getEntityClass() {
+        return Post.class;
+    }
+
 }

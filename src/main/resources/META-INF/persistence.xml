@@ -4,7 +4,7 @@
     <jta-data-source>jdbc/qwap</jta-data-source>
     <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>
