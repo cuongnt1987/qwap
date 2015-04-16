@@ -19,6 +19,8 @@ public abstract class AbstractEntityConverter<T extends BaseEntity> implements C
     protected abstract BaseService<T> getBaseService();
 
     protected Long getKey(String keyStr) {
+        if (keyStr == null || keyStr.trim().isEmpty())
+            return null;
         return Long.parseLong(keyStr);
     }
 

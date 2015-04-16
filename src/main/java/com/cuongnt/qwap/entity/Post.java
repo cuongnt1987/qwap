@@ -15,6 +15,8 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,6 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Cacheable
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Post.findBySlug", query = "SELECT p FROM Post p WHERE p.slug = :slug"),
+        @NamedQuery(name = "Post.countBySlug", query = "SELECT COUNT(p.id) FROM Post p WHERE p.slug = :slug")
+})
 @XmlRootElement
 public class Post extends WebContent {
 
@@ -32,7 +38,7 @@ public class Post extends WebContent {
     
     @Valid
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "thumbFileId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "THUMBFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ImageFile thumnail = new ImageFile();
     
     @Lob
@@ -45,7 +51,7 @@ public class Post extends WebContent {
     private String summary;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "catId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "CATEGORYID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private PostCategory category;
     
     public Post() {

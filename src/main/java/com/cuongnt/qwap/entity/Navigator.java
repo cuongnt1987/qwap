@@ -5,6 +5,7 @@
  */
 package com.cuongnt.qwap.entity;
 
+import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -14,6 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -54,7 +56,6 @@ public class Navigator extends BaseEntity {
                     return "unknown";
             }
         }
-        
     }
     
     @Min(0)
@@ -64,11 +65,11 @@ public class Navigator extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(length = 11, nullable = false)
-    private Type type;
+    private Type type = Type.Single;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POSTID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Post post;
+    @Lob
+    @Basic(optional = false, fetch = FetchType.LAZY)
+    private String content;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORYID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
@@ -93,14 +94,6 @@ public class Navigator extends BaseEntity {
         this.type = type;
     }
 
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
     public PostCategory getPostCategory() {
         return postCategory;
     }
@@ -108,5 +101,12 @@ public class Navigator extends BaseEntity {
     public void setPostCategory(PostCategory postCategory) {
         this.postCategory = postCategory;
     }
-    
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

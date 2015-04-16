@@ -12,5 +12,6 @@ import com.cuongnt.qwap.entity.Post;
  * @author richard
  */
 public interface PostService extends BaseService<Post> {
-    
+    public Post findBySlug(String slug);
+    public int countBySlug(String slug);
 }

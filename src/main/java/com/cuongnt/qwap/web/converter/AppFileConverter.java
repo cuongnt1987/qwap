@@ -15,7 +15,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author richard
  */
-@FacesConverter(forClass = AppFile.class, value = "appFileConverter")
+@FacesConverter("appFileConverter")
 public class AppFileConverter extends AbstractEntityConverter<AppFile>{
     
     @EJB

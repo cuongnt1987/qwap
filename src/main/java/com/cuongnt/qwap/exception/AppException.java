@@ -13,6 +13,10 @@ public class AppException extends RuntimeException {
 
     private static final long serialVersionUID = -4808588009136179451L;
     protected ErrorInfo errorInfo;
+    
+    public AppException(String message, Throwable t) {
+        super(message, t);
+    }
 
     public AppException(ErrorInfo errorInfo) {
         this.errorInfo = errorInfo;

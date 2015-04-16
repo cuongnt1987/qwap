@@ -15,7 +15,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author richard
  */
-@FacesConverter(forClass = ImageFile.class, value = "imageFileConverter")
+@FacesConverter("imageFileConverter")
 public class ImageFileConverter extends AbstractEntityConverter<ImageFile>{
     
     @EJB

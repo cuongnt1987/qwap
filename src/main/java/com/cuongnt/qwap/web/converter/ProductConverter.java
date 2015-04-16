@@ -15,7 +15,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author richard
  */
-@FacesConverter(forClass = Product.class, value = "productConverter")
+@FacesConverter("productConverter")
 public class ProductConverter extends AbstractEntityConverter<Product> {
 
     @EJB

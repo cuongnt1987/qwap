@@ -20,4 +20,8 @@ public class PostCategory extends BaseEntity {
 
     private static final long serialVersionUID = 2766518136544978498L;
 
+    @Override
+    public String toString() {
+        return title;
+    }
 }

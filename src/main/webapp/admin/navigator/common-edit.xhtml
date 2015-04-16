@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:component>
+
+        <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
+
+        <div class="form-group">
+            <h:outputLabel for="title" value="Title"/>
+            <h:inputText id="title" styleClass="form-control" 
+                         value="#{navigatorBean.current.title}"
+                         required="true"
+                         requiredMessage="Title is required"/>
+            <h:message for="title" 
+                       styleClass="help-block" 
+                       errorClass="text-danger"
+                       infoClass="text-info"
+                       warnClass="text-warning"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="type" value="Type"/>
+            <h:selectOneMenu  id="type" styleClass="form-control" 
+                              value="#{navigatorBean.current.type}"
+                              converter="enumConverter">
+                <f:selectItems value="#{navigatorBean.typeSelectItems}"/>
+                <f:ajax render="postCategoryGroup contentGroup"/>
+            </h:selectOneMenu>
+            <h:message for="type" 
+                       styleClass="help-block" 
+                       errorClass="text-danger"
+                       infoClass="text-info"
+                       warnClass="text-warning"/>
+        </div>
+
+        <div class="form-group" jsf:id="postCategoryGroup">
+            <h:outputLabel for="postCat" value="Post category" rendered="#{!navigatorBean.showContent}"/>
+            <h:selectOneMenu  id="postCat" styleClass="form-control" 
+                              value="#{navigatorBean.current.postCategory}"
+                              converter="postCategoryConverter"
+                              hideNoSelectionOption="false"
+                              rendered="#{!navigatorBean.showContent}">
+
+                <f:selectItems value="#{postCategoryBean.selectItems}"/>
+            </h:selectOneMenu>
+            <h:message for="postCat" 
+                       styleClass="help-block" 
+                       errorClass="text-danger"
+                       infoClass="text-info"
+                       warnClass="text-warning"
+                       rendered="#{!navigatorBean.showContent}"/>
+        </div>
+
+        <div class="form-group" jsf:id="contentGroup">
+            <h:outputLabel for="content" value="Content" rendered="#{navigatorBean.showContent}"/>
+            <h:inputTextarea id="content" styleClass="form-control" 
+                             value="#{navigatorBean.current.content}"
+                             rendered="#{navigatorBean.showContent}"/>
+            <h:message for="content" 
+                       styleClass="help-block" 
+                       errorClass="text-danger"
+                       infoClass="text-info"
+                       warnClass="text-warning"
+                       rendered="#{navigatorBean.showContent}"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="orderNumber" value="Order number"/>
+            <h:inputText id="orderNumber" styleClass="form-control" 
+                         value="#{navigatorBean.current.orderNumber}"/>
+            <h:message for="orderNumber"
+                       styleClass="help-block" 
+                       errorClass="text-danger"
+                       infoClass="text-info"
+                       warnClass="text-warning"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="description" value="Description"/>
+            <h:inputText id="description" styleClass="form-control" 
+                         value="#{navigatorBean.current.description}"/>
+            <h:message for="description" 
+                       styleClass="help-block" 
+                       errorClass="text-danger"
+                       infoClass="text-info"
+                       warnClass="text-warning"/>
+        </div>
+
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <h:commandButton styleClass="btn btn-primary" 
+                                 actionListener="#{navigatorBean.persist()}" 
+                                 rendered="#{empty param.id}"
+                                 value="Save">
+                    <f:ajax execute="@form" render="@form"/>
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-primary" 
+                                 actionListener="#{navigatorBean.update()}" 
+                                 rendered="#{not empty param.id}"
+                                 value="Update">
+                    <f:ajax execute="@form" render="@form"/>
+                </h:commandButton>
+            </div>
+
+            <div class="btn-group">
+                <h:button styleClass="btn btn-default" 
+                          value="Back" 
+                          outcome="index"/>
+            </div>
+        </div>
+    </ui:component>
+</html>
+

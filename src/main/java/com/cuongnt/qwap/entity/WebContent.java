@@ -5,10 +5,7 @@
  */
 package com.cuongnt.qwap.entity;
 
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
-import java.util.Locale;
-import java.util.regex.Pattern;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -20,11 +17,9 @@ public abstract class WebContent extends BaseEntity {
 
     private static final long serialVersionUID = 707428908486294175L;
 
-    private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
-    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
-
     protected String metaKeywords;
     protected String metaDescription;
+    @Column(unique = true)
     protected String slug;
 
     public String getMetaKeywords() {
@@ -50,12 +45,4 @@ public abstract class WebContent extends BaseEntity {
     public void setSlug(String slug) {
         this.slug = slug;
     }
-
-    public static String toSlug(String input) {
-        String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
-        String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
-        String slug = NONLATIN.matcher(normalized).replaceAll("");
-        return slug.toLowerCase(Locale.ENGLISH);
-    }
-
 }

@@ -15,7 +15,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author richard
  */
-@FacesConverter(forClass = User.class, value = "userConverter")
+@FacesConverter("userConverter")
 public class UserConverter extends AbstractEntityConverter<User> {
 
     @EJB

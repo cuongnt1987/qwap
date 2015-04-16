@@ -15,7 +15,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author richard
  */
-@FacesConverter(forClass = Post.class, value = "postConverter")
+@FacesConverter("postConverter")
 public class PostConverter extends AbstractEntityConverter<Post> {
 
     @EJB

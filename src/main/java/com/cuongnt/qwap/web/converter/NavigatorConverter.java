@@ -15,7 +15,7 @@ import javax.faces.convert.FacesConverter;
  *
  * @author richard
  */
-@FacesConverter(forClass = Navigator.class, value = "navigatorConverter")
+@FacesConverter("navigatorConverter")
 public class NavigatorConverter  extends AbstractEntityConverter<Navigator>{
     
     @EJB

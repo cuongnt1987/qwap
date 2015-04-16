@@ -5,14 +5,29 @@
  */
 package com.cuongnt.qwap.entity;
 
+import com.cuongnt.qwap.exception.AppException;
+import com.cuongnt.qwap.util.AppConfig;
+import com.cuongnt.qwap.util.AppUtil;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
+import javax.servlet.http.Part;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import javax.xml.bind.annotation.XmlTransient;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class File extends BaseEntity {
 
     private static final long serialVersionUID = -4276523767622215932L;
-    
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(File.class);
+
     @Size(max = 75)
     @Column(length = 75)
     protected String contentType;
@@ -41,6 +57,10 @@ public class File extends BaseEntity {
     @Transient
     @XmlTransient
     protected InputStream inputStream;
+
+    @Transient
+    @XmlTransient
+    protected Part part;
 
     public File() {
     }
@@ -84,5 +104,50 @@ public class File extends BaseEntity {
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
-    
+
+    public Part getPart() {
+        return part;
+    }
+
+    public void setPart(Part part) {
+        this.part = part;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void prePersist() {
+        if (part != null) {
+            // delete old file
+            if (title != null) {
+                FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
+                        + this.id + java.io.File.separator + this.title));
+            }
+
+            this.contentType = part.getContentType();
+            this.fileSize = part.getSize();
+            this.title = AppUtil.toSlug(part.getSubmittedFileName());
+        }
+    }
+
+    @PostUpdate
+    @PostPersist
+    public void postPersist() {
+        if (part != null) {
+            try {
+                FileUtils.copyInputStreamToFile(part.getInputStream(), new java.io.File(AppConfig.getFileStorePath() + id + java.io.File.separator + title));
+            } catch (IOException ex) {
+                throw new AppException(null, "Cannot save file", ex);
+            }
+
+        }
+    }
+
+    @PreRemove
+    public void preRemove() {
+        if (title != null) {
+            FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
+                    + this.id + java.io.File.separator + this.title));
+        }
+    }
+
 }
