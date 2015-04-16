@@ -18,14 +18,16 @@
         <!-- MetisMenu CSS -->
         <h:outputStylesheet library="css" name="metisMenu.min.css"/>
 
-        <!-- Timeline CSS -->
-        <h:outputStylesheet library="css" name="timeline.css"/>
-
-        <!-- Custom CSS -->
-        <h:outputStylesheet library="css" name="sb-admin-2.css"/>
-
         <!-- Custom Fonts -->
         <h:outputStylesheet library="css" name="font-awesome.min.css"/>
+
+        <!-- Slick Slider -->
+        <h:outputStylesheet library="css" name="slick.css"/>
+
+        <!-- Slick Slider Theme -->
+        <h:outputStylesheet library="css" name="slick-theme.css"/>
+        <!-- App stylesheet -->
+        <h:outputStylesheet library="css" name="style.css"/>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,10 +35,34 @@
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+        <!-- Modernizr.js -->
+        <h:outputScript library="js" name="modernizr.js"/>
+
     </h:head>
     <h:body>
-        
-        
+
+        <div class="wrapper">
+            <h:form>
+                <header class="header">
+                    <!--header bar-->
+                    <ui:include src="header.xhtml"/>
+
+                    <!--side menu-->
+                    <ui:include src="side-menu.xhtml"/>
+                </header>
+
+                <!--main nav-->
+                <ui:include src="main-nav.xhtml"/>
+
+                <ui:insert name="main-content">
+                    Please define main content
+                </ui:insert>
+
+                <!--footer-->
+                <ui:include src="footer.xhtml"/>
+            </h:form>
+        </div><!-- end div.wrapper -->
 
 
         <!-- jQuery -->
@@ -45,11 +71,18 @@
         <!-- Bootstrap Core JavaScript -->
         <h:outputScript library="js" name="bootstrap.min.js"/>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <h:outputScript library="js" name="metisMenu.min.js"/>
+        <!-- Zepto.js -->
+        <h:outputScript library="js" name="zepto.js"/>
 
-        <!-- Custom Theme JavaScript -->
-        <h:outputScript library="js" name="sb-admin-2.js"/>
+        <!-- Iscroll -->
+        <h:outputScript library="js" name="iscroll.js"/>
+
+        <!-- Slick Slider -->
+        <h:outputScript library="js" name="slick.min.js"/>
+
+        <!-- app script -->
+        <h:outputScript library="js" name="app.js"/>
+
     </h:body>
 </html>
 

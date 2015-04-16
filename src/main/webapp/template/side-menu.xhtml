@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:component>
+        <nav id="list_menu" class="list_menu i-scroll hidden">
+            <ul class="menu">
+                <li><a href="#"><span class="text">Game</span></a>
+                    <ul>
+                        <li>
+                            <a jsf:outcome="/app.xhtml?viewType=new">   
+                                <span class="icon fa fa-sun-o"></span>
+                                <span class="text"> Đề xuất</span>
+                            </a>
+                        </li>
+
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=down">   
+                                <span class="icon fa fa-download"></span>
+                                <span class="text">Tải nhiều</span>
+                            </a>
+                        </li>
+
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=new">   
+                                <span class="icon fa fa-star-o"></span>
+                                <span class="text">Mới nhất</span>
+                            </a>
+                        </li>
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=like">   
+                                <span class="icon fa fa-heart-o"></span>
+                                <span class="text">Yêu thích</span>
+                            </a>
+                        </li>
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=hot">   
+                                <span class="icon fa fa-diamond"></span>
+                                <span class="text">Chọn lọc</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li><a href="#"><span class="text">Ứng dụng</span></a>
+                    <ul>
+                        <li>
+                            <a jsf:outcome="/app.xhtml?viewType=new">   
+                                <span class="icon fa fa-sun-o"></span>
+                                <span class="text">Đề xuất</span>
+                            </a>
+                        </li>
+
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=down">   
+                                <span class="icon fa fa-download"></span>
+                                <span class="text">Tải nhiều</span>
+                            </a>
+                        </li>
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=new">   
+                                <span class="icon fa fa-star-o"></span>
+                                <span class="text">Mới nhất</span>
+                            </a>
+                        </li>
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=like">   
+                                <span class="icon fa fa-heart-o"></span>
+                                <span class="text">Yêu thích</span>
+                            </a>
+                        </li>
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=host">   
+                                <span class="icon fa fa-diamond"></span>
+                                <span class="text">Chọn lọc</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li><a href="#"><span class="text">Nổi bật</span></a>
+                    <ul class="image">
+                        <li> 
+                            <a href="#">
+                                <h:graphicImage library="image" name="banner260914-113234.jpg" width="100%"/>
+                            </a>
+                        </li>		
+                    </ul>
+                </li>
+            </ul>
+        </nav><!-- END nav.list_menu -->
+    </ui:component>
+</html>
+

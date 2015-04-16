@@ -9,6 +9,8 @@ import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -17,6 +19,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Cacheable
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "ProductCategory.getByType", query = "SELECT c FROM ProductCategory c WHERE c.type = :type")
+})
 @XmlRootElement
 public class ProductCategory extends WebContent {
 
@@ -32,5 +37,9 @@ public class ProductCategory extends WebContent {
     public void setType(ProductType type) {
         this.type = type;
     }
-    
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

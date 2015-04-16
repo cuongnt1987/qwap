@@ -10,8 +10,6 @@ import com.cuongnt.qwap.util.AppConfig;
 import com.cuongnt.qwap.util.AppUtil;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PostPersist;
@@ -26,7 +24,6 @@ import javax.validation.constraints.Size;
 
 import javax.xml.bind.annotation.XmlTransient;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.LoggerFactory;
 
 /**

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>
+        <f:viewParam name="slug" value="#{viewProductBean.slug}"/>
+    </f:metadata>
+
+    <ui:composition template="/template/base.xhtml">
+        <ui:define name="main-content">
+            
+            <wapui:product-detail product="#{viewProductBean.currentProduct}" rendered="#{viewProductBean.currentProduct != null}"/>
+            
+            <wapui:product-slider value="#{viewProductBean.sliderProducts}" rendered="#{viewProductBean.currentProduct == null}"/>
+
+            <c:choose rendered="#{viewProductBean.currentProduct == null}">
+                <c:when test="${param.viewType == 'down'}">
+                    <div class="list-app-container clearfix">
+                        <wapui:product-list 
+                            id="topDownList" 
+                            title="Top game ung dung tai nhieu nhat" 
+                            value="#{viewProductBean.mostDownProducts}"
+                            loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                    </div>
+                </c:when>
+
+                <c:when test="${param.viewType == 'new'}">
+                    <div class="list-app-container clearfix">
+                    <wapui:product-list 
+                        id="topViewnList" 
+                        title="Top game ung dung moi nhat" 
+                        value="#{viewProductBean.mostDownProducts}"
+                        loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                    </div>
+                </c:when>
+
+                <c:when test="${param.viewType == 'like'}">
+                    <div class="list-app-container clearfix">
+                    <wapui:product-list 
+                        id="topLikeList" 
+                        title="Top game ung dung duc yeu thich nhat" 
+                        value="#{viewProductBean.mostDownProducts}"
+                        loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                    </div>
+                </c:when>
+
+                <c:when test="${param.viewType == 'hot'}">
+                    <div class="list-app-container clearfix">
+                    <wapui:product-list 
+                        id="topHostList" 
+                        title="Top game ung dung noi bat nhat" 
+                        value="#{viewProductBean.mostDownProducts}"
+                        loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                    </div>
+                </c:when>
+            </c:choose>
+        </ui:define>
+
+    </ui:composition>
+</html>
+

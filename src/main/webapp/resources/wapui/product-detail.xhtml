@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>
+        <cc:interface>
+            <cc:attribute name="product" required="true" type="com.cuongnt.qwap.entity.Product"/>
+            <cc:attribute name="relateProducts"/>
+        </cc:interface>
+
+        <cc:implementation>
+            <ol class="breadcrumb">
+                <li>
+                    <h:link outcome="/index.xhtml">Home</h:link>
+                </li>
+                <li>
+                    <a href="#">Game hành động</a>
+                </li>
+                <li class="active">${cc.attrs.product.title}</li>
+            </ol><!-- end ol.breadcrumb -->
+
+            <article class="app-detail clearfix">
+                <section class="base-info clearfix">
+                    <img src="#{cc.attrs.product.thumnail.URL}" alt="${cc.attrs.product.title}"/>
+                    <div class="clearfix">
+                        <dl>
+                            <dt>${cc.attrs.product.title}</dt>
+                            <dd>
+                                <p>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </p>
+                                <p><span class="fa fa-hdd-o"></span> 20 MB</p>
+                            </dd>
+                        </dl>
+
+                        <button type="button" class="btn btn-success">
+                            <span class="fa fa-download"></span> Download
+                        </button>
+
+                        <button type="button" class="btn btn-warning">
+                            <span class="fa fa-thumbs-up"></span> Like
+                        </button>
+
+                        <button type="button" class="btn btn-info">
+                            <span class="fa fa-share"></span> Share
+                        </button>
+                    </div>
+                </section>
+
+                <section class="banner">
+                    <img class="img-responsive" src="${cc.attrs.product.bgFile.URL}"/>
+                </section>
+
+                <section class="description">
+                    <h2 class="detail_item_tit">Mô tả</h2>
+                    <div class="desc_app">
+                        <h:outputText value="${cc.attrs.product.productDesc}" escape="false"/>
+                    </div>
+
+                    <center>
+                        <button type="button" class="toggle-desc btn btn-primary">Display/Hide</button>
+                    </center>
+                </section>
+
+                <!--section class="screenshorts app-slider responsive3">
+                    <div>
+                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider1.png"></a>
+                    </div>
+
+                    <div>
+                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
+                    </div>
+
+                    <div>
+                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
+                    </div>
+
+                    <div>
+                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
+                    </div>
+
+                    <div>
+                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
+                    </div>
+                </section-->
+            </article>
+            
+            <div class="list-app-container clearfix" jsf:rendered="${not empty cc.attrs.relateProducts}">
+                <wapui:product-list value="${cc.attrs.relateProducts}" title="Có thể bạn quan tâm"/>
+            </div>
+
+        </cc:implementation>
+    </ui:composition>
+</html>
+

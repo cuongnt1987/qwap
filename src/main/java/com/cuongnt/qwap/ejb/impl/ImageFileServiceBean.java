@@ -7,6 +7,7 @@ package com.cuongnt.qwap.ejb.impl;
 
 import com.cuongnt.qwap.ejb.ImageFileService;
 import com.cuongnt.qwap.entity.ImageFile;
+import javax.ejb.Stateless;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author richard
  */
+@Stateless
 public class ImageFileServiceBean extends AbstractFacadeBean<ImageFile> implements ImageFileService {
 
     private static final long serialVersionUID = -6238795633281162196L;

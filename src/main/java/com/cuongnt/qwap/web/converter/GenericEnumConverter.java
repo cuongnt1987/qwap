@@ -25,9 +25,10 @@ public class GenericEnumConverter implements Converter{
         Class<Enum> enumType = (Class<Enum>) component.getAttributes().get(ATTRIBUTE_ENUM_TYPE);
         
         try {
+            if (value == null) return null;
             return Enum.valueOf(enumType, value);
         } catch (IllegalArgumentException e) {
-            throw new ConverterException(new FacesMessage("Value is not enum of type" + enumType));
+            throw new ConverterException(new FacesMessage("Value is not enum of type " + enumType));
         }
     }
 
@@ -37,6 +38,9 @@ public class GenericEnumConverter implements Converter{
             component.getAttributes().put(ATTRIBUTE_ENUM_TYPE, value.getClass());
             return ((Enum<?>) value).name();
         } else {
+            if (value == null || (value instanceof String && String.valueOf(value).trim().isEmpty())) {
+                return null;
+            }
             throw new ConverterException(new FacesMessage("Value is not of enum" + value));
         }
     }

@@ -1,12 +1,166 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:component>
+
+        <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="form-group">
+                    <h:outputLabel for="title" value="Title"/>
+                    <h:inputText id="title" styleClass="form-control" 
+                                 value="#{productBean.current.title}"
+                                 required="true"
+                                 requiredMessage="Title is required">
+                        <f:ajax listener="#{productBean.onChangeTitle()}" render="slug"/>
+                    </h:inputText>
+                    <h:message for="title" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="slug" value="Slug"/>
+                    <h:inputText id="slug" styleClass="form-control" 
+                                 value="#{productBean.current.slug}"
+                                 required="true"
+                                 requiredMessage="Slug is required"/>
+                    <h:message for="slug" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+
+                <div class="form-group">
+                    <h:outputLabel for="metaKeywords" value="Meta keywords"/>
+                    <h:inputText id="metaKeywords" styleClass="form-control" 
+                                 value="#{productBean.current.metaKeywords}"/>
+                    <h:message for="metaKeywords" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="metaDescription" value="Meta Description"/>
+                    <h:inputText id="metaDescription" styleClass="form-control" 
+                                 value="#{productBean.current.metaDescription}"/>
+                    <h:message for="metaDescription" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel for="type" value="Type"/>
+                    <h:selectOneMenu id="type"
+                                     styleClass="form-control"
+                                     value="#{productBean.current.type}"
+                                     converter="enumConverter">
+                        <f:selectItems value="#{productBean.productTypeSelectItems}"/>
+                        <f:ajax render="category"/>
+                    </h:selectOneMenu>
+                    <h:message for="type" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+                
+                <div class="form-group">
+                    <h:outputLabel for="category" value="Category"/>
+                    <h:selectOneMenu id="category"
+                                     styleClass="form-control"
+                                     value="#{productBean.current.category}"
+                                     converter="productCategoryConverter">
+                        <f:selectItems value="#{productBean.productCategorySelectItems}"/>
+                    </h:selectOneMenu>
+                    <h:message for="category" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="productDesc" value="Product Desc"/>
+                    <h:inputTextarea id="productDesc" styleClass="form-control" 
+
+                                     value="#{productBean.current.productDesc}"/>
+                    <h:message for="productDesc" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="description" value="Description"/>
+                    <h:inputTextarea id="description" styleClass="form-control" 
+                                     value="#{productBean.current.description}"/>
+                    <h:message for="description" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <div class="form-group">
+                    <h:outputLabel for="thumbFile" value="Thumbnail"/>
+                    <h:inputFile id="thumbFile" value="#{productBean.current.thumnail.part}"/>
+                    <h:message for="thumbFile" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="bgFile" value="Backgroud"/>
+                    <h:inputFile id="bgFile" value="#{productBean.current.bgFile.part}"/>
+                    <h:message for="bgFile" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <h:commandButton styleClass="btn btn-primary" 
+                                 actionListener="#{productBean.persist()}" 
+                                 rendered="#{empty param.id}"
+                                 value="Save">
+                    <f:ajax execute="@form" render="@form"/>
+                </h:commandButton>
+                <h:commandButton styleClass="btn btn-primary" 
+                                 actionListener="#{productBean.update()}" 
+                                 rendered="#{not empty param.id}"
+                                 value="Update">
+                    <f:ajax execute="@form" render="@form"/>
+                </h:commandButton>
+            </div>
+
+            <div class="btn-group">
+                <h:button styleClass="btn btn-default" 
+                          value="Back" 
+                          outcome="index"/>
+            </div>
+        </div>
+    </ui:component>
 </html>
 

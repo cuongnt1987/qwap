@@ -45,6 +45,4 @@ public class PostServiceBean extends AbstractFacadeBean<Post> implements PostSer
         return q.getSingleResult().intValue();
     }
     
-    
-
 }

@@ -6,11 +6,13 @@
 package com.cuongnt.qwap.ejb;
 
 import com.cuongnt.qwap.entity.ProductCategory;
+import com.cuongnt.qwap.entity.ProductType;
+import java.util.List;
 
 /**
  *
  * @author richard
  */
 public interface ProductCategoryService extends BaseService<ProductCategory> {
-    
+    public List<ProductCategory> getByType(ProductType type);
 }

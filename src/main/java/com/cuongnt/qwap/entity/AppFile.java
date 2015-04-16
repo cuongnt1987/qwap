@@ -5,6 +5,8 @@
  */
 package com.cuongnt.qwap.entity;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -18,8 +20,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 public class AppFile extends File {
+
     private static final long serialVersionUID = -1542564934903179093L;
-    
+
     @ManyToOne
     private Product owner;
 
@@ -30,5 +33,20 @@ public class AppFile extends File {
     public void setOwner(Product owner) {
         this.owner = owner;
     }
-    
+
+    public String getURL() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        return externalContext.getRequestScheme() + "://"
+                + externalContext.getRequestServerName() + ":"
+                + externalContext.getRequestServerPort()
+                + externalContext.getRequestContextPath() + "/download/app/inline/" + id;
+    }
+
+    public String getDownloadURL() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        return externalContext.getRequestScheme()
+                + "://" + externalContext.getRequestServerName()
+                + ":" + externalContext.getRequestServerPort()
+                + externalContext.getRequestContextPath() + "/download/app/" + id;
+    }
 }

@@ -7,7 +7,10 @@ package com.cuongnt.qwap.ejb.impl;
 
 import com.cuongnt.qwap.ejb.ProductCategoryService;
 import com.cuongnt.qwap.entity.ProductCategory;
+import com.cuongnt.qwap.entity.ProductType;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +31,13 @@ public class ProductCategoryServiceBean extends AbstractFacadeBean<ProductCatego
     @Override
     protected Logger getLogger() {
         return logger;
+    }
+
+    @Override
+    public List<ProductCategory> getByType(ProductType type) {
+        TypedQuery<ProductCategory> q = em.createNamedQuery("ProductCategory.getByType", ProductCategory.class);
+        q.setParameter("type", type);
+        return q.getResultList();
     }
 
 }

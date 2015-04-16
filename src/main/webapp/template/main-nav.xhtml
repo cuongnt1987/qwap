@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:component>
+        <nav id="main-nav">
+            <div id="main-nav-wrapper">
+                <div id="scroller">
+                    <ul>
+                        <li>
+                            <a jsf:outcome="/index.xhtml" class="active">   
+                                <span class="icon fa fa-home"></span>
+                                <span class="text">Trang chu</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a jsf:outcome="/app-category.xhtml">   
+                                <span class="icon fa fa-list"></span>
+                                <span class="text">Danh muc</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a jsf:outcome="/app.xhtml?viewType=new">   
+                                <span class="icon fa fa-sun-o"></span>
+                                <span class="text"> Đề xuất</span>
+                            </a>
+                        </li>
+
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=down">   
+                                <span class="icon fa fa-download"></span>
+                                <span class="text">Tải nhiều</span>
+                            </a>
+                        </li>
+
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=new">   
+                                <span class="icon fa fa-star-o"></span>
+                                <span class="text">Mới nhất</span>
+                            </a>
+                        </li>
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=like">   
+                                <span class="icon fa fa-heart-o"></span>
+                                <span class="text">Yêu thích</span>
+                            </a>
+                        </li>
+                        <li> 
+                            <a jsf:outcome="/app.xhtml?viewType=view">   
+                                <span class="icon fa fa-diamond"></span>
+                                <span class="text">Chọn lọc</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div><!--  end div#scroller -->
+            </div><!-- end div#main-nav-wrapper -->
+        </nav><!-- end nav#main-nav -->
+    </ui:component>
+</html>
+

@@ -23,6 +23,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -35,6 +37,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Cacheable
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Product.findBySlug", query = "SELECT p FROM Product p WHERE p.slug = :slug"),
+        @NamedQuery(name = "Product.countBySlug", query = "SELECT COUNT(p.id) FROM Product p WHERE p.slug = :slug")
+})
 @XmlRootElement
 public class Product extends WebContent {
 
@@ -59,10 +65,9 @@ public class Product extends WebContent {
     @JoinColumn(name = "THUMBFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ImageFile thumnail = new ImageFile();
     
-    @Valid
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "BGFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private ImageFile background = new ImageFile();
+    private ImageFile bgFile = new ImageFile();
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -77,6 +82,10 @@ public class Product extends WebContent {
     @Lob
     @Basic(optional = false, fetch = FetchType.LAZY)
     private String productDesc;
+    
+    @NotNull
+    @Enumerated
+    private ProductType type = ProductType.GAME;
     
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
@@ -113,13 +122,6 @@ public class Product extends WebContent {
 
     public void setCategory(ProductCategory category) {
         this.category = category;
-    }
-
-    public ProductType getType() {
-        if (category != null) {
-            return category.getType();
-        }
-        return null;
     }
 
     public int getDownCount() {
@@ -178,12 +180,20 @@ public class Product extends WebContent {
         this.thumnail = thumnail;
     }
 
-    public ImageFile getBackground() {
-        return background;
+    public ImageFile getBgFile() {
+        return bgFile;
     }
 
-    public void setBackground(ImageFile background) {
-        this.background = background;
+    public void setBgFile(ImageFile bgFile) {
+        this.bgFile = bgFile;
+    }
+
+    public ProductType getType() {
+        return type;
+    }
+
+    public void setType(ProductType type) {
+        this.type = type;
     }
     
 }
