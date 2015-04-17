@@ -93,7 +93,7 @@
 
                 <div class="form-group">
                     <h:outputLabel for="productDesc" value="Product Desc"/>
-                    <h:inputTextarea id="productDesc" styleClass="form-control" 
+                    <h:inputTextarea id="productDesc" styleClass="form-control tinymce" 
 
                                      value="#{productBean.current.productDesc}"/>
                     <h:message for="productDesc" 
@@ -118,7 +118,7 @@
             <div class="col-lg-6 col-md-12">
                 <div class="form-group">
                     <h:outputLabel for="thumbFile" value="Thumbnail"/>
-                    <h:inputFile id="thumbFile" value="#{productBean.current.thumnail.part}"/>
+                    <h:inputFile id="thumbFile" value="#{productBean.current.thumbnail.part}"/>
                     <h:message for="thumbFile" 
                                styleClass="help-block" 
                                errorClass="text-danger"

@@ -127,5 +127,12 @@ public abstract class BaseEntity implements Serializable {
     protected void onPreUpdate() {
         modifiedDate = new Date();
     }
+    
+    protected File checkFile(File file) {
+        if (file.getTitle() == null && file.getPart() == null) {
+            return null;
+        }
+        return file;
+    }
 
 }

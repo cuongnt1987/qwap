@@ -38,7 +38,7 @@
         
         <div class="form-group">
             <h:outputLabel for="thumbFile" value="Thumbnail"/>
-            <h:inputFile id="thumbFile" value="#{postBean.current.thumnail.part}"/>
+            <h:inputFile id="thumbFile" value="#{postBean.current.thumbnail.part}"/>
             <h:message for="thumbFile" 
                        styleClass="help-block" 
                        errorClass="text-danger"
@@ -85,7 +85,7 @@
         
         <div class="form-group">
             <h:outputLabel for="content" value="Content"/>
-            <h:inputTextarea id="content" styleClass="form-control" 
+            <h:inputTextarea id="content" styleClass="form-control tinymce" 
                              
                              value="#{postBean.current.content}"/>
             <h:message for="content" 

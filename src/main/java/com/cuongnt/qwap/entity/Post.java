@@ -17,6 +17,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -39,7 +41,7 @@ public class Post extends WebContent {
     @Valid
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "THUMBFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private ImageFile thumnail = new ImageFile();
+    private ImageFile thumbnail = new ImageFile();
     
     @Lob
     @NotNull
@@ -57,12 +59,12 @@ public class Post extends WebContent {
     public Post() {
     }
 
-    public ImageFile getThumnail() {
-        return thumnail;
+    public ImageFile getThumbnail() {
+        return thumbnail;
     }
 
-    public void setThumnail(ImageFile thumnail) {
-        this.thumnail = thumnail;
+    public void setThumbnail(ImageFile thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getContent() {
@@ -87,6 +89,12 @@ public class Post extends WebContent {
 
     public void setCategory(PostCategory category) {
         this.category = category;
+    }
+    
+    @PrePersist
+    @PreUpdate
+    public void checkThumbnail() {
+        thumbnail = (ImageFile) checkFile(thumbnail);
     }
     
 }

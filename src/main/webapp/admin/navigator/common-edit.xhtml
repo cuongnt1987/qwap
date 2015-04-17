@@ -57,7 +57,7 @@
 
         <div class="form-group" jsf:id="contentGroup">
             <h:outputLabel for="content" value="Content" rendered="#{navigatorBean.showContent}"/>
-            <h:inputTextarea id="content" styleClass="form-control" 
+            <h:inputTextarea id="content" styleClass="form-control tinymce" 
                              value="#{navigatorBean.current.content}"
                              rendered="#{navigatorBean.showContent}"/>
             <h:message for="content" 

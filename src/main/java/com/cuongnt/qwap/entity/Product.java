@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -26,6 +27,8 @@ import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -38,8 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Cacheable
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Product.findBySlug", query = "SELECT p FROM Product p WHERE p.slug = :slug"),
-        @NamedQuery(name = "Product.countBySlug", query = "SELECT COUNT(p.id) FROM Product p WHERE p.slug = :slug")
+    @NamedQuery(name = "Product.findBySlug", query = "SELECT p FROM Product p WHERE p.slug = :slug"),
+    @NamedQuery(name = "Product.countBySlug", query = "SELECT COUNT(p.id) FROM Product p WHERE p.slug = :slug")
 })
 @XmlRootElement
 public class Product extends WebContent {
@@ -48,27 +51,27 @@ public class Product extends WebContent {
 
     @Min(0)
     private double price;
-    
+
     @Min(0)
     private int downCount;
-    
+
     @Min(0)
     private int viewCount;
-    
+
     @Min(0)
     private int likeCount;
-    
+
     private boolean hot;
-    
+
     @Valid
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "THUMBFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private ImageFile thumnail = new ImageFile();
-    
+    private ImageFile thumbnail = new ImageFile();
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "BGFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ImageFile bgFile = new ImageFile();
-    
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "PRODUCTSCREENSHOTS",
@@ -78,20 +81,20 @@ public class Product extends WebContent {
             inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
     )
     private List<ImageFile> screenshots = new ArrayList<>();
-    
+
     @Lob
     @Basic(optional = false, fetch = FetchType.LAZY)
     private String productDesc;
-    
+
     @NotNull
     @Enumerated
     private ProductType type = ProductType.GAME;
-    
+
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATEGORYID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ProductCategory category;
-    
+
     @OneToMany(mappedBy = "owner")
     @Enumerated(EnumType.STRING)
     @MapKeyJoinColumn(name = "PRODUCT_TYPE")
@@ -163,7 +166,7 @@ public class Product extends WebContent {
     public void setScreenshots(List<ImageFile> screenshots) {
         this.screenshots = screenshots;
     }
-    
+
     public boolean isHot() {
         return hot;
     }
@@ -172,12 +175,12 @@ public class Product extends WebContent {
         this.hot = hot;
     }
 
-    public ImageFile getThumnail() {
-        return thumnail;
+    public ImageFile getThumbnail() {
+        return thumbnail;
     }
 
-    public void setThumnail(ImageFile thumnail) {
-        this.thumnail = thumnail;
+    public void setThumbnail(ImageFile thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public ImageFile getBgFile() {
@@ -195,5 +198,19 @@ public class Product extends WebContent {
     public void setType(ProductType type) {
         this.type = type;
     }
-    
+
+    @PrePersist
+    @PreUpdate
+    public void checkFiles() {
+        thumbnail = (ImageFile) checkFile(thumbnail);
+
+        bgFile = (ImageFile) checkFile(bgFile);
+
+        screenshots = screenshots.stream()
+                .filter(e -> (e.getTitle() != null || e.getPart() != null))
+                .collect(Collectors.toList());
+        
+        // Fuck you
+    }
+
 }
