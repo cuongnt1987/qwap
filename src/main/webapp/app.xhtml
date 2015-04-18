@@ -11,6 +11,19 @@
     </f:metadata>
 
     <ui:composition template="/template/base.xhtml">
+        
+        <ui:define name="pageTitle" rendered="${not empty viewProductBean.currentProduct}">
+            ${viewProductBean.currentProduct.title}
+        </ui:define>
+
+        <ui:define name="metaKeywords" rendered="#{not empty viewProductBean.currentProduct}">
+            <meta name="keywords" content="${viewProductBean.currentProduct.metaKeywords}"/>
+        </ui:define>
+        
+        <ui:define name="metaDescription" rendered="#{not empty viewProductBean.currentProduct}">
+            <meta name="description" content="${viewProductBean.currentProduct.metaDescription}"/>
+        </ui:define>
+        
         <ui:define name="main-content">
 
             <wapui:product-detail product="#{viewProductBean.currentProduct}" 
@@ -59,7 +72,7 @@
                             loadAction="#{viewProductBean.loadMoreMostDown()}"/>
                     </div>
                 </c:when>
-                
+
                 <c:when test="${param.viewType == 'view'}">
                     <div class="list-app-container clearfix">
                         <wapui:product-list 

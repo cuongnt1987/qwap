@@ -5,7 +5,8 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
         <cc:interface>
             <cc:attribute name="product" required="true" type="com.cuongnt.qwap.entity.Product"/>
@@ -18,14 +19,16 @@
                     <h:link outcome="/index.xhtml">Home</h:link>
                 </li>
                 <li>
-                    <a href="#">Game hành động</a>
+                    <h:link outcome="/app-category.xhtml" value="${cc.attrs.product.category.title}">
+                        <f:param name="slug" value="${cc.attrs.product.category.title}"/>
+                    </h:link>
                 </li>
                 <li class="active">${cc.attrs.product.title}</li>
             </ol><!-- end ol.breadcrumb -->
 
             <article class="app-detail clearfix">
                 <section class="base-info clearfix">
-                    <img src="#{cc.attrs.product.thumnail.URL}" alt="${cc.attrs.product.title}"/>
+                    <img src="#{cc.attrs.product.thumbnail.URL}" alt="${cc.attrs.product.title}"/>
                     <div class="clearfix">
                         <dl>
                             <dt>${cc.attrs.product.title}</dt>

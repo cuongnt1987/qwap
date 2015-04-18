@@ -13,7 +13,10 @@ import java.util.stream.Collectors;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,6 +26,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
+import javax.persistence.MapKeyEnumerated;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -95,10 +100,12 @@ public class Product extends WebContent {
     @JoinColumn(name = "CATEGORYID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ProductCategory category;
 
-    @OneToMany(mappedBy = "owner")
-    @Enumerated(EnumType.STRING)
-    @MapKeyJoinColumn(name = "PRODUCT_TYPE")
-    private Map<MobileType, AppFile> appFile = new HashMap<>();
+    @ElementCollection
+    @MapKeyEnumerated(EnumType.STRING)
+    @MapKeyJoinColumn(name = "MOBILETYPE")
+    @CollectionTable(name = "PRODUCTAPPFILES", joinColumns = @JoinColumn(name = "PRODUCTID"))
+    @Column(name = "APPFILEID")
+    private Map<MobileType, AppFile> appFiles = new HashMap<>();
 
     public Product() {
     }
@@ -143,12 +150,12 @@ public class Product extends WebContent {
         this.viewCount = viewCount;
     }
 
-    public Map<MobileType, AppFile> getAppFile() {
-        return appFile;
+    public Map<MobileType, AppFile> getAppFiles() {
+        return appFiles;
     }
 
-    public void setAppFile(Map<MobileType, AppFile> appFile) {
-        this.appFile = appFile;
+    public void setAppFiles(Map<MobileType, AppFile> appFiles) {
+        this.appFiles = appFiles;
     }
 
     public int getLikeCount() {
@@ -199,18 +206,18 @@ public class Product extends WebContent {
         this.type = type;
     }
 
-    @PrePersist
-    @PreUpdate
-    public void checkFiles() {
-        thumbnail = (ImageFile) checkFile(thumbnail);
-
-        bgFile = (ImageFile) checkFile(bgFile);
-
-        screenshots = screenshots.stream()
-                .filter(e -> (e.getTitle() != null || e.getPart() != null))
-                .collect(Collectors.toList());
-        
-        // Fuck you
-    }
+//    @PrePersist
+//    @PreUpdate
+//    public void checkFiles() {
+//        thumbnail = (ImageFile) checkFile(thumbnail);
+//
+//        bgFile = (ImageFile) checkFile(bgFile);
+//
+//        screenshots = screenshots.stream()
+//                .filter(e -> (e.getTitle() != null || e.getPart() != null))
+//                .collect(Collectors.toList());
+//        
+//        // Fuck you
+//    }
 
 }

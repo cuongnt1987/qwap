@@ -58,6 +58,10 @@ public class File extends BaseEntity {
     @Transient
     @XmlTransient
     protected Part part;
+    
+    @Transient
+    @XmlTransient
+    protected boolean selected;
 
     public File() {
     }
@@ -108,6 +112,14 @@ public class File extends BaseEntity {
 
     public void setPart(Part part) {
         this.part = part;
+    }
+    
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @PrePersist

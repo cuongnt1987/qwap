@@ -26,6 +26,9 @@ public class AppFile extends File {
     @ManyToOne
     private Product owner;
 
+    public AppFile() {
+    }
+   
     public Product getOwner() {
         return owner;
     }

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
     <ui:component>
 
         <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
@@ -59,7 +60,7 @@
                                infoClass="text-info"
                                warnClass="text-warning"/>
                 </div>
-                
+
                 <div class="form-group">
                     <h:outputLabel for="type" value="Type"/>
                     <h:selectOneMenu id="type"
@@ -75,7 +76,7 @@
                                infoClass="text-info"
                                warnClass="text-warning"/>
                 </div>
-                
+
                 <div class="form-group">
                     <h:outputLabel for="category" value="Category"/>
                     <h:selectOneMenu id="category"
@@ -118,22 +119,73 @@
             <div class="col-lg-6 col-md-12">
                 <div class="form-group">
                     <h:outputLabel for="thumbFile" value="Thumbnail"/>
-                    <h:inputFile id="thumbFile" value="#{productBean.current.thumbnail.part}"/>
-                    <h:message for="thumbFile" 
-                               styleClass="help-block" 
-                               errorClass="text-danger"
-                               infoClass="text-info"
-                               warnClass="text-warning"/>
+                    <div class="clearfix">
+                        <h:graphicImage url="${productBean.current.thumbnail.URL}" 
+                                        rendered="${not empty productBean.current.thumbnail.id}"
+                                        class="pull-left img-rounded" width="75px" height="75px" style="margin: 0px 10px 10px 0;"/>
+                        <h:inputFile id="thumbFile" value="#{productBean.current.thumbnail.part}"/>
+                        <h:message for="thumbFile" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="bgFile" value="Backgroud"/>
-                    <h:inputFile id="bgFile" value="#{productBean.current.bgFile.part}"/>
-                    <h:message for="bgFile" 
-                               styleClass="help-block" 
-                               errorClass="text-danger"
-                               infoClass="text-info"
-                               warnClass="text-warning"/>
+                    <div class="clearfix">
+                        <h:graphicImage url="${productBean.current.bgFile.URL}" 
+                                        rendered="${not empty productBean.current.bgFile.id}"
+                                        class="pull-left img-responsive" style="margin: 0px 10px 10px 0; max-height: 150px"/>
+                        <h:inputFile id="bgFile" value="#{productBean.current.bgFile.part}"/>
+                        <h:message for="bgFile" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="screenshotTable" value="Screenshort"/>
+                    <h:dataTable
+                        id="screenshotTable"
+                        class="table" 
+                        value="#{productBean.current.screenshots}" 
+                        var="image">
+                        <h:column>
+                            <f:facet name="header">
+                                Image
+                            </f:facet>
+                            <img src="${image.URL}" class="img-responsive img-rounded" height="100" jsf:rendered="${not empty image.id}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">File</f:facet>
+                            <h:inputFile value="#{image.part}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Check</f:facet>
+                            <h:selectBooleanCheckbox value="#{image.selected}"/>
+                        </h:column>
+                    </h:dataTable>
+
+                    <div class="btn-toolbar">
+                        <div class="btn-group">
+                            <h:commandButton value="Add" class="btn btn-sm btn-success" actionListener="#{productBean.addScreenshort()}">
+                                <f:ajax render="screenshotTable"/>
+                            </h:commandButton>
+
+                            <h:commandButton value="Delete" class="btn btn-sm btn-danger" actionListener="#{productBean.removeScreenshort}">
+                                <f:ajax execute="screenshotTable" render="screenshotTable"/>
+                            </h:commandButton> 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,13 +197,11 @@
                                  actionListener="#{productBean.persist()}" 
                                  rendered="#{empty param.id}"
                                  value="Save">
-                    <f:ajax execute="@form" render="@form"/>
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-primary" 
                                  actionListener="#{productBean.update()}" 
                                  rendered="#{not empty param.id}"
                                  value="Update">
-                    <f:ajax execute="@form" render="@form"/>
                 </h:commandButton>
             </div>
 
