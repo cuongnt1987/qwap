@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -26,7 +25,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
@@ -34,7 +32,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -68,30 +65,21 @@ public class Product extends WebContent {
 
     private boolean hot;
 
-    @Valid
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "THUMBFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ImageFile thumbnail = new ImageFile();
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "BGFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ImageFile bgFile = new ImageFile();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "PRODUCTSCREENSHOTS",
-            joinColumns = @JoinColumn(name = "PRODUCTID"),
-            inverseJoinColumns = @JoinColumn(name = "IMAGEID"),
-            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
-            inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
-    )
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST})
     private List<ImageFile> screenshots = new ArrayList<>();
 
     @Lob
     @Basic(optional = false, fetch = FetchType.LAZY)
     private String productDesc;
 
-    @NotNull
     @Enumerated
     private ProductType type = ProductType.GAME;
 
@@ -151,6 +139,18 @@ public class Product extends WebContent {
     }
 
     public Map<MobileType, AppFile> getAppFiles() {
+
+        for (MobileType mtype : MobileType.values()) {
+            boolean has = false;
+            for (Map.Entry<MobileType, AppFile> entry : appFiles.entrySet()) {
+                if (entry.getKey() == mtype) has = true;
+            }
+            
+            if (!has) {
+                appFiles.put(mtype, new AppFile());
+            }
+        }
+        
         return appFiles;
     }
 
@@ -183,6 +183,7 @@ public class Product extends WebContent {
     }
 
     public ImageFile getThumbnail() {
+        if (thumbnail == null) thumbnail = new ImageFile();
         return thumbnail;
     }
 
@@ -191,6 +192,7 @@ public class Product extends WebContent {
     }
 
     public ImageFile getBgFile() {
+        if (bgFile == null) bgFile = new ImageFile();
         return bgFile;
     }
 
@@ -205,19 +207,4 @@ public class Product extends WebContent {
     public void setType(ProductType type) {
         this.type = type;
     }
-
-//    @PrePersist
-//    @PreUpdate
-//    public void checkFiles() {
-//        thumbnail = (ImageFile) checkFile(thumbnail);
-//
-//        bgFile = (ImageFile) checkFile(bgFile);
-//
-//        screenshots = screenshots.stream()
-//                .filter(e -> (e.getTitle() != null || e.getPart() != null))
-//                .collect(Collectors.toList());
-//        
-//        // Fuck you
-//    }
-
 }

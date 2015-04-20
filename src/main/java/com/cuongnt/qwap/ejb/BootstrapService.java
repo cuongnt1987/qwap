@@ -5,14 +5,12 @@
  */
 package com.cuongnt.qwap.ejb;
 
-import com.cuongnt.qwap.entity.ImageFile;
-import com.cuongnt.qwap.entity.Product;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  *
  * @author richard
  */
-public interface ImageFileService extends BaseService<ImageFile> {
-    public List<ImageFile> getByProduct(Product product);
+public interface BootstrapService extends Serializable {
+
 }

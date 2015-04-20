@@ -9,6 +9,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,7 +24,7 @@ public class AppFile extends File {
 
     private static final long serialVersionUID = -1542564934903179093L;
 
-    @ManyToOne
+    @ManyToOne(cascade = {})
     private Product owner;
 
     public AppFile() {

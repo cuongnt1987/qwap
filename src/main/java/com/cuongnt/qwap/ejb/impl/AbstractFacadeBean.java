@@ -7,6 +7,11 @@ package com.cuongnt.qwap.ejb.impl;
 
 import com.cuongnt.qwap.entity.BaseEntity;
 import com.cuongnt.qwap.ejb.BaseService;
+import com.cuongnt.qwap.entity.File;
+import com.cuongnt.qwap.exception.AppException;
+import com.cuongnt.qwap.util.AppConfig;
+import com.cuongnt.qwap.util.AppUtil;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +23,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 
 /**
@@ -183,6 +189,38 @@ public abstract class AbstractFacadeBean<T extends BaseEntity> implements BaseSe
             }
         }
         return orders.toArray(new Order[]{});
+    }
+
+    protected void saveFile(File file) {
+        
+        if (file.getPart() != null) {
+            if (file.getTitle() != null) {
+                FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
+                        + file.getId()));
+            }
+
+            file.setContentType(file.getPart().getContentType());
+            file.setFileSize(file.getPart().getSize());
+            file.setTitle(file.getPart().getSubmittedFileName());
+            
+            if (file.getId() != null) {
+                em.merge(file);
+            } else {
+                em.persist(file);
+            }
+            
+            em.flush();
+            
+            try {
+                FileUtils.copyInputStreamToFile(file.getPart().getInputStream(), 
+                        new java.io.File(AppConfig.getFileStorePath() + 
+                                file.getId() + java.io.File.separator + 
+                                file.getTitle()));
+            } catch (IOException ex) {
+                throw new AppException(null, "Cannot save file", ex);
+            }
+        }
+
     }
 
     protected abstract Logger getLogger();

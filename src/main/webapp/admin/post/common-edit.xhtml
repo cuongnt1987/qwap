@@ -8,113 +8,128 @@
 
         <h:messages globalOnly="false" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
 
-        <div class="form-group">
-            <h:outputLabel for="title" value="Title"/>
-            <h:inputText id="title" styleClass="form-control" 
-                         value="#{postBean.current.title}"
-                         required="true"
-                         requiredMessage="Title is required">
-                <f:ajax listener="#{postBean.onChangeTitle()}" render="slug"/>
-            </h:inputText>
-            <h:message for="title" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="slug" value="Slug"/>
-            <h:inputText id="slug" styleClass="form-control" 
-                         value="#{postBean.current.slug}"
-                         required="true"
-                         requiredMessage="Slug is required"/>
-            <h:message for="slug" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="thumbFile" value="Thumbnail"/>
-            <h:inputFile id="thumbFile" value="#{postBean.current.thumbnail.part}"/>
-            <h:message for="thumbFile" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="metaKeywords" value="Meta keywords"/>
-            <h:inputText id="metaKeywords" styleClass="form-control" 
-                             value="#{postBean.current.metaKeywords}"/>
-            <h:message for="metaKeywords" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="metaDescription" value="Meta Description"/>
-            <h:inputText id="metaDescription" styleClass="form-control" 
-                             value="#{postBean.current.metaDescription}"/>
-            <h:message for="metaDescription" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="category" value="Category"/>
-            <h:selectOneMenu id="category"
-                             styleClass="form-control"
-                             value="#{postBean.current.category}"
-                             converter="postCategoryConverter">
-                <f:selectItems value="#{postCategoryBean.selectItems}"/>
-            </h:selectOneMenu>
-            <h:message for="category" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="content" value="Content"/>
-            <h:inputTextarea id="content" styleClass="form-control tinymce" 
-                             
-                             value="#{postBean.current.content}"/>
-            <h:message for="content" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="summary" value="Summary"/>
-            <h:inputTextarea id="summary" styleClass="form-control" 
-                             value="#{postBean.current.summary}"/>
-            <h:message for="summary" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
-        </div>
-        
-        <div class="form-group">
-            <h:outputLabel for="description" value="Description"/>
-            <h:inputTextarea id="description" styleClass="form-control" 
-                             value="#{postBean.current.description}"/>
-            <h:message for="description" 
-                       styleClass="help-block" 
-                       errorClass="text-danger"
-                       infoClass="text-info"
-                       warnClass="text-warning"/>
+        <div class="row">
+            <div class="col-lg-5 col-md-12">
+                <div class="form-group">
+                    <h:outputLabel for="title" value="Title"/>
+                    <h:inputText id="title" styleClass="form-control" 
+                                 value="#{postBean.current.title}"
+                                 required="true"
+                                 requiredMessage="Title is required">
+                        <f:ajax listener="#{postBean.onChangeTitle()}" render="slug"/>
+                    </h:inputText>
+                    <h:message for="title" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="slug" value="Slug"/>
+                    <h:inputText id="slug" styleClass="form-control" 
+                                 value="#{postBean.current.slug}"
+                                 required="true"
+                                 requiredMessage="Slug is required"/>
+                    <h:message for="slug" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="thumbFile" value="Thumbnail"/>
+                    <div class="clearfix">
+                        <h:graphicImage url="${postBean.current.thumbnail.URL}" 
+                                        rendered="${not empty postBean.current.thumbnail.id}"
+                                        class="pull-left img-responsive" style="margin: 0px 10px 10px 0; max-height: 150px"/>
+                        <h:inputFile id="thumbFile" value="#{postBean.current.thumbnail.part}"/>
+                        <h:message for="thumbFile" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="metaKeywords" value="Meta keywords"/>
+                    <h:inputText id="metaKeywords" styleClass="form-control" 
+                                 value="#{postBean.current.metaKeywords}"/>
+                    <h:message for="metaKeywords" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="metaDescription" value="Meta Description"/>
+                    <h:inputText id="metaDescription" styleClass="form-control" 
+                                 value="#{postBean.current.metaDescription}"/>
+                    <h:message for="metaDescription" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="category" value="Category"/>
+                    <h:selectOneMenu id="category"
+                                     styleClass="form-control"
+                                     value="#{postBean.current.category}"
+                                     converter="postCategoryConverter">
+                        <f:selectItems value="#{postCategoryBean.selectItems}"/>
+                    </h:selectOneMenu>
+                    <h:message for="category" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="description" value="Description"/>
+                    <h:inputTextarea id="description" styleClass="form-control" 
+                                     value="#{postBean.current.description}"/>
+                    <h:message for="description" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+            </div>
+
+            <div class="col-lg-7 col-md-12">
+
+                <div class="form-group">
+                    <h:outputLabel for="content" value="Content"/>
+                    <h:inputTextarea id="content" styleClass="form-control tinymce" 
+                                     value="#{postBean.current.content}"
+                                     rows="13"/>
+                    <h:message for="content" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+                <div class="form-group">
+                    <h:outputLabel for="summary" value="Summary"/>
+                    <h:inputTextarea id="summary" styleClass="form-control" 
+                                     value="#{postBean.current.summary}"/>
+                    <h:message for="summary" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+
+
+            </div>
         </div>
 
         <div class="btn-toolbar">
@@ -123,13 +138,11 @@
                                  actionListener="#{postBean.persist()}" 
                                  rendered="#{empty param.id}"
                                  value="Save">
-                    <f:ajax execute="@form" render="@form"/>
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-primary" 
                                  actionListener="#{postBean.update()}" 
                                  rendered="#{not empty param.id}"
                                  value="Update">
-                    <f:ajax execute="@form" render="@form"/>
                 </h:commandButton>
             </div>
 

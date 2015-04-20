@@ -79,7 +79,7 @@ public class DownloadServlet extends HttpServlet {
                     break;
 
             }
-            if (file != null) {
+            if (file != null && file.getTitle() != null) {
                 response.setContentLength((int) file.getFileSize());
                 response.setContentType(file.getContentType());
                 response.setHeader("Content-Disposition", (inline ? "inline" : "attachment")

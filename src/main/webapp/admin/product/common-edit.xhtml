@@ -4,40 +4,53 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:jsf="http://xmlns.jcp.org/jsf">
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:component>
 
-        <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
+        <h:messages 
+            globalOnly="false" 
+            styleClass="messages" 
+            infoClass="alert alert-info" 
+            warnClass="alert alert-warning" 
+            errorClass="alert alert-danger"/>
+        
         <div class="row">
             <div class="col-lg-6 col-md-12">
-                <div class="form-group">
-                    <h:outputLabel for="title" value="Title"/>
-                    <h:inputText id="title" styleClass="form-control" 
-                                 value="#{productBean.current.title}"
-                                 required="true"
-                                 requiredMessage="Title is required">
-                        <f:ajax listener="#{productBean.onChangeTitle()}" render="slug"/>
-                    </h:inputText>
-                    <h:message for="title" 
-                               styleClass="help-block" 
-                               errorClass="text-danger"
-                               infoClass="text-info"
-                               warnClass="text-warning"/>
-                </div>
 
-                <div class="form-group">
-                    <h:outputLabel for="slug" value="Slug"/>
-                    <h:inputText id="slug" styleClass="form-control" 
-                                 value="#{productBean.current.slug}"
-                                 required="true"
-                                 requiredMessage="Slug is required"/>
-                    <h:message for="slug" 
-                               styleClass="help-block" 
-                               errorClass="text-danger"
-                               infoClass="text-info"
-                               warnClass="text-warning"/>
-                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <h:outputLabel for="title" value="Title"/>
+                            <h:inputText id="title" styleClass="form-control" 
+                                         value="#{productBean.current.title}"
+                                         required="true"
+                                         requiredMessage="Title is required">
+                                <f:ajax listener="#{productBean.onChangeTitle()}" render="slug"/>
+                            </h:inputText>
+                            <h:message for="title" 
+                                       styleClass="help-block" 
+                                       errorClass="text-danger"
+                                       infoClass="text-info"
+                                       warnClass="text-warning"/>
+                        </div>
+                    </div>
 
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <h:outputLabel for="slug" value="Slug"/>
+                            <h:inputText id="slug" styleClass="form-control" 
+                                         value="#{productBean.current.slug}"
+                                         required="true"
+                                         requiredMessage="Slug is required"/>
+                            <h:message for="slug" 
+                                       styleClass="help-block" 
+                                       errorClass="text-danger"
+                                       infoClass="text-info"
+                                       warnClass="text-warning"/>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <h:outputLabel for="metaKeywords" value="Meta keywords"/>
@@ -61,41 +74,46 @@
                                warnClass="text-warning"/>
                 </div>
 
-                <div class="form-group">
-                    <h:outputLabel for="type" value="Type"/>
-                    <h:selectOneMenu id="type"
-                                     styleClass="form-control"
-                                     value="#{productBean.current.type}"
-                                     converter="enumConverter">
-                        <f:selectItems value="#{productBean.productTypeSelectItems}"/>
-                        <f:ajax render="category"/>
-                    </h:selectOneMenu>
-                    <h:message for="type" 
-                               styleClass="help-block" 
-                               errorClass="text-danger"
-                               infoClass="text-info"
-                               warnClass="text-warning"/>
-                </div>
-
-                <div class="form-group">
-                    <h:outputLabel for="category" value="Category"/>
-                    <h:selectOneMenu id="category"
-                                     styleClass="form-control"
-                                     value="#{productBean.current.category}"
-                                     converter="productCategoryConverter">
-                        <f:selectItems value="#{productBean.productCategorySelectItems}"/>
-                    </h:selectOneMenu>
-                    <h:message for="category" 
-                               styleClass="help-block" 
-                               errorClass="text-danger"
-                               infoClass="text-info"
-                               warnClass="text-warning"/>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <h:outputLabel for="type" value="Type"/>
+                            <h:selectOneMenu id="type"
+                                             styleClass="form-control"
+                                             value="#{productBean.current.type}"
+                                             converter="enumConverter">
+                                <f:selectItems value="#{productBean.productTypeSelectItems}"/>
+                                <f:ajax render="category"/>
+                            </h:selectOneMenu>
+                            <h:message for="type" 
+                                       styleClass="help-block" 
+                                       errorClass="text-danger"
+                                       infoClass="text-info"
+                                       warnClass="text-warning"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <h:outputLabel for="category" value="Category"/>
+                            <h:selectOneMenu id="category"
+                                             styleClass="form-control"
+                                             value="#{productBean.current.category}"
+                                             converter="productCategoryConverter">
+                                <f:selectItems value="#{productBean.productCategorySelectItems}"/>
+                            </h:selectOneMenu>
+                            <h:message for="category" 
+                                       styleClass="help-block" 
+                                       errorClass="text-danger"
+                                       infoClass="text-info"
+                                       warnClass="text-warning"/>
+                        </div>    
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel for="productDesc" value="Product Desc"/>
                     <h:inputTextarea id="productDesc" styleClass="form-control tinymce" 
-
+                                     rows="12"
                                      value="#{productBean.current.productDesc}"/>
                     <h:message for="productDesc" 
                                styleClass="help-block" 
@@ -152,41 +170,51 @@
 
                 <div class="form-group">
                     <h:outputLabel for="screenshotTable" value="Screenshort"/>
-                    <h:dataTable
-                        id="screenshotTable"
-                        class="table" 
-                        value="#{productBean.current.screenshots}" 
-                        var="image">
-                        <h:column>
-                            <f:facet name="header">
-                                Image
-                            </f:facet>
-                            <img src="${image.URL}" class="img-responsive img-rounded" height="100" jsf:rendered="${not empty image.id}"/>
-                        </h:column>
+                    <h:panelGroup id="screenshotContainer">
+                        <h:dataTable
+                            id="screenshotTable"
+                            class="table table-striped table-hover" 
+                            value="#{productBean.screenShots}" 
+                            var="image">
+                            <h:column>
+                                <f:facet name="header">ImageID</f:facet>
+                                ${image.id}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Image
+                                </f:facet>
+                                <img src="${image.URL}" class="img-responsive img-rounded" width="150" jsf:rendered="${not empty image.id}"/>
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">File</f:facet>
-                            <h:inputFile value="#{image.part}"/>
-                        </h:column>
+                            <h:column>
+                                <f:facet name="header">File</f:facet>
+                                <h:inputFile value="#{image.part}"/>
+                            </h:column>
 
-                        <h:column>
-                            <f:facet name="header">Check</f:facet>
-                            <h:selectBooleanCheckbox value="#{image.selected}"/>
-                        </h:column>
-                    </h:dataTable>
+                            <h:column>
+                                <f:facet name="header">Check</f:facet>
+                                <h:selectBooleanCheckbox value="#{image.selected}">
+                                    <f:ajax execute="@this" render="@this"/>
+                                </h:selectBooleanCheckbox>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
 
                     <div class="btn-toolbar">
                         <div class="btn-group">
                             <h:commandButton value="Add" class="btn btn-sm btn-success" actionListener="#{productBean.addScreenshort()}">
-                                <f:ajax render="screenshotTable"/>
+                                <f:ajax render="screenshotContainer"/>
                             </h:commandButton>
 
                             <h:commandButton value="Delete" class="btn btn-sm btn-danger" actionListener="#{productBean.removeScreenshort}">
-                                <f:ajax execute="screenshotTable" render="screenshotTable"/>
-                            </h:commandButton> 
+                                <f:ajax render="screenshotContainer"/>
+                            </h:commandButton>
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
 

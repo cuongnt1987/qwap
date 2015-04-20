@@ -65,6 +65,7 @@ public abstract class AbstractManagedBean<T extends BaseEntity> implements Seria
             onPersistSuccess();
         }, current, MessageUtil.REQUEST_SUCCESS_MESSAGE,
                 MessageUtil.REQUEST_FAIL_MESSAGE);
+        current = null;
     }
 
     /**
@@ -83,7 +84,7 @@ public abstract class AbstractManagedBean<T extends BaseEntity> implements Seria
      * Update entity and save to db
      */
     public void update() {
-        JsfUtil.processAction(e -> {
+        JsfUtil.processAction(e -> {    
             onBeforeUpdate();
             getBaseService().update(e);
             onUpdateSuccess();

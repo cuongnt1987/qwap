@@ -8,15 +8,20 @@ package com.cuongnt.qwap.web.bean;
 import com.cuongnt.qwap.ejb.BaseService;
 import com.cuongnt.qwap.ejb.ProductCategoryService;
 import com.cuongnt.qwap.ejb.ProductService;
+import com.cuongnt.qwap.entity.AppFile;
 import com.cuongnt.qwap.entity.ImageFile;
+import com.cuongnt.qwap.entity.MobileType;
 import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.entity.ProductCategory;
 import com.cuongnt.qwap.entity.ProductType;
 import com.cuongnt.qwap.util.AppUtil;
+import com.cuongnt.qwap.web.util.JsfUtil;
 import com.cuongnt.qwap.web.util.MessageUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -43,8 +48,31 @@ public class ProductBean extends AbstractManagedBean<Product> {
     @EJB
     private ProductCategoryService productCategoryService;
     
+    // ... processing screenshot and appfile.
+    
+    private List<ImageFile> screenShots;
+    private Map<MobileType, AppFile> appFiles;
+    
+    @PostConstruct
+    public void init() {
+        String idStr = JsfUtil.getRequestParameter("id");
+        if (idStr != null && !idStr.trim().isEmpty()) {
+            Long id = null;
+            try {
+                id = Long.parseLong(idStr);
+            } catch (NumberFormatException e) {
+                logger.error("Can not parse id string param to Long", e);
+            }
+            
+            if (id != null) {
+                current = productService.find(id);
+            }
+        }
+    }
+    
     /**
      * Binding component for add and edit form
+     * @return 
      */
     
     @Override
@@ -82,6 +110,26 @@ public class ProductBean extends AbstractManagedBean<Product> {
         return productTypeSelectItems;
     }
 
+    public List<ImageFile> getScreenShots() {
+        if (this.screenShots == null && current != null) 
+            screenShots = current.getScreenshots();
+        return screenShots;
+    }
+
+    public void setScreenShots(List<ImageFile> screenShots) {
+        this.screenShots = screenShots;
+    }
+
+    public Map<MobileType, AppFile> getAppFiles() {
+        if (appFiles == null && current != null)
+            appFiles = current.getAppFiles();
+        return appFiles;
+    }
+
+    public void setAppFiles(Map<MobileType, AppFile> appFiles) {
+        this.appFiles = appFiles;
+    }
+    
     public List<SelectItem> getProductCategorySelectItems() {
         if (getCurrent().getType() != null) {
             List<ProductCategory> categories = productCategoryService.getByType(getCurrent().getType());
@@ -100,17 +148,32 @@ public class ProductBean extends AbstractManagedBean<Product> {
      * Add new row for screen short
      */
     public void addScreenshort() {
-        if (current != null) {
-            current.getScreenshots().add(new ImageFile());
-        }
+        ImageFile image = new ImageFile();
+        image.setProduct(current);
+        this.getScreenShots().add(image);
+        current.setScreenshots(screenShots);
+        //current.getScreenshots().add(new ImageFile());
     }
 
     public void removeScreenshort(ActionEvent event) {
         if (current != null) {
-            List<ImageFile> screenshots = current.getScreenshots().stream()
-                    .filter(s -> s.isSelected() == false).collect(Collectors.toList());
-            current.setScreenshots(screenshots);
+            List<ImageFile> images = new ArrayList<>();
+            for (ImageFile image : this.screenShots) {
+                if (!image.isSelected()) {
+                    images.add(image);
+                }
+            }
+            this.setScreenShots(images);
+            current.setScreenshots(images);
         }
-    }
+    }    
 
+    @Override
+    protected void onUpdateSuccess() {
+        super.onUpdateSuccess();
+        this.screenShots = null;
+    }
+    
+    
+    
 }

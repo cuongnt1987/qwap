@@ -5,12 +5,14 @@
  */
 package com.cuongnt.qwap.entity;
 
+import com.cuongnt.qwap.entity.listener.FileListener;
 import com.cuongnt.qwap.exception.AppException;
 import com.cuongnt.qwap.util.AppConfig;
 import com.cuongnt.qwap.util.AppUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PostPersist;
 import javax.persistence.PostUpdate;
@@ -58,7 +60,7 @@ public class File extends BaseEntity {
     @Transient
     @XmlTransient
     protected Part part;
-    
+
     @Transient
     @XmlTransient
     protected boolean selected;
@@ -113,7 +115,7 @@ public class File extends BaseEntity {
     public void setPart(Part part) {
         this.part = part;
     }
-    
+
     public boolean isSelected() {
         return selected;
     }
@@ -123,24 +125,49 @@ public class File extends BaseEntity {
     }
 
     @PrePersist
-    @PreUpdate
     public void prePersist() {
         if (part != null) {
             // delete old file
             if (title != null) {
                 FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
-                        + this.id + java.io.File.separator + this.title));
+                        + this.id));
             }
 
             this.contentType = part.getContentType();
             this.fileSize = part.getSize();
-            this.title = AppUtil.toSlug(part.getSubmittedFileName());
+            this.title = part.getSubmittedFileName();
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        if (part != null) {
+            // delete old file
+            if (title != null) {
+                FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
+                        + this.id));
+            }
+
+            this.contentType = part.getContentType();
+            this.fileSize = part.getSize();
+            this.title = part.getSubmittedFileName();
+        }
+    }
+
+    @PostPersist
+    public void postPersist() {
+        if (part != null) {
+            try {
+                FileUtils.copyInputStreamToFile(part.getInputStream(), new java.io.File(AppConfig.getFileStorePath() + id + java.io.File.separator + title));
+            } catch (IOException ex) {
+                throw new AppException(null, "Cannot save file", ex);
+            }
+
         }
     }
 
     @PostUpdate
-    @PostPersist
-    public void postPersist() {
+    public void postUpdate() {
         if (part != null) {
             try {
                 FileUtils.copyInputStreamToFile(part.getInputStream(), new java.io.File(AppConfig.getFileStorePath() + id + java.io.File.separator + title));

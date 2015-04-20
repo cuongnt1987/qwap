@@ -60,6 +60,8 @@ public class Post extends WebContent {
     }
 
     public ImageFile getThumbnail() {
+        if (thumbnail == null) 
+            thumbnail = new ImageFile();
         return thumbnail;
     }
 
@@ -91,10 +93,10 @@ public class Post extends WebContent {
         this.category = category;
     }
     
-    @PrePersist
-    @PreUpdate
-    public void checkThumbnail() {
-        thumbnail = (ImageFile) checkFile(thumbnail);
-    }
+    //    @PrePersist
+    //    @PreUpdate
+    //    public void checkThumbnail() {
+    //        thumbnail = (ImageFile) checkFile(thumbnail);
+    //    }
     
 }

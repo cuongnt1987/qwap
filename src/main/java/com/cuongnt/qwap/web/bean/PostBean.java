@@ -9,6 +9,8 @@ import com.cuongnt.qwap.ejb.BaseService;
 import com.cuongnt.qwap.ejb.PostService;
 import com.cuongnt.qwap.entity.Post;
 import com.cuongnt.qwap.util.AppUtil;
+import com.cuongnt.qwap.web.util.JsfUtil;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -28,6 +30,27 @@ public class PostBean extends AbstractManagedBean<Post> {
     
     @EJB
     private PostService postService;
+
+    public PostBean() {
+    }
+    
+    @PostConstruct
+    public void init() {
+        
+        String id = JsfUtil.getRequestParameter("id");
+        if (id != null && !id.trim().isEmpty()) {
+            Long idObj = null;
+            try {
+                idObj = Long.parseLong(id);
+            } catch (NumberFormatException e) {
+                logger.error("Cannot parses post id from request param.");
+            }
+            
+            if (idObj != null) {
+                current = postService.find(idObj);
+            }
+        }
+    }
 
     @Override
     protected Post initEntity() {

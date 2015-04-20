@@ -7,30 +7,19 @@
     xmlns:jsf="http://xmlns.jcp.org/jsf"
     xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui">
 
-    <f:metadata>
-        <f:viewParam name="id" 
-                     value="#{postCategoryBean.current}" 
-                     converter="postCategoryConverter"
-                     required="true"
-                     requiredMessage="You must select one post to edit"/>
-    </f:metadata>
     <ui:define name="page-wrapper">
         <h:form role="form" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        <h:outputText value="Update navigator"/>
+                        <h:outputText value="Update post"/>
                     </h1>
                 </div><!-- end div.col-lg-12 -->
             </div>
 
             <br/>
 
-            <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <ui:include src="common-edit.xhtml"/>
-                </div>
-            </div>
+            <ui:include src="common-edit.xhtml"/>
         </h:form>
     </ui:define>
 </ui:composition>

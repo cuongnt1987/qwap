@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author richard
  */
 @Entity
-@Table(name = "QWAP_USER")
+@Table(name = "USER")
 @XmlRootElement
 public class User extends BaseEntity {
 
@@ -66,7 +66,7 @@ public class User extends BaseEntity {
 
     @ElementCollection(targetClass = Group.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "QWAP_USERGROUP", joinColumns = {
+    @CollectionTable(name = "USERGROUP", joinColumns = {
         @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME")})
     @Column(name = "GROUPNAME")
     protected List<Group> groups;

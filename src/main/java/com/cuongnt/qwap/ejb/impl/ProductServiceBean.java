@@ -5,12 +5,16 @@
  */
 package com.cuongnt.qwap.ejb.impl;
 
+import com.cuongnt.qwap.ejb.ImageFileService;
 import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.ejb.ProductService;
+import com.cuongnt.qwap.entity.BaseEntity_;
+import com.cuongnt.qwap.entity.ImageFile;
 import com.cuongnt.qwap.entity.ProductType;
 import com.cuongnt.qwap.entity.Product_;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -29,6 +33,9 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
 
     private static final long serialVersionUID = 8729142584799323263L;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceBean.class);
+
+    @EJB
+    private ImageFileService imageService;
 
     public ProductServiceBean() {
         super(Product.class);
@@ -84,7 +91,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
 
         cq.where(predicates.toArray(new Predicate[]{}));
 
-        cq.orderBy(cb.desc(root.get(Product_.createDate)));
+        cq.orderBy(cb.desc(root.get(BaseEntity_.createDate)));
 
         TypedQuery<Product> q = em.createQuery(cq);
         q.setMaxResults(numberOfItems);
@@ -118,7 +125,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
             cq.where(cb.equal(root.get(Product_.type), type));
         }
 
-        cq.orderBy(cb.desc(root.get(Product_.createDate)));
+        cq.orderBy(cb.desc(root.get(BaseEntity_.createDate)));
 
         TypedQuery<Product> q = em.createQuery(cq);
         q.setMaxResults(numberOfItems);
@@ -180,5 +187,31 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         q.setParameter("id", product.getId());
         q.setMaxResults(numberOfItems);
         return q.getResultList();
+    }
+
+    @Override
+    protected void onAfterUpdate(Product entity) {
+        super.onAfterUpdate(entity);
+        saveFile(entity.getThumbnail());
+        saveFile(entity.getBgFile());
+        
+        // Screenshort
+        List<ImageFile> currents = null;
+        try {
+            currents = imageService.getByProduct(entity);
+        } catch (Exception e) {
+        }
+        
+        if (currents != null) {
+            for (ImageFile image : currents) {
+                if (!entity.getScreenshots().contains(image)) {
+                    em.remove(image);
+                }
+            }
+        }
+        
+        for (ImageFile image : entity.getScreenshots()) {
+            saveFile(image);
+        }
     }
 }

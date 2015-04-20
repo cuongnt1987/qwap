@@ -5,8 +5,10 @@
  */
 package com.cuongnt.qwap.ejb.impl;
 
+import com.cuongnt.qwap.ejb.ImageFileService;
 import com.cuongnt.qwap.ejb.PostService;
 import com.cuongnt.qwap.entity.Post;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
@@ -21,6 +23,9 @@ public class PostServiceBean extends AbstractFacadeBean<Post> implements PostSer
 
     private static final long serialVersionUID = -8540715854095525708L;
     private static final Logger logger = LoggerFactory.getLogger(PostServiceBean.class);
+    
+    @EJB
+    private ImageFileService imageService;
 
     public PostServiceBean() {
         super(Post.class);
@@ -43,6 +48,12 @@ public class PostServiceBean extends AbstractFacadeBean<Post> implements PostSer
         TypedQuery<Long> q = em.createNamedQuery("Post.countBySlug", Long.class);
         q.setParameter("slug", slug);
         return q.getSingleResult().intValue();
+    }
+
+    @Override
+    protected void onAfterUpdate(Post entity) {
+        super.onAfterUpdate(entity);
+        saveFile(entity.getThumbnail());
     }
     
 }
