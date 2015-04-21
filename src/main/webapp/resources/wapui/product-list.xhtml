@@ -30,11 +30,12 @@
                                         <dt>${item.title}</dt>
                                         <dd>
                                             <p>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star-o"></span>
-                                                <span class="fa fa-star-o"></span>
+                                                <span class="fa fa-thumbs-up fa-fw"></span> 
+                                                <span class="productMeta">${item.likeCount}</span>
+                                                <span class="fa fa-download fa-fw"></span>
+                                                <span class="productMeta">${item.downCount}</span> 
+                                                <span class="fa fa-eye fa-fw"></span>
+                                                <span class="productMeta">${item.viewCount}</span> 
                                             </p>
                                             <p><span class="fa fa-hdd-o"></span> 20 MB</p>
                                         </dd>
@@ -48,8 +49,12 @@
                         </li>
                     </ui:repeat>
                 </ul>
-
-                <center jsf:rendered="#{cc.attrs.loadAction != null}"><h:commandLink actionListener="#{cc.attrs.loadAction}"  class="more-button">Xem thêm</h:commandLink></center>
+                
+                <center jsf:rendered="#{cc.attrs.loadAction != null}">
+                    <h:commandLink actionListener="#{cc.attrs.loadAction}"  class="more-button" value="Xem thêm">
+                        
+                    </h:commandLink>
+                </center>
 
             </section>
 

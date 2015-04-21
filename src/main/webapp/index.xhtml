@@ -10,23 +10,30 @@
             <wapui:product-slider value="#{viewProductBean.sliderProducts}"/>
 
             <div class="list-app-container clearfix">
+
+                <wapui:product-list 
+                    id="topHotList" 
+                    title="${msg['most-hot-title']}" 
+                    value="#{viewProductBean.mostHotProducts}"
+                    loadAction="#{viewProductBean.loadMoreMostHot()}"/>
+                
                 <wapui:product-list 
                     id="topDownList" 
-                    title="Top game ung dung tai nhieu nhat" 
+                    title="${msg['most-download-title']}" 
                     value="#{viewProductBean.mostDownProducts}"
                     loadAction="#{viewProductBean.loadMoreMostDown()}"/>
 
                 <wapui:product-list 
                     id="topViewnList" 
-                    title="Top game ung dung moi nhat" 
-                    value="#{viewProductBean.mostDownProducts}"
-                    loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                    title="${msg['most-new-title']}" 
+                    value="#{viewProductBean.mostNewProducts}"
+                    loadAction="#{viewProductBean.loadMoreMostNew()}"/>
 
                 <wapui:product-list 
-                    id="topHostList" 
-                    title="Top game ung dung noi bat nhat" 
-                    value="#{viewProductBean.mostDownProducts}"
-                    loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                    id="topLikeList" 
+                    title="${msg['most-like-title']}" 
+                    value="#{viewProductBean.mostLikeProducts}"
+                    loadAction="#{viewProductBean.loadMoreMostLike()}"/>
             </div>
         </ui:define>
     </ui:composition>

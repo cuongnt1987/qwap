@@ -5,10 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:component>
         <footer id="footer" class="clearfix">
-            <center>
-                <p>Copyright © 2015 <i><a href="http://duccuongwap.com">DucCuongMobile.com</a></i></p>
-                <p>Powerd by Richard nguyen</p>	
-            </center>
+            <h:outputText value="${appConfigBean.appConfig.footer}" escape="false"/>
         </footer>
 
     </ui:component>

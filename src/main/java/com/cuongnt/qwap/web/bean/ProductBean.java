@@ -5,6 +5,7 @@
  */
 package com.cuongnt.qwap.web.bean;
 
+import com.cuongnt.qwap.checker.MobileChecker;
 import com.cuongnt.qwap.ejb.BaseService;
 import com.cuongnt.qwap.ejb.ProductCategoryService;
 import com.cuongnt.qwap.ejb.ProductService;
@@ -26,6 +27,7 @@ import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +44,7 @@ public class ProductBean extends AbstractManagedBean<Product> {
     private static final Logger logger = LoggerFactory.getLogger(ProductBean.class);
 
     private List<SelectItem> productTypeSelectItems;
-
+    
     @EJB
     private ProductService productService;
     @EJB
@@ -120,11 +122,7 @@ public class ProductBean extends AbstractManagedBean<Product> {
         this.screenShots = screenShots;
     }
 
-    public Map<MobileType, AppFile> getAppFiles() {
-        if (appFiles == null && current != null)
-            appFiles = current.getAppFiles();
-        return appFiles;
-    }
+
 
     public void setAppFiles(Map<MobileType, AppFile> appFiles) {
         this.appFiles = appFiles;
@@ -164,7 +162,7 @@ public class ProductBean extends AbstractManagedBean<Product> {
                 }
             }
             this.setScreenShots(images);
-            current.setScreenshots(images);
+            current.setScreenshots(images); 
         }
     }    
 
@@ -173,7 +171,11 @@ public class ProductBean extends AbstractManagedBean<Product> {
         super.onUpdateSuccess();
         this.screenShots = null;
     }
-    
-    
+
+    @Override
+    protected void onPersistSuccess() {
+        super.onPersistSuccess(); 
+        this.current = null;
+    }
     
 }

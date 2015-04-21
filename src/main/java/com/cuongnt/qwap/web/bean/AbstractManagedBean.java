@@ -59,7 +59,7 @@ public abstract class AbstractManagedBean<T extends BaseEntity> implements Seria
      * Persist entity to db
      */
     public void persist() {
-        JsfUtil.processAction(e -> {
+            JsfUtil.processAction(e -> {
             onBeforePersist();
             getBaseService().persist(e);
             onPersistSuccess();

@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
@@ -73,7 +74,7 @@ public class Product extends WebContent {
     @JoinColumn(name = "BGFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ImageFile bgFile = new ImageFile();
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL})
     private List<ImageFile> screenshots = new ArrayList<>();
 
     @Lob
@@ -88,12 +89,8 @@ public class Product extends WebContent {
     @JoinColumn(name = "CATEGORYID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ProductCategory category;
 
-    @ElementCollection
-    @MapKeyEnumerated(EnumType.STRING)
-    @MapKeyJoinColumn(name = "MOBILETYPE")
-    @CollectionTable(name = "PRODUCTAPPFILES", joinColumns = @JoinColumn(name = "PRODUCTID"))
-    @Column(name = "APPFILEID")
-    private Map<MobileType, AppFile> appFiles = new HashMap<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<AppFile> appFiles = new ArrayList<>();
 
     public Product() {
     }
@@ -125,6 +122,8 @@ public class Product extends WebContent {
     public int getDownCount() {
         return downCount;
     }
+    
+    private int priority;
 
     public void setDownCount(int downCount) {
         this.downCount = downCount;
@@ -138,23 +137,27 @@ public class Product extends WebContent {
         this.viewCount = viewCount;
     }
 
-    public Map<MobileType, AppFile> getAppFiles() {
-
+    public List<AppFile> getAppFiles() {
+        
         for (MobileType mtype : MobileType.values()) {
-            boolean has = false;
-            for (Map.Entry<MobileType, AppFile> entry : appFiles.entrySet()) {
-                if (entry.getKey() == mtype) has = true;
+            boolean exist = false;
+            for (AppFile app : appFiles) {
+                if (app.getType() == mtype) {
+                    exist = true;
+                }
             }
-            
-            if (!has) {
-                appFiles.put(mtype, new AppFile());
+            if (!exist) {
+                AppFile app = new AppFile();
+                app.setOwner(this);
+                app.setType(mtype);
+                appFiles.add(app);
             }
         }
         
         return appFiles;
     }
 
-    public void setAppFiles(Map<MobileType, AppFile> appFiles) {
+    public void setAppFiles(List<AppFile> appFiles) {
         this.appFiles = appFiles;
     }
 
@@ -207,4 +210,13 @@ public class Product extends WebContent {
     public void setType(ProductType type) {
         this.type = type;
     }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+    
 }

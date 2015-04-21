@@ -39,6 +39,10 @@
                                      var="post"
                                      styleClass="table table-hover table-striped"
                                      rendered="#{postBean.pagePaginationHelper.dataModel.rowAvailable}">
+                            
+                            <h:column>
+                                <img src="${post.thumbnail.URL}" class="img-rounded" height="75" width="75"/>
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">Title</f:facet>
                                 <h:link outcome="edit" value="${post.title}">

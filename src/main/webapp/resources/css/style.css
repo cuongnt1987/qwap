@@ -19,162 +19,185 @@ input::-webkit-search-decoration,input::-webkit-search-cancel-button {display: n
 
 /* Wrapper */
 .wrapper {
-	max-width: 720px;
-	margin: 0 auto;
-	outline: 1px solid #f1f1f1;
+    max-width: 720px;
+    margin: 0 auto;
+    outline: 1px solid #f1f1f1;
 }
 
 /*Header Style*/
 header.header {
-	position: relative;
-	background: #3498db;	
-	font-size: 25px;
-	line-height: 30px;
-	color: white;
+    position: relative;
+    background: #3498db;	
+    font-size: 25px;
+    line-height: 30px;
+    color: white;
 }
 
 header.header a {
-	color: white;
-	font-size: 24px;
-	line-height: 48px;
-	cursor: pointer;
+    color: white;
+    font-size: 24px;
+    line-height: 48px;
+    cursor: pointer;
+}
+
+header.header a:hover {
+    background: #3fabf6;
 }
 
 #nav-trigger {
-	padding: 10px;
+    padding: 10px;
 }
 
 .logo {
-	padding: 10px 0;
+    padding: 10px 0;
 }
 
 .logo img {
-	height: 30px;
-	vertical-align: middle;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.postNav li {
+    display: block;
+    float: left;
+}
+
+.postNav li a {
+    font-size: 14px !important;
+    font-weight: bold;
+    line-height: 48px;
+    display: block;
+    padding: 0 5px;
+    text-decoration: none;
+    outline: none;
+}
+
+.postNav li a:hover {
+    background: #3fabf6;
 }
 
 ul.nav-right a {
-	display: block;
-	padding: 0 10px;
+    display: block;
+    padding: 0 10px;
 }
 
 /* list menu */
 .list_menu {
-	background:rgba(36, 36, 36, 0.51);
-	width: 100%;
-	height: 100%;
-	max-width: 720px;
-	position: fixed;
-	z-index: 100;
+    background:rgba(36, 36, 36, 0.51);
+    width: 100%;
+    height: 100%;
+    max-width: 720px;
+    position: fixed;
+    z-index: 100;
 }
 
 .list_menu ul.menu {
-	width: 240px;
-	background: white;
-	position: absolute;
-	box-shadow: 5px 10px 30px rgba(36, 36, 36, 0.82);
+    width: 240px;
+    background: white;
+    position: absolute;
+    box-shadow: 5px 10px 30px rgba(36, 36, 36, 0.82);
 }
 
 .list_menu .menu a {
-	padding: 10px 15px;
-	line-height: 40px;
-	display: block;
-	color: #747474;
-	font-size: 18px;
+    padding: 10px 15px;
+    line-height: 40px;
+    display: block;
+    color: #747474;
+    font-size: 18px;
 }
 
 .list_menu .menu ul a {
-	font-size: 13px;
-	border-bottom: 1px solid #d8d8d8;	
-	padding: 0 50px;
+    font-size: 13px;
+    border-bottom: 1px solid #d8d8d8;	
+    padding: 0 50px;
 }
 
 .list_menu .menu ul.image a {
-	padding: 5px;
+    padding: 5px;
 }
 
 .list_menu .menu a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .list_menu ul.menu .icon {
-	font-size:  15px;
+    font-size:  15px;
 }
 
 /* main nav style */
 
 #main-nav-wrapper {
-	position: relative;
-	z-index: 1;
-	height: 50px;
-	width: 100%;
-	overflow: hidden;
-	background: white;
-	-ms-touch-action: none;
-	border-bottom: 1px solid #ccc;
+    position: relative;
+    z-index: 1;
+    height: 50px;
+    width: 100%;
+    overflow: hidden;
+    background: white;
+    -ms-touch-action: none;
+    border-bottom: 1px solid #ccc;
 }
 
 #main-nav-wrapper>div {
-	position: absolute;
-	z-index: 1;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	width: 800px;
-	-webkit-transform: translateZ(0);
-	-moz-transform: translateZ(0);
-	-ms-transform: translateZ(0);
-	-o-transform: translateZ(0);
-	transform: translateZ(0);
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-text-size-adjust: none;
-	-moz-text-size-adjust: none;
-	-ms-text-size-adjust: none;
-	-o-text-size-adjust: none;
-	text-size-adjust: none;
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 800px;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
 }
 
 #main-nav-wrapper>div ul {
-	list-style: none;
-	width: 100%;
-	padding: 0;
-	margin: 0;
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 #main-nav-wrapper>div li a {
-	float: left;
-	background-color: white;
-	font-size: 14px;
-	overflow: hidden;
-	text-align: center;
-	display: block;
-	font-size: 14px;
-	line-height: 0px;
-	text-align: center;
-	padding:10px 20px;
+    float: left;
+    background-color: white;
+    font-size: 14px;
+    overflow: hidden;
+    text-align: center;
+    display: block;
+    font-size: 14px;
+    line-height: 0px;
+    text-align: center;
+    padding:10px 20px;
 }
 
 #main-nav-wrapper>div li {
-	float: left;
+    float: left;
 }
 
 #main-nav-wrapper>div  a.active {
-	color: #3498db;
+    color: #3498db;
 }
 
 #main-nav-wrapper>div  a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 #main-nav-wrapper>div a span {
-	line-height: 15px;
+    line-height: 15px;
 }
 
 #main-nav-wrapper>div  a span.icon {
-	font-size: 16px;
-	display: block;
+    font-size: 16px;
+    display: block;
 }
 
 /* sticky */
@@ -189,125 +212,130 @@ ul.nav-right a {
 /*slider*/
 
 .app-slider div img {
-	padding:3px;
+    padding:3px;
 }
 
 /*list app*/
 
 .list-app-container {
-	background: #ececec;
-	padding-bottom: 10px;
+    background: #ececec;
+    padding-bottom: 10px;
 }
 
 .list-app-container header h3 {
-	margin: 10px;
-	font-size: 20px;
-	display: block;
-	color: #454545;
+    margin: 10px;
+    font-size: 20px;
+    display: block;
+    color: #454545;
 }
 
 .list-app-container ul {
-	counter-reset: list-order;   
+    counter-reset: list-order;   
 }
 
 .list-app-container ul li {
-	position: relative;
-	display: block;
-	margin-bottom: 10px;
-	box-shadow: 0px 2px 3px #C3C3C3;
-	padding: 5px 10px 5px 20px;
-	margin: 10px;
-	background: white;
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 3px #C3C3C3;
+    padding: 5px 10px 5px 20px;
+    margin: 10px;
+    background: white;
 }
 
 .list-app-container ul li div::after {
-	position: absolute;
-	top: 5px;
-	left: 5px;
-	content: counter(list-order, decimal);
-	counter-increment: list-order;
-	color: #3498DB;
-	z-index: 2;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    content: counter(list-order, decimal);
+    counter-increment: list-order;
+    color: #3498DB;
+    z-index: 2;
 }
 
 .list-app-container ul li:first-child div::after {
-	color: red;
+    color: red;
 }
 
 .list-app-container ul li:nth-child(2) div::after {
-	color: #ea5b0e;
+    color: #ea5b0e;
 }
 
 .list-app-container ul li:nth-child(3) div::after {
-	color: #ea8a0e;
+    color: #ea8a0e;
+}
+
+.list-app-container ul li a.info {
+    outline: none;
 }
 
 .list-app-container ul li a.info dl {
-	float: left;
-	margin-left: 10px;
+    display: block;
+    padding-left: 85px;
+    word-wrap: break-word;
 }
 
 .list-app-container ul li a.info dl dt {
-	font-size: 14px;
-	margin: 5px 0;
-	color: #333;
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
 }
 
 .list-app-container ul li a.download  {
-	display: block;
-	position: absolute;
-	right: 20px;
-	top: 15px;
-	color: #3498db;
-	text-align: center;
-	font-size: 13px;
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #3498db;
+    text-align: center;
+    font-size: 13px;
 }
 
 .list-app-container ul li a.download .icon {
-	font-size: 40px;
-	display: block;
-	vertical-align: middle;
+    font-size: 40px;
+    display: block;
+    vertical-align: middle;
 }
 
 .list-app-container a img {
-	float: left;
-	width: 75px;
-	height: 75px;
-	border: none;
-	border-radius: 10px;
+    float: left;
+    width: 75px;
+    height: 75px;
+    border: none;
+    border-radius: 10px;
 }
 
 .list-app-container a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 /* load more button */
 a.more-button {
-	display: block;
-	font-size: 14px;
-	color: #f1f1f1;
-	line-height: 40px;
-	border-radius: 5px;
-	box-shadow: 0px 2px 3px #C3C3C3;
-	background: #3498DB;
-	margin-top: 20px;
-	width: 250px;
+    display: block;
+    font-size: 14px;
+    color: #f1f1f1;
+    line-height: 40px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 3px #C3C3C3;
+    background: #3498DB;
+    margin-top: 20px;
+    width: 250px;
 }
 
 /*footer*/
 
 #footer {
-	display: block;
-	background: #3498DB;
-	font-size: 16px;
-	border-top: 1px solid #ccc;
-	padding: 20px;
-	color: #f1f1f1;
+    display: block;
+    background: #3498DB;
+    font-size: 16px;
+    border-top: 1px solid #ccc;
+    padding: 20px;
+    color: #f1f1f1;
 }
 
 #footer a {
-	text-decoration: none;
-	color: #f1f1f1;
+    text-decoration: none;
+    color: #f1f1f1;
 }
 
 /* app detail */
@@ -316,65 +344,78 @@ a.more-button {
 }
 
 .app-detail .base-info {
-	display: block;
+    display: block;
 }
 
 .app-detail .base-info img {
-	width: 75px;
-	height: 75px;
-	margin-left: 10px;
-	margin-right: 10px;
-	border: none;
-	border-radius: 10px;
-	display: block;
-	float: left;
+    width: 75px;
+    height: 75px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 10px;
+    display: block;
+    float: left;
 }
 
 .app-detail .base-info div {
-	padding-left: 100px;
-	padding-bottom: 10px;
+    padding-left: 100px;
+    padding-bottom: 10px;
 }
 
 .app-detail .base-info div dl {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .app-detail .base-info div dl dt {
-	font-size: 14px;
-	margin: 5px 0;
-	color: #333;
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
 }
 
 .app-detail .base-info div dl dd {
-	color: #747474;
+    color: #747474;
 }
 
 .app-detail .banner img {
-	width: 100%;
+    width: 100%;
 }
 
 .app-detail .description h2 {
-	margin: 10px;
-	font-size: 20px;
-	display: block;
-	color: #454545;
+    margin: 10px;
+    font-size: 20px;
+    display: block;
+    color: #454545;
 }
 
 .app-detail .description {
-	padding-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.post-detail .desc_app {
+    height: auto !important;
 }
 
 .app-detail .description .desc_app {
-	color: #747474;
-	padding: 10px;
-	margin-bottom: 10px;
-	height: 100px;
-	background: white;
-	overflow: hidden;
+    color: #747474;
+    padding: 10px;
+    margin-bottom: 10px;
+    height: 100px;
+    background: white;
+    overflow: hidden;
+    font-size: 14px;
 }
 
+.post-detail {
+    margin: 10px 0;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 20px;
+}
+
+
+
 .app-detail .description .desc_app.active {
-	height: auto;
+    height: auto;
 }
 
 .app-detail .screenshorts {
@@ -382,5 +423,14 @@ a.more-button {
 }
 
 .app-detail .screenshorts div img {
-	padding: 10px 10px;
+    padding: 10px 10px;
+}
+
+.app-detail .summary {
+    font-weight: bold;
+}
+
+.navDetail {
+    margin: 20px 0 10px 0;
+    border-top: 1px solid #f1f1f1;
 }

@@ -37,7 +37,7 @@
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
                             id="topDownList" 
-                            title="Top game ung dung tai nhieu nhat" 
+                            title="${msg['most-download-title']}" 
                             value="#{viewProductBean.mostDownProducts}"
                             loadAction="#{viewProductBean.loadMoreMostDown()}"/>
                     </div>
@@ -47,9 +47,9 @@
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
                             id="topViewnList" 
-                            title="Top game ung dung moi nhat" 
-                            value="#{viewProductBean.mostDownProducts}"
-                            loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                            title="${msg['most-new-title']}" 
+                            value="#{viewProductBean.mostNewProducts}"
+                            loadAction="#{viewProductBean.loadMoreMostNew()}"/>
                     </div>
                 </c:when>
 
@@ -57,9 +57,9 @@
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
                             id="topLikeList" 
-                            title="Top game ung dung duc yeu thich nhat" 
-                            value="#{viewProductBean.mostDownProducts}"
-                            loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                            title="${msg['most-like-title']}" 
+                            value="#{viewProductBean.mostLikeProducts}"
+                            loadAction="#{viewProductBean.loadMoreMostLike()}"/>
                     </div>
                 </c:when>
 
@@ -67,9 +67,9 @@
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
                             id="topHostList" 
-                            title="Top game ung dung noi bat nhat" 
-                            value="#{viewProductBean.mostDownProducts}"
-                            loadAction="#{viewProductBean.loadMoreMostDown()}"/>
+                            title="${msg['most-hot-title']}" 
+                            value="#{viewProductBean.mostHotProducts}"
+                            loadAction="#{viewProductBean.loadMoreMostHot()}"/>
                     </div>
                 </c:when>
 
@@ -77,7 +77,7 @@
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
                             id="topHostList" 
-                            title="Top game ung dung xem nhieu nh" 
+                            title="${msg['most-view-title']}" 
                             value="#{viewProductBean.mostViewProducts}"
                             loadAction="#{viewProductBean.loadMoreMostView()}"/>
                     </div>

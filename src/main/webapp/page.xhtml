@@ -6,7 +6,7 @@
       xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui">
 
     <f:metadata>
-        <f:viewParam name="slug" value="#{viewPostBean.slug}"/>
+        <f:viewParam name="slug" value="#{viewNavigatorBean.slug}"/>
     </f:metadata>
 
     <ui:composition template="/template/base.xhtml">
@@ -28,10 +28,15 @@
             <wapui:product-slider 
                 value="#{viewProductBean.sliderProducts}"/>
 
-            
-            <wapui:post-detail post="${viewPostBean.post}"
-                               relatePosts="${viewPostBean.relatePosts}"/>
+            <wapui:navigator-detail nav="#{viewNavigatorBean.currentNav}" 
+                                    rendered="#{viewNavigatorBean.showDetail}"/>
 
+            <wapui:post-list title="${viewNavigatorBean.currentNav.title}"
+                             value="${viewNavigatorBean.posts}"
+                             loadAction="${viewNavigatorBean.loadMore()}"
+                             rendered="${not viewNavigatorBean.showDetail}"/>
+
+            
         </ui:define>
 
     </ui:composition>

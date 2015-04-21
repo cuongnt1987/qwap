@@ -1,0 +1,105 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/admin/template/admin-temp.xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui">
+
+    <ui:define name="page-wrapper">
+        <h:form role="form" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Application Config</h1>
+                </div><!-- end div.col-lg-12 -->
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="form-group">
+                        <h:outputLabel for="title" value="Common page title"/>
+                        <h:inputText id="title" value="#{appConfigBean.appConfig.title}"
+                                     styleClass="form-control"
+                                     required="true"
+                                     requiredMessage="Common title cannot be null"/>
+                        <h:message for="title" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="metaKeywords" value="Common Meta Keywords"/>
+                        <h:inputText id="metaKeywords" value="#{appConfigBean.appConfig.metaKeywords}"
+                                     styleClass="form-control"/>
+                        <h:message for="metaKeywords" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="metaDescription" value="Common Meta Description"/>
+                        <h:inputText id="metaDescription" value="#{appConfigBean.appConfig.metaDescription}"
+                                     styleClass="form-control"/>
+                        <h:message for="metaDescription" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="form-group">
+                        <h:outputLabel for="logoFile" value="Logo"/>
+                        <div class="clearfix">
+                            <h:graphicImage url="${appConfigBean.appConfig.appLogo.URL}" 
+                                            rendered="${not empty appConfigBean.appConfig.appLogo.id}"
+                                            class="pull-left img-responsive" style="margin: 0px 10px 10px 0; max-height: 150px; background: #f1f1f1"/>
+                            <h:inputFile id="logoFile" value="#{appConfigBean.appConfig.appLogo.part}"/>
+                            <h:message for="logoFile"
+                                       styleClass="help-block" 
+                                       errorClass="text-danger"
+                                       infoClass="text-info"
+                                       warnClass="text-warning"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="footer" value="Footer content"/>
+                        <h:inputTextarea id="footer" styleClass="form-control tinymce" 
+                                         value="#{appConfigBean.appConfig.footer}"
+                                         rows="13"/>
+                        <h:message for="footer" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+                </div>
+                
+                <h:commandButton class="btn btn-success"
+                                 value="Save"
+                                 actionListener="#{appConfigBean.persist()}"
+                                 rendered="#{appConfigBean.appConfig.id == null}"/>
+                <h:commandButton class="btn btn-success"
+                                 value="Save"
+                                 actionListener="#{appConfigBean.update()}"
+                                 rendered="#{appConfigBean.appConfig.id != null}"/>
+
+            </div>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

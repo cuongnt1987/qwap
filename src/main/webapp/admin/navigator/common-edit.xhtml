@@ -9,13 +9,57 @@
 
         <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
 
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <h:outputLabel for="title" value="Title"/>
+                    <h:inputText id="title" styleClass="form-control" 
+                                 value="#{navigatorBean.current.title}"
+                                 required="true"
+                                 requiredMessage="Title is required">
+                        <f:ajax listener="#{navigatorBean.onChangeTitle()}" render="slug"/>
+                    </h:inputText>
+                    <h:message for="title" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <h:outputLabel for="slug" value="Slug"/>
+                    <h:inputText id="slug" styleClass="form-control" 
+                                 value="#{navigatorBean.current.slug}"
+                                 required="true"
+                                 requiredMessage="Slug is required"/>
+                    <h:message for="slug" 
+                               styleClass="help-block" 
+                               errorClass="text-danger"
+                               infoClass="text-info"
+                               warnClass="text-warning"/>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group">
-            <h:outputLabel for="title" value="Title"/>
-            <h:inputText id="title" styleClass="form-control" 
-                         value="#{navigatorBean.current.title}"
-                         required="true"
-                         requiredMessage="Title is required"/>
-            <h:message for="title" 
+            <h:outputLabel for="metaKeywords" value="Meta keywords"/>
+            <h:inputText id="metaKeywords" styleClass="form-control" 
+                         value="#{navigatorBean.current.metaKeywords}"/>
+            <h:message for="metaKeywords" 
+                       styleClass="help-block" 
+                       errorClass="text-danger"
+                       infoClass="text-info"
+                       warnClass="text-warning"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="metaDescription" value="Meta Description"/>
+            <h:inputText id="metaDescription" styleClass="form-control" 
+                         value="#{navigatorBean.current.metaDescription}"/>
+            <h:message for="metaDescription" 
                        styleClass="help-block" 
                        errorClass="text-danger"
                        infoClass="text-info"
@@ -102,7 +146,6 @@
                                  actionListener="#{navigatorBean.update()}" 
                                  rendered="#{not empty param.id}"
                                  value="Update">
-                    <f:ajax execute="@form" render="@form"/>
                 </h:commandButton>
             </div>
 

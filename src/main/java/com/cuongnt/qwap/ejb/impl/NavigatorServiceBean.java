@@ -7,7 +7,10 @@ package com.cuongnt.qwap.ejb.impl;
 
 import com.cuongnt.qwap.ejb.NavigatorService;
 import com.cuongnt.qwap.entity.Navigator;
+import com.cuongnt.qwap.entity.Post;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +31,26 @@ public class NavigatorServiceBean extends AbstractFacadeBean<Navigator> implemen
     @Override
     protected Logger getLogger() {
         return logger;
+    }
+
+    @Override
+    public List<Navigator> getAppNavigators() {
+        TypedQuery<Navigator> q = em.createQuery("SELECT n FROM Navigator n ORDER BY n.orderNumber ASC", Navigator.class);
+        return q.getResultList();
+    }
+
+    @Override
+    public Navigator findBySlug(String slug) {
+        TypedQuery<Navigator> q = em.createNamedQuery("Navigator.findBySlug", Navigator.class);
+        q.setParameter("slug", slug);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public int countBySlug(String slug) {
+        TypedQuery<Long> q = em.createNamedQuery("Navigator.countBySlug", Long.class);
+        q.setParameter("slug", slug);
+        return q.getSingleResult().intValue();
     }
 
 }

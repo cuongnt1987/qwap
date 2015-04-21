@@ -14,5 +14,10 @@ import java.util.List;
  * @author richard
  */
 public interface ProductCategoryService extends BaseService<ProductCategory> {
+
     public List<ProductCategory> getByType(ProductType type);
+
+    public ProductCategory findBySlug(String slug);
+
+    public int countBySlug(String slug);
 }

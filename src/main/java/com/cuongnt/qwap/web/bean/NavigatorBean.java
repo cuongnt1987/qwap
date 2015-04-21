@@ -8,9 +8,12 @@ package com.cuongnt.qwap.web.bean;
 import com.cuongnt.qwap.ejb.BaseService;
 import com.cuongnt.qwap.ejb.NavigatorService;
 import com.cuongnt.qwap.entity.Navigator;
+import com.cuongnt.qwap.util.AppUtil;
+import com.cuongnt.qwap.web.util.JsfUtil;
 import com.cuongnt.qwap.web.util.MessageUtil;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
@@ -33,6 +36,18 @@ public class NavigatorBean extends AbstractManagedBean<Navigator> {
 
     @EJB
     private NavigatorService navigatorService;
+
+    @PostConstruct
+    public void init() {
+        String id = JsfUtil.getRequestParameter("id");
+        if (id != null && !id.trim().isEmpty()) {
+            try {
+                current = navigatorService.find(Long.parseLong(id));
+            } catch (Exception e) {
+                logger.warn("can not load navigation");
+            }
+        }
+    }
 
     @Override
     protected Navigator initEntity() {
@@ -58,12 +73,22 @@ public class NavigatorBean extends AbstractManagedBean<Navigator> {
         }
         return typeSelectItems;
     }
-    
+
     public boolean isShowContent() {
         if (this.current != null) {
             return current.getType() == Navigator.Type.Single;
         }
         return false;
+    }
+
+    public void onChangeTitle() {
+        if (current.getTitle() != null && !getCurrent().getTitle().trim().isEmpty()) {
+            String slug = AppUtil.toSlug(getCurrent().getTitle().trim());
+            if (navigatorService.countBySlug(slug) > 0) {
+                slug += "-1";
+            }
+            getCurrent().setSlug(slug);
+        }
     }
 
 }

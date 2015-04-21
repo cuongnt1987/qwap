@@ -96,6 +96,7 @@ public abstract class AbstractFacadeBean<T extends BaseEntity> implements BaseSe
     public T update(T entity) {
         onBeforeUpdate(entity);
         em.merge(entity);
+        em.flush();
         onAfterUpdate(entity);
         return entity;
     }

@@ -23,9 +23,34 @@
         <view-id value="/app.xhtml?viewType=view"/>
     </url-mapping>
     
+    <url-mapping id="hot-nhat">
+        <pattern value="/game-ung-dung-hot-nhat.html" />
+        <view-id value="/app.xhtml?viewType=hot"/>
+    </url-mapping>
+    
     <url-mapping id="like-nhieu-nhat">
         <pattern value="/game-ung-dung-yeu-thich-nhat.html" />
         <view-id value="/app.xhtml?viewType=like"/>
+    </url-mapping>
+    
+    <url-mapping id="navigator">
+        <pattern value="/-/#{slug}.html" />
+        <view-id value="/page.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="post-detail">
+        <pattern value="/blog/#{slug}.html" />
+        <view-id value="/post.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="product-category-detail">
+        <pattern value="/danh-muc/#{slug}.html" />
+        <view-id value="/app-category.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="product-category-detail">
+        <pattern value="/danh-muc.html" />
+        <view-id value="/app-category.xhtml"/>
     </url-mapping>
     
     <url-mapping id="view-index">

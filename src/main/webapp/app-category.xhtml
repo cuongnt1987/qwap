@@ -1,8 +1,50 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>
+        <f:viewParam name="slug" value="#{viewAppCategoryBean.slug}"/>
+    </f:metadata>
+
     <ui:composition template="/template/base.xhtml">
+
+        <ui:define name="pageTitle" rendered="${not empty viewAppCategoryBean.category}">
+            ${viewAppCategoryBean.category.title}
+        </ui:define>
+
+        <ui:define name="metaKeywords" rendered="#{not empty viewAppCategoryBean.category}">
+            <meta name="keywords" content="${viewAppCategoryBean.category.metaKeywords}"/>
+        </ui:define>
+
+        <ui:define name="metaDescription" rendered="#{not empty viewAppCategoryBean.category}">
+            <meta name="description" content="${viewAppCategoryBean.category.metaDescription}"/>
+        </ui:define>
+
+        <ui:define name="main-content">
+            <div class="list-app-container clearfix">
+                <c:if test="${viewAppCategoryBean.category != null}">
+                    <wapui:product-list 
+                        title="${viewAppCategoryBean.category.title}"
+                        value="${viewAppCategoryBean.products}"
+                        loadAction="${viewAppCategoryBean.loadMore()}"
+                        rendered="${not empty viewAppCategoryBean.products}"/>
+                </c:if>
+
+                <c:if test="${viewAppCategoryBean.category == null}">
+                    <wapui:product-category-list
+                        title="Game"
+                        value="${viewAppCategoryBean.listGameCategory}"/>
+                    <wapui:product-category-list
+                        title="Ứng dụng"
+                        value="${viewAppCategoryBean.listAppCategory}"/>
+                </c:if>
+            </div>
+        </ui:define>
+
     </ui:composition>
 </html>
+

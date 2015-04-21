@@ -6,7 +6,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
         <cc:interface>
             <cc:attribute name="product" required="true" type="com.cuongnt.qwap.entity.Product"/>
@@ -20,7 +21,7 @@
                 </li>
                 <li>
                     <h:link outcome="/app-category.xhtml" value="${cc.attrs.product.category.title}">
-                        <f:param name="slug" value="${cc.attrs.product.category.title}"/>
+                        <f:param name="slug" value="${cc.attrs.product.category.slug}"/>
                     </h:link>
                 </li>
                 <li class="active">${cc.attrs.product.title}</li>
@@ -29,18 +30,19 @@
             <article class="app-detail clearfix">
                 <section class="base-info clearfix">
                     <img src="#{cc.attrs.product.thumbnail.URL}" alt="${cc.attrs.product.title}"/>
-                    <div class="clearfix">
+                    <div class="clearfix" jsf:id="metaGroup">
                         <dl>
                             <dt>${cc.attrs.product.title}</dt>
                             <dd>
                                 <p>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-thumbs-up fa-fw"></span> 
+                                    <span class="productMeta">${cc.attrs.product.likeCount}</span>
+                                    <span class="fa fa-download fa-fw"></span>
+                                    <span class="productMeta">${cc.attrs.product.downCount}</span> 
+                                    <span class="fa fa-eye fa-fw"></span>
+                                    <span class="productMeta">${cc.attrs.product.viewCount}</span> 
                                 </p>
-                                <p><span class="fa fa-hdd-o"></span> 20 MB</p>
+<!--                                <p><span class="fa fa-hdd-o"></span> 20 MB</p>-->
                             </dd>
                         </dl>
 
@@ -48,19 +50,23 @@
                             <span class="fa fa-download"></span> Download
                         </button>
 
-                        <button type="button" class="btn btn-warning">
+                        <h:commandLink type="button" style="margin-left: 10px;" class="btn btn-warning" actionListener="#{viewProductBean.likeProduct()}">
+                            <f:ajax render="metaGroup"/>
                             <span class="fa fa-thumbs-up"></span> Like
-                        </button>
+                        </h:commandLink>
 
-                        <button type="button" class="btn btn-info">
-                            <span class="fa fa-share"></span> Share
-                        </button>
                     </div>
                 </section>
 
-                <section class="banner">
-                    <img class="img-responsive" src="${cc.attrs.product.bgFile.URL}"/>
-                </section>
+                <c:if test="${not empty cc.attrs.product.screenshots}">
+                    <section class="screenshorts app-slider responsive3 clearfix" style="background: #f1f1f1;">
+                        <ui:repeat value="#{cc.attrs.product.screenshots}" var="screenshot" varStatus="vs">
+                            <div>
+                                <a href="javascript:void(0);"><img class="img-responsive" data-lazy="${screenshot.URL}" width="100%"/></a>
+                            </div>
+                        </ui:repeat>
+                    </section>
+                </c:if>
 
                 <section class="description">
                     <h2 class="detail_item_tit">Mô tả</h2>
@@ -73,29 +79,8 @@
                     </center>
                 </section>
 
-                <!--section class="screenshorts app-slider responsive3">
-                    <div>
-                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider1.png"></a>
-                    </div>
-
-                    <div>
-                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
-                    </div>
-
-                    <div>
-                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
-                    </div>
-
-                    <div>
-                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
-                    </div>
-
-                    <div>
-                        <a href="#" target="_blank"><img class="img-responsive" data-lazy="image/slider2.png"></a>
-                    </div>
-                </section-->
             </article>
-            
+
             <div class="list-app-container clearfix" jsf:rendered="${not empty cc.attrs.relateProducts}">
                 <wapui:product-list value="${cc.attrs.relateProducts}" title="Có thể bạn quan tâm"/>
             </div>

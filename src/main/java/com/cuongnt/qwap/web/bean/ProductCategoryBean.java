@@ -11,9 +11,12 @@ import com.cuongnt.qwap.entity.Navigator;
 import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.entity.ProductCategory;
 import com.cuongnt.qwap.entity.ProductType;
+import com.cuongnt.qwap.util.AppUtil;
+import com.cuongnt.qwap.web.util.JsfUtil;
 import com.cuongnt.qwap.web.util.MessageUtil;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
@@ -31,7 +34,7 @@ public class ProductCategoryBean extends AbstractManagedBean<ProductCategory> {
 
     private static final long serialVersionUID = 3523057023058768065L;
     private static final Logger logger = LoggerFactory.getLogger(ProductCategoryBean.class);
-    
+
     private List<SelectItem> typeSelectItems;
 
     @EJB
@@ -40,6 +43,21 @@ public class ProductCategoryBean extends AbstractManagedBean<ProductCategory> {
     @Override
     protected ProductCategory initEntity() {
         return new ProductCategory();
+    }
+
+    @PostConstruct
+    public void init() {
+        String id = JsfUtil.getRequestParameter("id");
+        if (id != null && !id.trim().isEmpty()) {
+            try {
+                current = categoryService.find(Long.parseLong(id));
+            } catch (NumberFormatException e) {
+                logger.error("Cannot parses product category id from request param.");
+            } catch (Exception e) {
+                logger.error("Error when load product category by request param.");
+            }
+
+        }
     }
 
     @Override
@@ -51,7 +69,7 @@ public class ProductCategoryBean extends AbstractManagedBean<ProductCategory> {
     protected Logger getLogger() {
         return logger;
     }
-    
+
     public List<SelectItem> getTypeSelectItems() {
         if (typeSelectItems == null) {
             typeSelectItems = new ArrayList<>();
@@ -60,6 +78,16 @@ public class ProductCategoryBean extends AbstractManagedBean<ProductCategory> {
             }
         }
         return typeSelectItems;
+    }
+
+    public void onChangeTitle() {
+        if (current.getTitle() != null && !getCurrent().getTitle().trim().isEmpty()) {
+            String slug = AppUtil.toSlug(getCurrent().getTitle().trim());
+            if (categoryService.countBySlug(slug) > 0) {
+                slug += "-1";
+            }
+            getCurrent().setSlug(slug);
+        }
     }
 
 }

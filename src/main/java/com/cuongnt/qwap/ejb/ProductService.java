@@ -5,10 +5,11 @@
  */
 package com.cuongnt.qwap.ejb;
 
+import com.cuongnt.qwap.checker.MobileChecker;
 import com.cuongnt.qwap.entity.Product;
+import com.cuongnt.qwap.entity.ProductCategory;
 import com.cuongnt.qwap.entity.ProductType;
 import java.util.List;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -20,15 +21,15 @@ public interface ProductService extends BaseService<Product> {
 
     public int countBySlug(String slug);
 
-    public List<Product> getTopDownload(int numberOfItems, ProductType type);
+    public List<Product> getTopDownload(int numberOfItems, ProductType type, MobileChecker mobileChecker);
 
-    public List<Product> getTopHot(int numberOfItems, ProductType type);
+    public List<Product> getTopHot(int numberOfItems, ProductType type, MobileChecker mobileChecker);
 
-    public List<Product> getTopLike(int numberOfItems, ProductType type);
+    public List<Product> getTopLike(int numberOfItems, ProductType type, MobileChecker mobileChecker);
 
-    public List<Product> getTopNew(int numberOfItems, ProductType type);
+    public List<Product> getTopNew(int numberOfItems, ProductType type, MobileChecker mobileChecker);
 
-    public List<Product> getTopView(int numberOfItems, ProductType type);
+    public List<Product> getTopView(int numberOfItems, ProductType type, MobileChecker mobileChecker);
 
     public void updateViewCount(Long productId);
 
@@ -36,5 +37,7 @@ public interface ProductService extends BaseService<Product> {
 
     public void updateDownCount(Long productId);
     
-    public List<Product> getRelateProduct(Product product, int numberOfItems);
+    public List<Product> getRelateProduct(Product product, int numberOfItems, MobileChecker mobileChecker);
+    
+    public List<Product> getByCategory(ProductCategory category, int numberOfItems);
 }

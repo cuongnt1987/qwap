@@ -32,21 +32,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Navigator.getAll", 
-            query = "SELECT n FROM Navigator n ORDER BY n.orderNumber ASC"), 
+    @NamedQuery(name = "Navigator.getAll",
+            query = "SELECT n FROM Navigator n ORDER BY n.orderNumber ASC"),
     @NamedQuery(name = "Navigator.countAll",
-            query = "SELECT COUNT(n) FROM Navigator n")
+            query = "SELECT COUNT(n) FROM Navigator n"),
+    @NamedQuery(name = "Navigator.findBySlug", query = "SELECT n FROM Navigator n WHERE n.slug = :slug"),
+    @NamedQuery(name = "Navigator.countBySlug", query = "SELECT COUNT(n.id) FROM Navigator n WHERE n.slug = :slug")
 })
-public class Navigator extends BaseEntity {
+public class Navigator extends WebContent {
 
     private static final long serialVersionUID = 3287800031030186902L;
-    
+
     public enum Type {
+
         Single, Collection;
 
         @Override
         public String toString() {
-            
+
             switch (this) {
                 case Single:
                     return "single";
@@ -57,27 +60,27 @@ public class Navigator extends BaseEntity {
             }
         }
     }
-    
+
     @Min(0)
     @Max(100)
     private int orderNumber;
-    
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(length = 11, nullable = false)
     private Type type = Type.Single;
-    
+
     @Lob
     @Basic(optional = false, fetch = FetchType.LAZY)
     private String content;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORYID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private PostCategory postCategory;
 
     public Navigator() {
     }
-    
+
     public int getOrderNumber() {
         return orderNumber;
     }

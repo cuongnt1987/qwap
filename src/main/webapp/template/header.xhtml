@@ -2,19 +2,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:component>
         <!-- nav trigger -->
         <a id="nav-trigger" href="#"><span class="fa fa-bars"></span></a>
 
         <!-- logo -->
-        <h:link class="logo" outcome="/index.xhtml"><h:graphicImage library="image" name="logo.png" alt="Qwap.com"/></h:link>
+        <h:link class="logo" outcome="/index.xhtml">
+            <h:graphicImage library="image" name="logo.png" alt="${appConfigBean.appConfig.title}" rendered="${empty appConfigBean.appConfig.appLogo.title}"/>
+            <h:graphicImage url="${appConfigBean.appConfig.appLogo.URL}" alt="${appConfigBean.appConfig.title}" rendered="${not empty appConfigBean.appConfig.appLogo.title}"/>
+        </h:link>
 
         <ul class="nav-right pull-right clearfix">
             <li>
                 <a class="search" href="#"> <span class="fa fa-search"></span> </a>
             </li>
         </ul>
+
+        <c:if test="${appConfigBean.postNavigator != null}">
+            <nav class="postNav pull-right clearfix">
+                <ul>
+                    <ui:repeat value="#{appConfigBean.postNavigator}" var="nav" varStatus="vs">
+                        <li>
+                            <h:link value="${nav.title}" outcome="/page.xhtml">
+                                <f:param name="slug" value="${nav.slug}"/>
+                            </h:link>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </nav>
+        </c:if>
+
     </ui:component>
 </html>
 

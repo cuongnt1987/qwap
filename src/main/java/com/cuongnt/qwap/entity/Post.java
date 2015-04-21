@@ -15,11 +15,11 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,12 +33,24 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "Post.findBySlug", query = "SELECT p FROM Post p WHERE p.slug = :slug"),
         @NamedQuery(name = "Post.countBySlug", query = "SELECT COUNT(p.id) FROM Post p WHERE p.slug = :slug")
 })
+@NamedEntityGraphs({
+    @NamedEntityGraph(name="Post.showListEntityGraph", attributeNodes={
+        @NamedAttributeNode("title"),
+        @NamedAttributeNode("slug"),
+        @NamedAttributeNode("summary")
+    }),
+    @NamedEntityGraph(name="Post.showDetailEntityGraph", attributeNodes={
+        @NamedAttributeNode("title"),
+        @NamedAttributeNode("slug"),
+        @NamedAttributeNode("content"),
+        @NamedAttributeNode("summary")
+    })
+})
 @XmlRootElement
 public class Post extends WebContent {
 
     private static final long serialVersionUID = -4248779070644646067L;
     
-    @Valid
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "THUMBFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ImageFile thumbnail = new ImageFile();

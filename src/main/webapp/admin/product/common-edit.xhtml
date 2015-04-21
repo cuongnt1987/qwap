@@ -14,7 +14,7 @@
             infoClass="alert alert-info" 
             warnClass="alert alert-warning" 
             errorClass="alert alert-danger"/>
-        
+
         <div class="row">
             <div class="col-lg-6 col-md-12">
 
@@ -72,6 +72,37 @@
                                errorClass="text-danger"
                                infoClass="text-info"
                                warnClass="text-warning"/>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="checkbox">
+                            <label>
+                                 <h:selectBooleanCheckbox id="hot"
+                                         value="#{productBean.current.hot}"/>
+                                 Hot product
+                            </label>
+                           
+                            <h:message for="hot" 
+                                       styleClass="help-block" 
+                                       errorClass="text-danger"
+                                       infoClass="text-info"
+                                       warnClass="text-warning"/>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <h:outputLabel for="priority" value="Priority"/>
+                            <h:inputText id="priority" styleClass="form-control" 
+                                         value="#{productBean.current.priority}"/>
+                            <h:message for="priority" 
+                                       styleClass="help-block" 
+                                       errorClass="text-danger"
+                                       infoClass="text-info"
+                                       warnClass="text-warning"/>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -178,13 +209,16 @@
                             var="image">
                             <h:column>
                                 <f:facet name="header">ImageID</f:facet>
-                                ${image.id}
+                                    ${image.id}
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
                                     Image
                                 </f:facet>
-                                <img src="${image.URL}" class="img-responsive img-rounded" width="150" jsf:rendered="${not empty image.id}"/>
+                                <img src="${image.URL}" 
+                                     class="img-responsive img-rounded" 
+                                     width="150" 
+                                     jsf:rendered="${not empty image.id}"/>
                             </h:column>
 
                             <h:column>
@@ -214,7 +248,38 @@
                     </div>
                 </div>
 
-
+                <div class="form-group">
+                    <h:outputLabel value="Application file"/>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Os type</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="#{productBean.current.appFiles}"
+                                       var="appFile" varStatus="vs">
+                                <tr>
+                                    <td>
+                                        <h:outputText value="${msg.none}" rendered="${appFile.id == null}"/>
+                                        <c:if test="${appFile.id != null}">
+                                            <a href="${appFile.downloadURL}">
+                                                <i class="fa fa-download fa-fw"></i>
+                                                ${appFile.title}
+                                            </a>
+                                        </c:if>
+                                    </td>
+                                    <td>${msg[appFile.type]}</td>
+                                    <td><h:inputFile value="#{appFile.part}"/></td>
+                                    <td></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -224,13 +289,12 @@
                 <h:commandButton styleClass="btn btn-primary" 
                                  actionListener="#{productBean.persist()}" 
                                  rendered="#{empty param.id}"
-                                 value="Save">
-                </h:commandButton>
+                                 value="Save"/>
+                    
                 <h:commandButton styleClass="btn btn-primary" 
                                  actionListener="#{productBean.update()}" 
                                  rendered="#{not empty param.id}"
-                                 value="Update">
-                </h:commandButton>
+                                 value="Update"/>
             </div>
 
             <div class="btn-group">

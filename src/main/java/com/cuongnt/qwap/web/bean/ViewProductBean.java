@@ -5,6 +5,7 @@
  */
 package com.cuongnt.qwap.web.bean;
 
+import com.cuongnt.qwap.checker.MobileChecker;
 import com.cuongnt.qwap.ejb.ProductService;
 import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.entity.ProductType;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +42,12 @@ public class ViewProductBean implements Serializable {
     // for view by viewType product
     private String viewType;
 
-    // list product for view by type
-    private List<Product> viewProducts;
-
-    // Number flag for view by type;
     private int viewCount = 10;
 
     private List<Product> mostViewProducts;
+
+    private int hotCount = 10;
+    private List<Product> mostHotProducts;
 
     // using for homepage
     private int downCount = 10;
@@ -66,6 +67,9 @@ public class ViewProductBean implements Serializable {
     // using for slider
     private List<Product> sliderProducts;
 
+    @Inject
+    private MobileChecker mobileChecker;
+
     @EJB
     private ProductService productService;
 
@@ -74,6 +78,10 @@ public class ViewProductBean implements Serializable {
 
     public void loadMoreMostView() {
         viewCount += 10;
+    }
+
+    public void loadMoreMostHot() {
+        hotCount += 10;
     }
 
     public void loadMoreMostLike() {
@@ -89,41 +97,56 @@ public class ViewProductBean implements Serializable {
     }
 
     /* Getters and Setters */
-    public List<Product> getViewProducts() {
-        //viewProducts = productService.getTopNew(viewCount, type);
-        return viewProducts;
+
+    public int getHotCount() {
+        return hotCount;
+    }
+
+    public void setHotCount(int hotCount) {
+        this.hotCount = hotCount;
+    }
+
+    public List<Product> getMostHotProducts() {
+        mostViewProducts = productService.getTopHot(hotCount, type, mobileChecker);
+        return mostHotProducts;
     }
 
     public List<Product> getMostViewProducts() {
-        mostViewProducts = productService.getTopView(viewCount, type);
+        mostViewProducts = productService.getTopView(viewCount, type, mobileChecker);
         return mostViewProducts;
     }
 
     public List<Product> getMostDownProducts() {
-        mostDownProducts = productService.getTopDownload(downCount, type);
+        mostDownProducts = productService.getTopDownload(downCount, type, mobileChecker);
         return mostDownProducts;
     }
 
     public List<Product> getMostLikeProducts() {
-        mostLikeProducts = productService.getTopLike(likeCount, type);
+        mostLikeProducts = productService.getTopLike(likeCount, type, mobileChecker);
         return mostLikeProducts;
     }
 
     public List<Product> getMostNewProducts() {
-        mostNewProducts = productService.getTopNew(newCount, type);
+        mostNewProducts = productService.getTopNew(newCount, type, mobileChecker);
         return mostNewProducts;
     }
 
     public List<Product> getSliderProducts() {
-        sliderProducts = productService.getTopNew(6, null);
+        sliderProducts = productService.getTopNew(6, null, mobileChecker);
         // Shuffle slider product list.
         Collections.shuffle(sliderProducts);
         return sliderProducts;
     }
 
     public Product getCurrentProduct() {
-        if (slug != null && !slug.trim().isEmpty()) {
-            currentProduct = productService.findBySlug(slug);
+        if (slug != null && !slug.trim().isEmpty() && currentProduct == null) {
+            try {
+                currentProduct = productService.findBySlug(slug);
+                productService.updateViewCount(currentProduct.getId());
+            } catch (Exception e) {
+                logger.error("Error when load product by slug", e);
+            }
+
         }
 
         return currentProduct;
@@ -187,8 +210,17 @@ public class ViewProductBean implements Serializable {
 
     public List<Product> getRelateProducts() {
         if (currentProduct != null) {
-            return productService.getRelateProduct(currentProduct, 5);
+            return productService.getRelateProduct(currentProduct, 5, mobileChecker);
         }
         return null;
+    }
+
+    public void likeProduct() {
+        try {
+            productService.updateLikeCount(currentProduct.getId());
+            currentProduct = productService.find(currentProduct.getId());
+        } catch (Exception e) {
+            logger.error("Error when like product {}", currentProduct.getId(), e);
+        }
     }
 }

@@ -4,14 +4,16 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title><ui:insert name="pageTitle">QWAP Administration</ui:insert></title>
+        <title><ui:insert name="pageTitle">${appConfigBean.appConfig.title}</ui:insert></title>
 
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <ui:insert name="metaKeywords"></ui:insert>
+        <ui:insert name="metaKeywords">
+            <meta name="keywords" content="${appConfigBean.appConfig.metaKeywords}"/>
+        </ui:insert>
         <ui:insert name="metaDescription">
-            <meta name="description" content="QWAP Administration"/>
+            <meta name="description" content="${appConfigBean.appConfig.metaDescription}"/>
         </ui:insert>
         <ui:insert name="metaImage"></ui:insert>
         <meta name="author" content="Richard Nguyen"/>

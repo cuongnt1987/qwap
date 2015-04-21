@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <ui:composition>
+        <cc:interface>
+            <cc:attribute name="post" required="true" type="com.cuongnt.qwap.entity.Post"/>
+            <cc:attribute name="relatePosts"/>
+        </cc:interface>
+
+        <cc:implementation>
+            <article class="app-detail post-detail clearfix">
+                <section class="base-info clearfix">
+                    <img src="#{cc.attrs.post.thumbnail.URL}" alt="${cc.attrs.product.title}"/>
+                    <div class="clearfix">
+                        <dl>
+                            <dt>${cc.attrs.post.title}</dt>
+                            <dd>
+                                <p class="summary">
+                                    <h:outputText value="${cc.attrs.post.summary}"/>
+                                </p>
+                            </dd>
+                        </dl>
+                    </div>
+                </section>
+
+
+                <section class="description">
+                    <div class="desc_app">
+                        <h:outputText value="${cc.attrs.post.content}" escape="false"/>
+                    </div>
+                </section>
+
+            </article>
+
+            <div class="list-app-container clearfix" jsf:rendered="${not empty cc.attrs.relatePosts}">
+                <wapui:post-list value="${cc.attrs.relatePosts}" title="Có thể bạn quan tâm"/>
+            </div>
+
+        </cc:implementation>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:composition>
+        <cc:interface>
+            <cc:attribute name="title" required="true"/>
+            <cc:attribute name="value" required="true"/>
+            <cc:attribute name="loadAction" method-signature="void action()"/>
+        </cc:interface>
+
+        <cc:implementation>
+            <div class="list-app-container clearfix">
+                <section class="list-app">
+                    <header>
+                        <h3>${cc.attrs.title}</h3>
+                    </header>
+
+                    <ul>
+                        <ui:repeat value="#{cc.attrs.value}" var="item">
+                            <li class="clearfix">
+                                <div>
+                                    <a class="info" jsf:outcome="/post.xhtml">
+                                        <f:param name="slug" value="${item.slug}"/>
+                                        <img class="clearfix" src="${item.thumbnail.URL}"/>
+                                        <dl>
+                                            <dt>${item.title}</dt>
+                                            <dd>
+                                                <p>
+                                                    <h:outputText value="${item.summary}"/>
+                                                </p>
+                                            </dd>
+                                        </dl>
+                                    </a>
+                                </div>
+                            </li>
+                        </ui:repeat>
+                    </ul>
+
+                    <center jsf:rendered="#{cc.attrs.loadAction != null}"><h:commandLink actionListener="#{cc.attrs.loadAction}"  class="more-button">Xem thêm</h:commandLink></center>
+
+                </section>
+            </div>
+        </cc:implementation>
+    </ui:composition>
+</html>
+

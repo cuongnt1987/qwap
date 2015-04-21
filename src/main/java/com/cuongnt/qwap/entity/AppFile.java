@@ -10,6 +10,8 @@ import javax.faces.context.FacesContext;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,6 +25,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AppFile extends File {
 
     private static final long serialVersionUID = -1542564934903179093L;
+    
+    @Enumerated(EnumType.STRING)
+    private MobileType type;
 
     @ManyToOne(cascade = {})
     private Product owner;
@@ -36,6 +41,14 @@ public class AppFile extends File {
 
     public void setOwner(Product owner) {
         this.owner = owner;
+    }
+
+    public MobileType getType() {
+        return type;
+    }
+
+    public void setType(MobileType type) {
+        this.type = type;
     }
 
     public String getURL() {
