@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <f:metadata>
+        <f:viewParam name="slug" value="#{viewProductBean.slug}"/>
+    </f:metadata>
+
+    <ui:composition template="/template/base.xhtml">
+
+        <ui:define name="pageTitle" rendered="${not empty viewProductBean.currentProduct}">
+            ${viewProductBean.currentProduct.title}
+        </ui:define>
+
+        <ui:define name="metaKeywords" rendered="#{not empty viewProductBean.currentProduct}">
+            <meta name="keywords" content="${viewProductBean.currentProduct.metaKeywords}"/>
+        </ui:define>
+
+        <ui:define name="metaDescription" rendered="#{not empty viewProductBean.currentProduct}">
+            <meta name="description" content="${viewProductBean.currentProduct.metaDescription}"/>
+        </ui:define>
+
+        <ui:define name="main-content">
+
+            <div class="download-page clearfix">
+                <h3>
+                    <h:outputFormat value="#{msg['download-product-label']}">
+                        <f:param value="#{viewProductBean.currentProduct.title}"/>
+                    </h:outputFormat>
+                </h3>
+
+                <div class="clearfix">
+                    <c:forEach items="#{viewProductBean.currentProduct.appFiles}" var="appFile" varStatus="vs">
+                        <c:if test="${(not empty appFile.title) or (not empty appFile.url)}">
+                            <c:choose>
+                                <c:when test="#{appFile.type.toString() eq 'android'}">
+                                    <a class="btn btn-xl btn-success btn-block" href="#{appFile.downloadURL}">
+                                        <i class="fa fa-android fa-2x fa-fw"></i>
+                                        ${msg['link-android-title']}
+                                    </a>
+                                </c:when>
+
+                                <c:when test="#{appFile.type.toString() eq 'ios'}">
+                                    <a class="btn btn-xl btn-success btn-block" href="#{appFile.downloadURL}">
+                                        <i class="fa fa-apple fa-2x fa-fw"></i>
+                                        ${msg['link-ios-title']}
+                                    </a>
+                                </c:when>
+
+                                <c:when test="#{appFile.type.toString() eq 'window-phone'}">
+                                    <a class="btn btn-xl btn-success btn-block" href="#{appFile.downloadURL}">
+                                        <i class="fa fa-windows fa-2x fa-fw"></i>
+                                        ${msg['link-windowphone-title']}
+                                    </a>
+                                </c:when>
+
+                                <c:when test="#{appFile.type.toString() eq 'java'}">
+                                    <a class="btn btn-xl btn-success btn-block" href="#{appFile.downloadURL}">
+                                        <i class="fa fa-coffee fa-2x fa-fw"></i>
+                                        ${msg['link-java-title']}
+                                    </a>
+                                </c:when>
+                            </c:choose>
+                        </c:if>
+                    </c:forEach>
+                </div>
+
+            </div>
+
+        </ui:define>
+
+    </ui:composition>
+</html>

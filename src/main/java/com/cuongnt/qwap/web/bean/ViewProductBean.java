@@ -7,6 +7,8 @@ package com.cuongnt.qwap.web.bean;
 
 import com.cuongnt.qwap.checker.MobileChecker;
 import com.cuongnt.qwap.ejb.ProductService;
+import com.cuongnt.qwap.entity.AppFile;
+import com.cuongnt.qwap.entity.MobileType;
 import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.entity.ProductType;
 import java.io.Serializable;
@@ -97,7 +99,6 @@ public class ViewProductBean implements Serializable {
     }
 
     /* Getters and Setters */
-
     public int getHotCount() {
         return hotCount;
     }
@@ -150,6 +151,33 @@ public class ViewProductBean implements Serializable {
         }
 
         return currentProduct;
+    }
+
+    public String getMobileDownloadUrl(Product product) {
+        String downloadUrl = null;
+
+        if (mobileChecker.isMobile()) {
+            MobileType mobileType;
+            if (mobileChecker.isIos()) {
+                mobileType = MobileType.Ios;
+            } else if (mobileChecker.isAndroid()) {
+                mobileType = MobileType.Android;
+            } else if (mobileChecker.isWindowPhone()) {
+                mobileType = MobileType.WindowPhone;
+            } else {
+                mobileType = MobileType.Java;
+            }
+            
+            for (AppFile appFile : product.getAppFiles()) {
+                if (appFile.getType() == mobileType) {
+                    downloadUrl = appFile.getDownloadURL();
+                    break;
+                }
+            }
+
+        }
+
+        return downloadUrl;
     }
 
     public String getSlug() {

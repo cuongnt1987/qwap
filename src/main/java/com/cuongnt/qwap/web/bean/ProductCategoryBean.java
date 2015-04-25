@@ -7,8 +7,6 @@ package com.cuongnt.qwap.web.bean;
 
 import com.cuongnt.qwap.ejb.BaseService;
 import com.cuongnt.qwap.ejb.ProductCategoryService;
-import com.cuongnt.qwap.entity.Navigator;
-import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.entity.ProductCategory;
 import com.cuongnt.qwap.entity.ProductType;
 import com.cuongnt.qwap.util.AppUtil;

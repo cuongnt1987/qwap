@@ -12,6 +12,7 @@ import com.cuongnt.qwap.ejb.ProductService;
 import com.cuongnt.qwap.entity.AppFile;
 import com.cuongnt.qwap.entity.AppFile_;
 import com.cuongnt.qwap.entity.BaseEntity_;
+import com.cuongnt.qwap.entity.File_;
 import com.cuongnt.qwap.entity.ImageFile;
 import com.cuongnt.qwap.entity.MobileType;
 import com.cuongnt.qwap.entity.ProductCategory;
@@ -92,12 +93,12 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
                 predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Java));
             }
         }
-        predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
+        predicates.add(cb.or(cb.isNotNull(appFileJoin.get(BaseEntity_.title)), cb.isNotNull(appFileJoin.get(File_.url))));
 
         if (!predicates.isEmpty()) {
             cq.where(predicates.toArray(new Predicate[]{}));
         }
-        
+
         cq.distinct(true);
 
         cq.orderBy(cb.desc(root.get(Product_.downCount)));
@@ -133,8 +134,8 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
                 predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Java));
             }
         }
-        
-        predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
+
+        predicates.add(cb.or(cb.isNotNull(appFileJoin.get(BaseEntity_.title)), cb.isNotNull(appFileJoin.get(File_.url))));
 
         cq.where(predicates.toArray(new Predicate[]{}));
         cq.distinct(true);
@@ -172,7 +173,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
                 predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Java));
             }
         }
-        predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
+        predicates.add(cb.or(cb.isNotNull(appFileJoin.get(BaseEntity_.title)), cb.isNotNull(appFileJoin.get(File_.url))));
 
         cq.where(predicates.toArray(new Predicate[]{}));
         cq.distinct(true);
@@ -210,7 +211,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
             }
         }
 
-        predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
+        predicates.add(cb.or(cb.isNotNull(appFileJoin.get(BaseEntity_.title)), cb.isNotNull(appFileJoin.get(File_.url))));
 
         cq.where(predicates.toArray(new Predicate[]{}));
         cq.distinct(true);
@@ -248,7 +249,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
             }
         }
 
-        predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
+        predicates.add(cb.or(cb.isNotNull(appFileJoin.get(BaseEntity_.title)), cb.isNotNull(appFileJoin.get(File_.url))));
 
         cq.where(predicates.toArray(new Predicate[]{}));
         cq.distinct(true);
@@ -313,7 +314,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
                 predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Java));
             }
         }
-        predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
+        predicates.add(cb.or(cb.isNotNull(appFileJoin.get(BaseEntity_.title)), cb.isNotNull(appFileJoin.get(File_.url))));
         cq.distinct(true);
 
         cq.where(predicates.toArray(new Predicate[]{}));
@@ -354,9 +355,39 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
     }
 
     @Override
-    public List<Product> getByCategory(ProductCategory category, int numberOfItems) {
-        TypedQuery<Product> q = em.createQuery("SELECT p FROM Product p LEFT JOIN p.category c WHERE c.id = :categoryId ORDER BY p.createDate", Product.class);
-        q.setParameter("categoryId", category.getId());
+    public List<Product> getByCategory(ProductCategory category, int numberOfItems, MobileChecker mobileChecker) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+        Root<Product> root = cq.from(Product.class);
+        Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (category != null) {
+            predicates.add(cb.equal(root.get(Product_.category), category));
+        }
+
+        // Check ios
+        if (mobileChecker.isMobile()) {
+            if (mobileChecker.isAndroid()) {
+                predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Android));
+            } else if (mobileChecker.isIos()) {
+                predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Ios));
+            } else if (mobileChecker.isWindowPhone()) {
+                predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.WindowPhone));
+            } else {
+                predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Java));
+            }
+        }
+
+        predicates.add(cb.or(cb.isNotNull(appFileJoin.get(BaseEntity_.title)), cb.isNotNull(appFileJoin.get(File_.url))));
+
+        cq.where(predicates.toArray(new Predicate[]{}));
+        cq.distinct(true);
+
+        cq.orderBy(cb.desc(root.get(BaseEntity_.createDate)));
+
+        TypedQuery<Product> q = em.createQuery(cq);
         q.setMaxResults(numberOfItems);
         return q.getResultList();
     }

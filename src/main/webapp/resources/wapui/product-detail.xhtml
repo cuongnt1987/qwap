@@ -48,9 +48,19 @@
 
                         <div class="btn-toolbar">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-success">
-                                    <span class="fa fa-download"></span> Download
-                                </button>
+                                <c:if test="#{mobileChecker.mobile}">
+                                    <a class="btn btn-success" 
+                                       href="#{viewProductBean.getMobileDownloadUrl(cc.attrs.product)}">
+                                        <span class="fa fa-download"></span> Download
+                                    </a>
+                                </c:if>
+                                
+                                <c:if test="${not mobileChecker.mobile}">
+                                    <h:link outcome="/download-product.xhtml" styleClass="btn btn-success">
+                                        <f:param name="slug" value="${cc.attrs.product.slug}"/>
+                                        <span class="fa fa-download"></span> Download
+                                    </h:link>
+                                </c:if>
                             </div>
 
                             <div class="btn-group">

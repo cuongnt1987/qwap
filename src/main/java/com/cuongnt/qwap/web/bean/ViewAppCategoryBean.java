@@ -5,6 +5,7 @@
  */
 package com.cuongnt.qwap.web.bean;
 
+import com.cuongnt.qwap.checker.MobileChecker;
 import com.cuongnt.qwap.ejb.ProductCategoryService;
 import com.cuongnt.qwap.ejb.ProductService;
 import com.cuongnt.qwap.entity.Product;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,8 @@ public class ViewAppCategoryBean implements Serializable {
     private ProductCategoryService categoryService;
     @EJB
     private ProductService productService;
+    @Inject
+    private MobileChecker mobileChecker;
 
     public ViewAppCategoryBean() {
     }
@@ -78,7 +82,7 @@ public class ViewAppCategoryBean implements Serializable {
 
     public List<Product> getProducts() {
         try {
-            products = productService.getByCategory(category, numberOfItems);
+            products = productService.getByCategory(category, numberOfItems, mobileChecker);
         } catch (Exception e) {
             logger.error("Error when load product by category", e);
         }

@@ -14,7 +14,6 @@ import com.cuongnt.qwap.entity.MobileType;
 import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.entity.ProductCategory;
 import com.cuongnt.qwap.entity.ProductType;
-import com.cuongnt.qwap.exception.AppException;
 import com.cuongnt.qwap.util.AppUtil;
 import com.cuongnt.qwap.web.util.JsfUtil;
 import com.cuongnt.qwap.web.util.MessageUtil;

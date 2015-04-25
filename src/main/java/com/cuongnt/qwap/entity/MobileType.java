@@ -11,7 +11,7 @@ package com.cuongnt.qwap.entity;
  */
 public enum MobileType {
 
-    Android, Ios, WindowPhone, Java, All;
+    Android, Ios, WindowPhone, Java;
 
     @Override
     public String toString() {
@@ -24,8 +24,6 @@ public enum MobileType {
                 return "window-phone";
             case Java:
                 return "java";
-            case All:
-                return "all";
             default:
                 return "unknow";
         }

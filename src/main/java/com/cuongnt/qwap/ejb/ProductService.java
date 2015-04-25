@@ -36,16 +36,16 @@ public interface ProductService extends BaseService<Product> {
     public void updateLikeCount(Long productId);
 
     public void updateDownCount(Long productId);
-    
+
     public List<Product> getRelateProduct(Product product, int numberOfItems, MobileChecker mobileChecker);
-    
-    public List<Product> getByCategory(ProductCategory category, int numberOfItems);
-    
+
+    public List<Product> getByCategory(ProductCategory category, int numberOfItems, MobileChecker mobileChecker);
+
     public void toggleHot(Long productId);
-    
+
     public void decreatePriority(Long productId);
-    
+
     public void increatePriority(Long productId);
-    
+
     public void toogleEnable(Long productId);
 }

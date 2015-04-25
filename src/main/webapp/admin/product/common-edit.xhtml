@@ -209,6 +209,7 @@
                                     <h:dataTable
                                         id="screenshotTable"
                                         class="table table-striped table-hover" 
+                                        
                                         value="#{productBean.screenShots}" 
                                         var="image">
                                         <h:column>
@@ -223,7 +224,7 @@
 
                                         <h:column>
                                             <f:facet name="header">File</f:facet>
-                                            <h:inputFile value="#{image.part}" />
+                                            <h:inputFile id="" value="#{image.part}" />
                                         </h:column>
 
                                         <h:column>
