@@ -31,6 +31,8 @@ import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.Min;
@@ -65,6 +67,8 @@ public class Product extends WebContent {
     private int likeCount;
 
     private boolean hot;
+
+    private boolean enable = true;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "THUMBFILEID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
@@ -219,4 +223,31 @@ public class Product extends WebContent {
         this.priority = priority;
     }
     
+     public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+    
+    @PostPersist
+    @PostUpdate
+    public void filterFile() {
+        List<AppFile> aFiles = new ArrayList<>();
+        for (AppFile appFile : appFiles) {
+            if (appFile.getTitle() != null || appFile.getPart() != null) {
+                aFiles.add(appFile);
+            }
+        }
+        setAppFiles(appFiles);
+        
+        List<ImageFile> iFiles = new ArrayList<>();
+        for (ImageFile image : screenshots) {
+            if (image.getTitle() != null || image.getPart() != null) {
+                iFiles.add(image);
+            }
+        }
+        setScreenshots(iFiles);
+    }
 }

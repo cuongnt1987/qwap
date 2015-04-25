@@ -97,6 +97,8 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         if (!predicates.isEmpty()) {
             cq.where(predicates.toArray(new Predicate[]{}));
         }
+        
+        cq.distinct(true);
 
         cq.orderBy(cb.desc(root.get(Product_.downCount)));
 
@@ -114,6 +116,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
 
         List<Predicate> predicates = new ArrayList<>();
 
+        predicates.add(cb.isTrue(root.get(Product_.hot)));
         if (type != null) {
             predicates.add(cb.equal(root.get(Product_.type), type));
         }
@@ -130,17 +133,15 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
                 predicates.add(cb.equal(appFileJoin.get(AppFile_.type), MobileType.Java));
             }
         }
+        
         predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
 
         cq.where(predicates.toArray(new Predicate[]{}));
-        
-        List<Order> orders = new ArrayList<>();
-        
-        orders.add(cb.desc(root.get(Product_.hot)));
-        orders.add(cb.desc(root.get(Product_.priority)));
-        orders.add(cb.desc(root.get(BaseEntity_.createDate)));
+        cq.distinct(true);
 
-        cq.orderBy(orders);
+        List<Order> orders = new ArrayList<>();
+
+        cq.orderBy(cb.desc(root.get(Product_.priority)), cb.asc(root.get(BaseEntity_.createDate)));
 
         TypedQuery<Product> q = em.createQuery(cq);
         q.setMaxResults(numberOfItems);
@@ -174,6 +175,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
 
         cq.where(predicates.toArray(new Predicate[]{}));
+        cq.distinct(true);
 
         cq.orderBy(cb.desc(root.get(Product_.likeCount)));
 
@@ -211,6 +213,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
 
         cq.where(predicates.toArray(new Predicate[]{}));
+        cq.distinct(true);
 
         cq.orderBy(cb.desc(root.get(BaseEntity_.createDate)));
 
@@ -248,6 +251,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
 
         cq.where(predicates.toArray(new Predicate[]{}));
+        cq.distinct(true);
 
         cq.orderBy(cb.desc(root.get(Product_.viewCount)));
 
@@ -310,6 +314,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
             }
         }
         predicates.add(cb.isNotNull(appFileJoin.get(BaseEntity_.title)));
+        cq.distinct(true);
 
         cq.where(predicates.toArray(new Predicate[]{}));
         TypedQuery<Product> q = em.createQuery(cq);
@@ -354,5 +359,45 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         q.setParameter("categoryId", category.getId());
         q.setMaxResults(numberOfItems);
         return q.getResultList();
+    }
+
+    @Override
+    public void toggleHot(Long productId) {
+        Product product = em.find(Product.class, productId);
+        if (product != null) {
+            product.setHot(!product.isHot());
+            em.merge(product);
+            em.flush();
+        }
+    }
+
+    @Override
+    public void decreatePriority(Long productId) {
+        Product product = em.find(Product.class, productId);
+        if (product != null && product.getPriority() > 0) {
+            product.setPriority(product.getPriority() - 1);
+            em.merge(product);
+            em.flush();
+        }
+    }
+
+    @Override
+    public void increatePriority(Long productId) {
+        Product product = em.find(Product.class, productId);
+        if (product != null) {
+            product.setPriority(product.getPriority() + 1);
+            em.merge(product);
+            em.flush();
+        }
+    }
+
+    @Override
+    public void toogleEnable(Long productId) {
+        Product product = em.find(Product.class, productId);
+        if (product != null) {
+            product.setEnable(!product.isEnable());
+            em.merge(product);
+            em.flush();
+        }
     }
 }

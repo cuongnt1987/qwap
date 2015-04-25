@@ -5,7 +5,6 @@
  */
 package com.cuongnt.qwap.web.bean;
 
-import com.cuongnt.qwap.checker.MobileChecker;
 import com.cuongnt.qwap.ejb.BaseService;
 import com.cuongnt.qwap.ejb.ProductCategoryService;
 import com.cuongnt.qwap.ejb.ProductService;
@@ -15,19 +14,19 @@ import com.cuongnt.qwap.entity.MobileType;
 import com.cuongnt.qwap.entity.Product;
 import com.cuongnt.qwap.entity.ProductCategory;
 import com.cuongnt.qwap.entity.ProductType;
+import com.cuongnt.qwap.exception.AppException;
 import com.cuongnt.qwap.util.AppUtil;
 import com.cuongnt.qwap.web.util.JsfUtil;
 import com.cuongnt.qwap.web.util.MessageUtil;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,17 +43,23 @@ public class ProductBean extends AbstractManagedBean<Product> {
     private static final Logger logger = LoggerFactory.getLogger(ProductBean.class);
 
     private List<SelectItem> productTypeSelectItems;
-    
+
     @EJB
     private ProductService productService;
     @EJB
     private ProductCategoryService productCategoryService;
     
-    // ... processing screenshot and appfile.
+    private boolean showOnlyHot = false;
     
+    
+    // order ...
+    private String orderField;
+    private boolean orderAsc = true;
+
+    // ... processing screenshot and appfile.
     private List<ImageFile> screenShots;
     private Map<MobileType, AppFile> appFiles;
-    
+
     @PostConstruct
     public void init() {
         String idStr = JsfUtil.getRequestParameter("id");
@@ -65,18 +70,18 @@ public class ProductBean extends AbstractManagedBean<Product> {
             } catch (NumberFormatException e) {
                 logger.error("Can not parse id string param to Long", e);
             }
-            
+
             if (id != null) {
                 current = productService.find(id);
             }
         }
     }
-    
+
     /**
      * Binding component for add and edit form
-     * @return 
+     *
+     * @return
      */
-    
     @Override
     protected Product initEntity() {
         return new Product();
@@ -113,8 +118,9 @@ public class ProductBean extends AbstractManagedBean<Product> {
     }
 
     public List<ImageFile> getScreenShots() {
-        if (this.screenShots == null && current != null) 
+        if (this.screenShots == null && current != null) {
             screenShots = current.getScreenshots();
+        }
         return screenShots;
     }
 
@@ -122,11 +128,36 @@ public class ProductBean extends AbstractManagedBean<Product> {
         this.screenShots = screenShots;
     }
 
-
-
     public void setAppFiles(Map<MobileType, AppFile> appFiles) {
         this.appFiles = appFiles;
     }
+
+    public boolean isShowOnlyHot() {
+        return showOnlyHot;
+    }
+
+    public void setShowOnlyHot(boolean showOnlyHot) {
+        this.showOnlyHot = showOnlyHot;
+    }
+
+    @Override
+    protected Map<String, Object> getMapFilter() {
+        Map<String, Object> filter = new HashMap<>();
+        if (showOnlyHot) {
+            filter.put("hot", true);
+        }
+        return filter;
+    }
+
+    @Override
+    protected boolean isOrderAsc() {
+        return this.orderAsc;
+    }
+
+    @Override
+    protected String getOrderField() {
+        return this.orderField;
+    }    
     
     public List<SelectItem> getProductCategorySelectItems() {
         if (getCurrent().getType() != null) {
@@ -141,7 +172,6 @@ public class ProductBean extends AbstractManagedBean<Product> {
         return null;
     }
 
-    
     /**
      * Add new row for screen short
      */
@@ -162,10 +192,22 @@ public class ProductBean extends AbstractManagedBean<Product> {
                 }
             }
             this.setScreenShots(images);
-            current.setScreenshots(images); 
+            current.setScreenshots(images);
         }
-    }    
+    }
 
+    @Override
+    protected void onBeforePersist() {
+        super.onBeforePersist(); 
+        validateProduct();
+    }
+
+    @Override
+    protected void onBeforeUpdate() {
+        super.onBeforeUpdate(); 
+        validateProduct();
+    }
+    
     @Override
     protected void onUpdateSuccess() {
         super.onUpdateSuccess();
@@ -174,8 +216,56 @@ public class ProductBean extends AbstractManagedBean<Product> {
 
     @Override
     protected void onPersistSuccess() {
-        super.onPersistSuccess(); 
+        super.onPersistSuccess();
         this.current = null;
+        screenShots = null;
     }
     
+    public void toggleHot(Long productId) {
+        JsfUtil.processAction(e -> {
+            productService.toggleHot(e);
+        }, productId, MessageUtil.REQUEST_SUCCESS_MESSAGE, MessageUtil.REQUEST_FAIL_MESSAGE);
+    }
+    
+    public void toggleEnable(Long productId) {
+        JsfUtil.processAction(e -> {
+            productService.toogleEnable(e);
+        }, productId, MessageUtil.REQUEST_SUCCESS_MESSAGE, MessageUtil.REQUEST_FAIL_MESSAGE);
+    }
+    
+    public void increatePriority(Long productId) {
+        JsfUtil.processAction(e -> {
+            productService.increatePriority(e);
+        }, productId, MessageUtil.REQUEST_SUCCESS_MESSAGE, MessageUtil.REQUEST_FAIL_MESSAGE);
+    }
+    
+    public void decreatePriority(Long productId) {
+        JsfUtil.processAction(e -> {
+            productService.decreatePriority(e);
+        }, productId, MessageUtil.REQUEST_SUCCESS_MESSAGE, MessageUtil.REQUEST_FAIL_MESSAGE);
+    }
+    
+    public void toggleOrder(String orderField) {
+        if (this.orderField != null && this.orderField.equals(orderField)) {
+            orderAsc = !orderAsc;
+        }
+        this.orderField = orderField;
+    }
+    
+    private void validateProduct() {
+        if (current != null) {
+            boolean hasFile = false;
+            for (AppFile appFile : current.getAppFiles()) {
+                if ((appFile.getUrl()!= null && !appFile.getUrl().trim().isEmpty()) || appFile.getPart() != null || appFile.getTitle() != null) {
+                    hasFile = true;
+                    break;
+                }
+            }
+            
+            if (!hasFile) {
+                throw new RuntimeException("your-product-must-have-at-least-one-file-or-link-to-download");
+            }
+        }
+    }
+
 }

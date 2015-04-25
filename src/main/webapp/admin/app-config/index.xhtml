@@ -58,6 +58,39 @@
                                    infoClass="text-info"
                                    warnClass="text-warning"/>
                     </div>
+                    
+                    <div class="form-group">
+                        <h:outputLabel for="facebookApiKey" value="Facebook Api Key"/>
+                        <h:inputText id="facebookApiKey" styleClass="form-control"
+                                         value="#{appConfigBean.appConfig.facebookId}"/>
+                        <h:message for="facebookApiKey" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:outputLabel for="googleApiKey" value="Google Api Key"/>
+                        <h:inputText id="googleApiKey" styleClass="form-control"
+                                     value="#{appConfigBean.appConfig.googleId}"/>
+                        <h:message for="googleApiKey" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:outputLabel for="googleAnaliticsScript" value="Google Analytics Script"/>
+                        <h:inputTextarea id="googleAnaliticsScript" styleClass="form-control"
+                                     value="#{appConfigBean.appConfig.googleAnalyticsScript}"/>
+                        <h:message for="googleAnaliticsScript" 
+                                   styleClass="help-block" 
+                                   errorClass="text-danger"
+                                   infoClass="text-info"
+                                   warnClass="text-warning"/>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="form-group">
@@ -86,6 +119,8 @@
                                    infoClass="text-info"
                                    warnClass="text-warning"/>
                     </div>
+                    
+                    
                 </div>
                 
                 <h:commandButton class="btn btn-success"

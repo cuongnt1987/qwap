@@ -137,12 +137,12 @@ public abstract class AbstractManagedBean<T extends BaseEntity> implements Seria
 
                 @Override
                 public List<T> load(int start, int range) {
-                    return getBaseService().search(start, range, null, true, null);
+                    return getBaseService().search(start, range, getOrderField(), isOrderAsc(), getMapFilter());
                 }
 
                 @Override
                 public int count() {
-                    return getBaseService().count(null);
+                    return getBaseService().count(getMapFilter());
                 }
             };
         }
@@ -222,4 +222,10 @@ public abstract class AbstractManagedBean<T extends BaseEntity> implements Seria
     }
 
     protected abstract Logger getLogger();
+    
+    protected Map<String, Object> getMapFilter() {return null;}
+    
+    protected String getOrderField() {return null;}
+    
+    protected boolean isOrderAsc() { return true;}
 }

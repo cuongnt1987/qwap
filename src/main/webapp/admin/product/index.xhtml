@@ -22,6 +22,15 @@
                     <h:button outcome="add" value="Add new product" styleClass="btn btn-primary"/>
                 </div>
             </div>
+            
+           <hr/> 
+            
+            <div class="checkbox">
+                <h:selectBooleanCheckbox value="#{productBean.showOnlyHot}">
+                    <f:ajax execute="@this" render="@form"/>
+                </h:selectBooleanCheckbox>
+                Show hot only
+            </div>
 
             <hr/>   
 
@@ -37,41 +46,95 @@
                     <div class="col-lg-12 table-responsive">
                         <h:dataTable value="#{productBean.pagePaginationHelper.dataModel}"
                                      var="product"
-                                     styleClass="table table-hover"
+                                     styleClass="table table-hover table-bordered table-striped"
                                      rendered="#{productBean.pagePaginationHelper.dataModel.rowAvailable}">
                             
                             <h:column>
+                                <f:facet name="header">
+                                    <h:commandLink value="Enable" actionListener="#{productBean.toggleOrder('enable')}">
+                                        <f:ajax render="@form"/>
+                                    </h:commandLink>
+                                </f:facet>
+                                <h:selectBooleanCheckbox value="#{product.enable}">
+                                    <f:ajax execute="@this" render="@form" listener="#{productBean.toggleEnable(product.id)}"/>
+                                </h:selectBooleanCheckbox>
+                            </h:column>
+
+                            <h:column>
                                 <img src="${product.thumbnail.URL}" class="img-rounded" height="75" width="75"/>
                             </h:column>
+                                
                             <h:column>
-                                <f:facet name="header">Title</f:facet>
+                                <f:facet name="header">
+                                    <h:commandLink value="Title" actionListener="#{productBean.toggleOrder('title')}">
+                                        <f:ajax render="@form"/>
+                                    </h:commandLink>
+                                </f:facet>
                                 <h:link outcome="edit" value="${product.title}">
                                     <f:param name="id" value="${product.id}"/>
                                 </h:link>
                             </h:column>
-                            
+
                             <h:column>
                                 <f:facet name="header">Type</f:facet>
                                 <h:outputText value="#{msg[product.type]}"/>
                             </h:column>
                             
-                             <h:column>
-                                <f:facet name="header">Description</f:facet>
-                                <h:outputText value="#{product.description}"/>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:commandLink value="Is hot" actionListener="#{productBean.toggleOrder('hot')}">
+                                        <f:ajax render="@form"/>
+                                    </h:commandLink>
+                                </f:facet>
+                                <h:selectBooleanCheckbox value="#{product.hot}">
+                                    <f:ajax listener="#{productBean.toggleHot(product.id)}" render="@form"/>
+                                </h:selectBooleanCheckbox>
+                            </h:column>
+                            
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:commandLink value="Priority" actionListener="#{productBean.toggleOrder('priority')}">
+                                        <f:ajax render="@form"/>
+                                    </h:commandLink>
+                                </f:facet>
+                                
+                                <h:inputText value="#{product.priority}" size="2" disabled="true"/>
+                                <h:commandLink actionListener="#{productBean.increatePriority(product.id)}">
+                                    <i class="fa fa-arrow-circle-o-up fa-3x fa-fw"></i>
+                                    <f:ajax render="@form"/>
+                                </h:commandLink>
+                                 <h:commandLink actionListener="#{productBean.decreatePriority(product.id)}">
+                                    <i class="fa fa-arrow-circle-o-down fa-3x fa-fw"></i>
+                                    <f:ajax render="@form"/>
+                                </h:commandLink>
                             </h:column>
 
                             <h:column>
-                                <button jsf:actionListener="#{productBean.remove(product)}"
-                                        class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Do you want to delete this product?');">
-                                    <i class="fa fa-trash"></i>
-                                    Delete
-                                </button>
+                                <f:facet name="header">
+                                    <h:commandLink value="Create date" actionListener="#{productBean.toggleOrder('createDate')}">
+                                        <f:ajax render="@form"/>
+                                    </h:commandLink>
+                                </f:facet>
+                                <h:outputText value="#{product.createDate}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss"/>
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <div class="btn-toolbar">
+                                    <div class="btn-group">
+                                        <h:commandLink actionListener="#{productBean.remove(product)}" 
+                                                       styleClass="btn btn-sm btn-danger"
+                                                       onclick="return confirm('Do you want to delete this product?');">
+                                            <i class="fa fa-trash fa-fw"></i>
+                                        </h:commandLink>
+                                    </div>
+                                </div>
                             </h:column>
                         </h:dataTable>
                         <center>
                             <wapui:pagination value="#{productBean.pagePaginationHelper}" 
-                                              rendered="#{productigatorBean.pagePaginationHelper.dataModel.rowAvailable}"/>
+                                              rendered="#{productBean.pagePaginationHelper.dataModel.rowAvailable}"/>
                         </center>
                     </div>
                 </div>

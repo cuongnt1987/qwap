@@ -20,7 +20,7 @@ public abstract class PaginationHelper<T> implements Pagination<T> {
      * 1,2,3,4,5 ....
      */
     private int page = 1;
-    private int pageSize = 20;
+    private int pageSize = 10;
     private int count;
 
     @Override

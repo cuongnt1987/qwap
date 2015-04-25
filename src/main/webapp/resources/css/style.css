@@ -358,22 +358,22 @@ a.more-button {
     float: left;
 }
 
-.app-detail .base-info div {
+.app-detail .base-info>div {
     padding-left: 100px;
     padding-bottom: 10px;
 }
 
-.app-detail .base-info div dl {
+.app-detail .base-info>div dl {
     margin-bottom: 10px;
 }
 
-.app-detail .base-info div dl dt {
+.app-detail .base-info>div dl dt {
     font-size: 14px;
     margin: 5px 0;
     color: #333;
 }
 
-.app-detail .base-info div dl dd {
+.app-detail .base-info>div dl dd {
     color: #747474;
 }
 

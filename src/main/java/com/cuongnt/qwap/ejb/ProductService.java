@@ -40,4 +40,12 @@ public interface ProductService extends BaseService<Product> {
     public List<Product> getRelateProduct(Product product, int numberOfItems, MobileChecker mobileChecker);
     
     public List<Product> getByCategory(ProductCategory category, int numberOfItems);
+    
+    public void toggleHot(Long productId);
+    
+    public void decreatePriority(Long productId);
+    
+    public void increatePriority(Long productId);
+    
+    public void toogleEnable(Long productId);
 }

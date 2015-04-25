@@ -146,6 +146,7 @@
                                  actionListener="#{navigatorBean.update()}" 
                                  rendered="#{not empty param.id}"
                                  value="Update">
+                    <f:ajax execute="@form" render="@form"/>
                 </h:commandButton>
             </div>
 

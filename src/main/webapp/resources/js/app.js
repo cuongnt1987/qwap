@@ -135,4 +135,6 @@ $('.app-slider.responsive3').slick({
 	$('.toggle-desc').click(function(event) {
 		$('.desc_app').toggleClass('active');
 	});
+        
+        $('.csbuttons').cSButtons();
 });

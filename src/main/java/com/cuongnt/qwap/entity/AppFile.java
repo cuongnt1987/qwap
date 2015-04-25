@@ -9,7 +9,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
@@ -61,6 +60,9 @@ public class AppFile extends File {
 
     public String getDownloadURL() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        if (this.url != null) {
+            return url;
+        }
         return externalContext.getRequestScheme()
                 + "://" + externalContext.getRequestServerName()
                 + ":" + externalContext.getRequestServerPort()

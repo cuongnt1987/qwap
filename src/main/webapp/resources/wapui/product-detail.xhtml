@@ -42,18 +42,36 @@
                                     <span class="fa fa-eye fa-fw"></span>
                                     <span class="productMeta">${cc.attrs.product.viewCount}</span> 
                                 </p>
-<!--                                <p><span class="fa fa-hdd-o"></span> 20 MB</p>-->
+                                <!--                                <p><span class="fa fa-hdd-o"></span> 20 MB</p>-->
                             </dd>
                         </dl>
 
-                        <button type="button" class="btn btn-success">
-                            <span class="fa fa-download"></span> Download
-                        </button>
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success">
+                                    <span class="fa fa-download"></span> Download
+                                </button>
+                            </div>
 
-                        <h:commandLink type="button" style="margin-left: 10px;" class="btn btn-warning" actionListener="#{viewProductBean.likeProduct()}">
-                            <f:ajax render="metaGroup"/>
-                            <span class="fa fa-thumbs-up"></span> Like
-                        </h:commandLink>
+                            <div class="btn-group">
+                                <h:commandLink type="button" class="btn btn-warning" actionListener="#{viewProductBean.likeProduct()}">
+                                    <f:ajax render="metaGroup"/>
+                                    <span class="fa fa-thumbs-up"></span> Like
+                                </h:commandLink>
+                            </div>
+
+                            <div class="btn-group">
+                                <a href="#" data-type="facebook" style="background:#8b9dc3;color:white" data-count="true" class="csbuttons btn">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </div>
+
+                            <div class="btn-group">
+                                <a href="#" data-type="google" style="background: #f44336; color:white"  data-count="true" class="csbuttons btn">
+                                    <i class="fa fa-google"></i>
+                                </a>
+                            </div>
+                        </div>
 
                     </div>
                 </section>

@@ -26,6 +26,9 @@ public class AppConfig extends BaseEntity {
 
     private String metaKeywords;
     private String metaDescription;
+    private String facebookId;
+    private String googleId;
+    private String googleAnalyticsScript;
 
     @Lob
     private String footer;
@@ -67,6 +70,30 @@ public class AppConfig extends BaseEntity {
 
     public void setAppLogo(ImageFile appLogo) {
         this.appLogo = appLogo;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getGoogleAnalyticsScript() {
+        return googleAnalyticsScript;
+    }
+
+    public void setGoogleAnalyticsScript(String googleAnalyticsScript) {
+        this.googleAnalyticsScript = googleAnalyticsScript;
     }
 
 }

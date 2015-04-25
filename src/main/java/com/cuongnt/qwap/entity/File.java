@@ -132,10 +132,15 @@ public class File extends BaseEntity {
                 FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
                         + this.id));
             }
-
+            this.url = null;
             this.contentType = part.getContentType();
             this.fileSize = part.getSize();
             this.title = part.getSubmittedFileName();
+        } else if (url != null) {
+            if (title != null) {
+                FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
+                        + this.id));
+            }
         }
     }
 
@@ -147,10 +152,15 @@ public class File extends BaseEntity {
                 FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
                         + this.id));
             }
-
+            this.url = null;
             this.contentType = part.getContentType();
             this.fileSize = part.getSize();
             this.title = part.getSubmittedFileName();
+        } else if (url != null) {
+            if (title != null) {
+                FileUtils.deleteQuietly(new java.io.File(AppConfig.getFileStorePath()
+                        + this.id));
+            }
         }
     }
 

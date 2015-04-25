@@ -189,7 +189,14 @@ public class JsfUtil {
             if (t instanceof EJBException) {
                 MessageUtil.addGlobalErrorMessage(t);
             } else {
-                MessageUtil.addGlobalErrorMessage(defaultMessage, t);
+                String message;
+                message = t.getMessage();
+                if (message != null) {
+                    MessageUtil.addGlobalErrorMessage(MessageUtil.getBundleMessage(message), t);
+                } else {
+                    MessageUtil.addGlobalErrorMessage(defaultMessage, t);
+                }
+                
             }
         }
     }

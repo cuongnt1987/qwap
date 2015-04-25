@@ -107,7 +107,7 @@ public class ViewProductBean implements Serializable {
     }
 
     public List<Product> getMostHotProducts() {
-        mostViewProducts = productService.getTopHot(hotCount, type, mobileChecker);
+        mostHotProducts = productService.getTopHot(hotCount, type, mobileChecker);
         return mostHotProducts;
     }
 
