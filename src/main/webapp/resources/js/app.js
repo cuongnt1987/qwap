@@ -9,7 +9,7 @@ $(document).ready(function() {
 	/*main navigator iscoll configuration*/
 	var myScroll = new IScroll('#main-nav-wrapper', { eventPassthrough: true, scrollX: true, scrollY: false, preventDefault: false }); 
 
-	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+//	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 	/*End - main navigator iscoll configuration*/
 
 	/*Sticky navtivate*/

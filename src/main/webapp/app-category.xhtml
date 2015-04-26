@@ -5,25 +5,19 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
     <f:metadata>
         <f:viewParam name="slug" value="#{viewAppCategoryBean.slug}"/>
     </f:metadata>
-
     <ui:composition template="/template/base.xhtml">
-
         <ui:define name="pageTitle" rendered="${not empty viewAppCategoryBean.category}">
             ${viewAppCategoryBean.category.title}
         </ui:define>
-
         <ui:define name="metaKeywords" rendered="#{not empty viewAppCategoryBean.category}">
             <meta name="keywords" content="${viewAppCategoryBean.category.metaKeywords}"/>
         </ui:define>
-
         <ui:define name="metaDescription" rendered="#{not empty viewAppCategoryBean.category}">
             <meta name="description" content="${viewAppCategoryBean.category.metaDescription}"/>
         </ui:define>
-
         <ui:define name="main-content">
             <div class="list-app-container clearfix">
                 <c:if test="${viewAppCategoryBean.category != null}">
@@ -44,7 +38,6 @@
                 </c:if>
             </div>
         </ui:define>
-
     </ui:composition>
 </html>
 

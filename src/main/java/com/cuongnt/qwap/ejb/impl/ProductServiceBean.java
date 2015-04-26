@@ -76,6 +76,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         Root<Product> root = cq.from(Product.class);
         Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.isTrue(root.get(Product_.enable)));
 
         if (type != null) {
             predicates.add(cb.equal(root.get(Product_.type), type));
@@ -116,6 +117,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
 
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.isTrue(root.get(Product_.enable)));
 
         predicates.add(cb.isTrue(root.get(Product_.hot)));
         if (type != null) {
@@ -157,6 +159,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
 
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.isTrue(root.get(Product_.enable)));
         if (type != null) {
             predicates.add(cb.equal(root.get(Product_.type), type));
         }
@@ -193,6 +196,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
 
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.isTrue(root.get(Product_.enable)));
 
         if (type != null) {
             predicates.add(cb.equal(root.get(Product_.type), type));
@@ -231,6 +235,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
 
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.isTrue(root.get(Product_.enable)));
 
         if (type != null) {
             predicates.add(cb.equal(root.get(Product_.type), type));
@@ -299,6 +304,7 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         Root<Product> root = cq.from(Product.class);
         Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.isTrue(root.get(Product_.enable)));
         predicates.add(cb.equal(root.get(Product_.type), product.getType()));
         predicates.add(cb.notEqual(root.get(BaseEntity_.id), product.getId()));
 
@@ -362,7 +368,8 @@ public class ProductServiceBean extends AbstractFacadeBean<Product> implements P
         Join<Product, AppFile> appFileJoin = root.join(Product_.appFiles, JoinType.LEFT);
 
         List<Predicate> predicates = new ArrayList<>();
-
+        predicates.add(cb.isTrue(root.get(Product_.enable)));
+        
         if (category != null) {
             predicates.add(cb.equal(root.get(Product_.category), category));
         }

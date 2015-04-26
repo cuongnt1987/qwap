@@ -51,14 +51,14 @@
                                 <c:if test="#{mobileChecker.mobile}">
                                     <a class="btn btn-success" 
                                        href="#{viewProductBean.getMobileDownloadUrl(cc.attrs.product)}">
-                                        <span class="fa fa-download"></span> Download
+                                        <span class="fa fa-download"></span> ${msg['download-label']}
                                     </a>
                                 </c:if>
                                 
                                 <c:if test="${not mobileChecker.mobile}">
                                     <h:link outcome="/download-product.xhtml" styleClass="btn btn-success">
                                         <f:param name="slug" value="${cc.attrs.product.slug}"/>
-                                        <span class="fa fa-download"></span> Download
+                                        <span class="fa fa-download"></span> ${msg['download-label']}
                                     </h:link>
                                 </c:if>
                             </div>
@@ -66,7 +66,7 @@
                             <div class="btn-group">
                                 <h:commandLink type="button" class="btn btn-warning" actionListener="#{viewProductBean.likeProduct()}">
                                     <f:ajax render="metaGroup"/>
-                                    <span class="fa fa-thumbs-up"></span> Like
+                                    <span class="fa fa-thumbs-up"></span>
                                 </h:commandLink>
                             </div>
 

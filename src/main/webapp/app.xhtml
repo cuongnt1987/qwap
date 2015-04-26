@@ -5,33 +5,36 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:wapui="http://xmlns.jcp.org/jsf/composite/wapui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
     <f:metadata>
         <f:viewParam name="slug" value="#{viewProductBean.slug}"/>
     </f:metadata>
-
     <ui:composition template="/template/base.xhtml">
-        
         <ui:define name="pageTitle" rendered="${not empty viewProductBean.currentProduct}">
             ${viewProductBean.currentProduct.title}
         </ui:define>
-
         <ui:define name="metaKeywords" rendered="#{not empty viewProductBean.currentProduct}">
             <meta name="keywords" content="${viewProductBean.currentProduct.metaKeywords}"/>
         </ui:define>
-        
         <ui:define name="metaDescription" rendered="#{not empty viewProductBean.currentProduct}">
             <meta name="description" content="${viewProductBean.currentProduct.metaDescription}"/>
         </ui:define>
-        
+        <ui:define name="metaImage" rendered="#{not empty viewProductBean.currentProduct}">
+            <meta name="image" content="${viewProductBean.currentProduct.thumbnail.URL}"/>
+            <meta property="og:type" content="article" />
+            <meta property="og:locale" content="vi_VN" />
+            <meta property="og:title" content="${viewProductBean.currentProduct.title}" />
+            <meta property="fb:app_id" content="${appConfigBean.appConfig.facebookId}" />
+            <meta property="og:description" content="${viewProductBean.currentProduct.description}"/>
+            <meta property="og:image" content="${viewProductBean.currentProduct.thumbnail.URL}" />
+        <!-- <meta property="article:author" content="https://www.facebook.com/cuongnt1987" />
+            <meta property="article:publisher" content="https://www.facebook.com/cuongnt1987" />-->
+        </ui:define>
         <ui:define name="main-content">
-
             <wapui:product-detail product="#{viewProductBean.currentProduct}" 
                                   rendered="#{viewProductBean.currentProduct != null}"
                                   relateProducts="#{viewProductBean.relateProducts}"/>
-
-            <wapui:product-slider value="#{viewProductBean.sliderProducts}" rendered="#{viewProductBean.currentProduct == null}"/>
-
+            <wapui:product-slider value="#{viewProductBean.sliderProducts}" 
+                                  rendered="#{viewProductBean.currentProduct == null}"/>
             <c:choose rendered="#{viewProductBean.currentProduct == null}">
                 <c:when test="${param.viewType == 'down'}">
                     <div class="list-app-container clearfix">
@@ -42,7 +45,6 @@
                             loadAction="#{viewProductBean.loadMoreMostDown()}"/>
                     </div>
                 </c:when>
-
                 <c:when test="${param.viewType == 'new'}">
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
@@ -52,7 +54,6 @@
                             loadAction="#{viewProductBean.loadMoreMostNew()}"/>
                     </div>
                 </c:when>
-
                 <c:when test="${param.viewType == 'like'}">
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
@@ -62,7 +63,6 @@
                             loadAction="#{viewProductBean.loadMoreMostLike()}"/>
                     </div>
                 </c:when>
-
                 <c:when test="${param.viewType == 'hot'}">
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
@@ -72,7 +72,6 @@
                             loadAction="#{viewProductBean.loadMoreMostHot()}"/>
                     </div>
                 </c:when>
-
                 <c:when test="${param.viewType == 'view'}">
                     <div class="list-app-container clearfix">
                         <wapui:product-list 
@@ -84,7 +83,6 @@
                 </c:when>
             </c:choose>
         </ui:define>
-
     </ui:composition>
 </html>
 

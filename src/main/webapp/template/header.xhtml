@@ -6,21 +6,16 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:component>
-        <!-- nav trigger -->
         <a id="nav-trigger" href="#"><span class="fa fa-bars"></span></a>
-
-        <!-- logo -->
         <h:link class="logo" outcome="/index.xhtml">
             <h:graphicImage library="image" name="logo.png" alt="${appConfigBean.appConfig.title}" rendered="${empty appConfigBean.appConfig.appLogo.title}"/>
             <h:graphicImage url="${appConfigBean.appConfig.appLogo.URL}" alt="${appConfigBean.appConfig.title}" rendered="${not empty appConfigBean.appConfig.appLogo.title}"/>
         </h:link>
-
         <ul class="nav-right pull-right clearfix">
             <li>
                 <a class="search" href="#"> <span class="fa fa-search"></span> </a>
             </li>
         </ul>
-
         <c:if test="${appConfigBean.postNavigator != null}">
             <nav class="postNav pull-right clearfix">
                 <ul>
@@ -34,7 +29,6 @@
                 </ul>
             </nav>
         </c:if>
-
     </ui:component>
 </html>
 
