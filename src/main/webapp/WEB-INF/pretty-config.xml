@@ -58,6 +58,11 @@
         <view-id value="/search.xhtml"/>
     </url-mapping>
     
+    <url-mapping id="download-page">
+        <pattern value="/tai/#{slug}.html" />
+        <view-id value="/download-product.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="view-index">
         <pattern value="/index.html" />
         <view-id value="/index.xhtml" />

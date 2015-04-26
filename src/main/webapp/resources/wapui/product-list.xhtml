@@ -5,7 +5,8 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
         <cc:interface>
             <cc:attribute name="title" required="true"/>
@@ -37,22 +38,34 @@
                                                 <span class="fa fa-eye fa-fw"></span>
                                                 <span class="productMeta">${item.viewCount}</span> 
                                             </p>
-<!--                                            <p><span class="fa fa-hdd-o"></span> 20 MB</p>-->
+                                            <!--                                            <p><span class="fa fa-hdd-o"></span> 20 MB</p>-->
                                         </dd>
                                     </dl>
                                 </a>
-                                <a class="download" href="#">
-                                    <span class="icon fa fa-arrow-circle-o-down"></span>
-                                    <span>#{msg['free']}</span>
-                                </a>
+
+                                <c:if test="#{mobileChecker.mobile}">
+                                    <a class="download" href="#{viewProductBean.getMobileDownloadUrl(item)}">
+                                        <span class="icon fa fa-arrow-circle-o-down"></span>
+                                        <span>#{msg['free']}</span>
+                                    </a>
+                                </c:if>
+
+                                <c:if test="${not mobileChecker.mobile}">
+                                    <h:link outcome="/download-product.xhtml" styleClass="download">
+                                        <span class="icon fa fa-arrow-circle-o-down"></span>
+                                        <f:param name="slug" value="${item.slug}"/>
+                                        <span>#{msg['free']}</span>
+                                    </h:link>
+                                </c:if>
+
                             </div>
                         </li>
                     </ui:repeat>
                 </ul>
-                
+
                 <center jsf:rendered="#{cc.attrs.loadAction != null}">
                     <h:commandLink actionListener="#{cc.attrs.loadAction}"  class="more-button" value="Xem thêm">
-                        
+                        <f:ajax render="@form"/>
                     </h:commandLink>
                 </center>
 
