@@ -38,13 +38,13 @@
                                  actionListener="#{postCategoryBean.persist()}" 
                                  rendered="#{empty param.id}"
                                  value="Save">
-                    <f:ajax execute="@form" render="@form"/>
+                    <f:ajax execute="@form" render="@all"/>
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-primary" 
                                  actionListener="#{postCategoryBean.update()}" 
                                  rendered="#{not empty param.id}"
                                  value="Update">
-                    <f:ajax execute="@form" render="@form"/>
+                    <f:ajax execute="@form" render="@all"/>
                 </h:commandButton>
             </div>
 

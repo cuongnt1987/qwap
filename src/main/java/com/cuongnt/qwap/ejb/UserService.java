@@ -13,4 +13,9 @@ import com.cuongnt.qwap.entity.User;
  */
 public interface UserService extends BaseService<User> {
 
+    public User findByUsernameAndPassword(String username, String password);
+    
+    public void updatePassword(Long id, String newPassword);
+    
+    public boolean hasAdminUser();
 }

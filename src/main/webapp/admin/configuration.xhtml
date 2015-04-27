@@ -8,10 +8,10 @@
     <ui:define name="body">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="login-panel panel panel-default">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="configuration-panel panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Please Sign In</h3>
+                            <h3 class="panel-title">Create admin user</h3>
                         </div>
                         <div class="panel-body">
                             <h:form role="form">
@@ -22,22 +22,36 @@
                                         infoClass="alert alert-info" 
                                         warnClass="alert alert-warning" 
                                         errorClass="alert alert-danger"/>
-                                    <div class="form-group">
-                                        <h:inputText id="username"
+                                     <div class="form-group">
+                                        <h:inputText id="fullname"
                                                      styleClass="form-control"
-                                                     value="#{loginBean.username}">
+                                                     value="#{userBean.current.fullname}">
                                             <f:passThroughAttribute name="autofocus" value="true"/>
-                                            <f:passThroughAttribute name="placeholder" value="Username"/>
+                                            <f:passThroughAttribute name="placeholder" value="Fullname"/>
                                         </h:inputText>
-                                        <h:message for="username" 
+                                        <h:message for="fullname" 
                                                    styleClass="help-block" 
                                                    errorClass="text-danger"
                                                    infoClass="text-info"
                                                    warnClass="text-warning"/>
                                     </div>
                                     <div class="form-group">
+                                        <h:inputText id="username"
+                                                     styleClass="form-control"
+                                                     value="#{userBean.current.username}">
+                                            <f:passThroughAttribute name="autofocus" value="true"/>
+                                            <f:passThroughAttribute name="placeholder" value="Username"/>
+                                        </h:inputText>
+                                        <h:message for="fullname" 
+                                                   styleClass="help-block" 
+                                                   errorClass="text-danger"
+                                                   infoClass="text-info"
+                                                   warnClass="text-warning"/>
+                                    </div>
+                                   
+                                    <div class="form-group">
                                         <h:inputSecret id="password"
-                                                       value="#{loginBean.password}"
+                                                       value="#{userBean.current.password}"
                                                        styleClass="form-control">
                                             <f:passThroughAttribute name="placeholder" value="Password"/>
                                         </h:inputSecret>
@@ -47,11 +61,25 @@
                                                    infoClass="text-info"
                                                    warnClass="text-warning"/>
                                     </div>
-                                    <h:commandButton
+                                    <div class="form-group">
+                                        <h:inputText id="email"
+                                                     styleClass="form-control"
+                                                     value="#{userBean.current.email}">
+                                            <f:passThroughAttribute name="autofocus" value="true"/>
+                                            <f:passThroughAttribute name="placeholder" value="Email"/>
+                                        </h:inputText>
+                                        <h:message for="email" 
+                                                   styleClass="help-block" 
+                                                   errorClass="text-danger"
+                                                   infoClass="text-info"
+                                                   warnClass="text-warning"/>
+                                    </div>
+                                    <h:commandLink
                                         styleClass="btn btn-lg btn-success btn-block"
-                                        value="Login"
-                                        actionListener="#{loginBean.login()}">
-                                    </h:commandButton>
+                                        value="Save"
+                                        actionListener="#{userBean.persisAdminUser()}">
+                                        
+                                    </h:commandLink>
                                 </fieldset>
                             </h:form>
                         </div>

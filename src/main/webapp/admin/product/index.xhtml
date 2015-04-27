@@ -12,8 +12,21 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Product management</h1>
+                    <h:messages 
+                        globalOnly="false" 
+                        styleClass="messages" 
+                        infoClass="alert alert-info" 
+                        warnClass="alert alert-warning" 
+                        errorClass="alert alert-danger"/>
                 </div><!-- end div.col-lg-12 -->
             </div>
+
+            <h:messages 
+                globalOnly="true" 
+                styleClass="messages" 
+                infoClass="alert alert-info" 
+                warnClass="alert alert-warning" 
+                errorClass="alert alert-danger"/>
 
             <br/>
 
@@ -22,9 +35,9 @@
                     <h:button outcome="add" value="Add new product" styleClass="btn btn-primary"/>
                 </div>
             </div>
-            
-           <hr/> 
-            
+
+            <hr/> 
+
             <div class="checkbox">
                 <h:selectBooleanCheckbox value="#{productBean.showOnlyHot}">
                     <f:ajax execute="@this" render="@form"/>
@@ -48,7 +61,7 @@
                                      var="product"
                                      styleClass="table table-hover table-bordered table-striped"
                                      rendered="#{productBean.pagePaginationHelper.dataModel.rowAvailable}">
-                            
+
                             <h:column>
                                 <f:facet name="header">
                                     <h:commandLink value="Enable" actionListener="#{productBean.toggleOrder('enable')}">
@@ -63,7 +76,7 @@
                             <h:column>
                                 <img src="${product.thumbnail.URL}" class="img-rounded" height="75" width="75"/>
                             </h:column>
-                                
+
                             <h:column>
                                 <f:facet name="header">
                                     <h:commandLink value="Title" actionListener="#{productBean.toggleOrder('title')}">
@@ -79,7 +92,7 @@
                                 <f:facet name="header">Type</f:facet>
                                 <h:outputText value="#{msg[product.type]}"/>
                             </h:column>
-                            
+
                             <h:column>
                                 <f:facet name="header">
                                     <h:commandLink value="Is hot" actionListener="#{productBean.toggleOrder('hot')}">
@@ -90,20 +103,20 @@
                                     <f:ajax listener="#{productBean.toggleHot(product.id)}" render="@form"/>
                                 </h:selectBooleanCheckbox>
                             </h:column>
-                            
+
                             <h:column>
                                 <f:facet name="header">
                                     <h:commandLink value="Priority" actionListener="#{productBean.toggleOrder('priority')}">
                                         <f:ajax render="@form"/>
                                     </h:commandLink>
                                 </f:facet>
-                                
+
                                 <h:inputText value="#{product.priority}" size="2" disabled="true"/>
                                 <h:commandLink actionListener="#{productBean.increatePriority(product.id)}">
                                     <i class="fa fa-arrow-circle-o-up fa-3x fa-fw"></i>
                                     <f:ajax render="@form"/>
                                 </h:commandLink>
-                                 <h:commandLink actionListener="#{productBean.decreatePriority(product.id)}">
+                                <h:commandLink actionListener="#{productBean.decreatePriority(product.id)}">
                                     <i class="fa fa-arrow-circle-o-down fa-3x fa-fw"></i>
                                     <f:ajax render="@form"/>
                                 </h:commandLink>

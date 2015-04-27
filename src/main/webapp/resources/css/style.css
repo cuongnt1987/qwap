@@ -63,12 +63,15 @@ header.header a:hover {
 }
 
 .postNav li a {
-    font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: bold;
+    text-transform: uppercase;
     line-height: 48px;
     display: block;
     padding: 0 5px;
+    word-spacing: -2px;
     text-decoration: none;
+    letter-spacing: 0px;
     outline: none;
 }
 
@@ -411,8 +414,6 @@ a.more-button {
     border-top: 1px solid #f1f1f1;
     padding-top: 20px;
 }
-
-
 
 .app-detail .description .desc_app.active {
     height: auto;

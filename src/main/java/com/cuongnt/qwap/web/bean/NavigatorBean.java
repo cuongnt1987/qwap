@@ -44,7 +44,7 @@ public class NavigatorBean extends AbstractManagedBean<Navigator> {
             try {
                 current = navigatorService.find(Long.parseLong(id));
             } catch (Exception e) {
-                logger.warn("can not load navigation");
+                logger.warn("can not load navigation with id = {}", id);
             }
         }
     }

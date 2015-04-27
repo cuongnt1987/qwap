@@ -31,7 +31,7 @@
                                    warnClass="text-warning"/>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" jsf:rendered="#{param.id == null}">
                         <h:outputLabel for="password" value="Password"/>
                         <h:inputSecret id="password" styleClass="form-control" value="#{userBean.current.password}"/>
                         <h:message for="password" 
