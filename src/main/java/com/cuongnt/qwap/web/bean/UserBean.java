@@ -12,11 +12,14 @@ import com.cuongnt.qwap.util.AppUtil;
 import com.cuongnt.qwap.web.util.JsfUtil;
 import com.cuongnt.qwap.web.util.MessageUtil;
 import com.sun.tools.javac.util.List;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -101,10 +104,18 @@ public class UserBean extends AbstractManagedBean<User> {
 
     public void persisAdminUser() {
         JsfUtil.processAction(u -> {
+
             onBeforePersist();
             u.setGroups(List.of(User.Group.Admin));
             userService.persist(u);
             onPersistSuccess();
+            try {
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                ExternalContext externalContext = facesContext.getExternalContext();
+                externalContext.redirect(externalContext.getRequestContextPath() + "/admin/index.xhtml");
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }, current, MessageUtil.REQUEST_SUCCESS_MESSAGE, MessageUtil.REQUEST_FAIL_MESSAGE);
     }
 
