@@ -90,5 +90,4 @@ public class NavigatorBean extends AbstractManagedBean<Navigator> {
             getCurrent().setSlug(slug);
         }
     }
-
 }

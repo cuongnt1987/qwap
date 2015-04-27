@@ -55,7 +55,7 @@ public class LoginBean implements Serializable {
         originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
 
         if (originalURL == null) {
-            originalURL = externalContext.getRequestContextPath() + "/admin/index.xhtml";
+            originalURL = "/admin/index.xhtml";
         } else {
             String originalQuery = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
 
@@ -88,7 +88,7 @@ public class LoginBean implements Serializable {
     public void logout() throws IOException {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
-        externalContext.redirect(externalContext.getRequestContextPath() + "/admin/login.xhtml");
+        externalContext.redirect("/admin/login.xhtml");
     }
 
     /* Getters and Setters */

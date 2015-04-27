@@ -9,7 +9,6 @@
 
         <h:messages globalOnly="true" styleClass="messages" infoClass="alert alert-info" warnClass="alert alert-warning" errorClass="alert alert-danger"/>
 
-
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
@@ -72,7 +71,6 @@
                               value="#{navigatorBean.current.type}"
                               converter="enumConverter">
                 <f:selectItems value="#{navigatorBean.typeSelectItems}"/>
-                <f:ajax render="postCategoryGroup contentGroup"/>
             </h:selectOneMenu>
             <h:message for="type" 
                        styleClass="help-block" 
@@ -82,25 +80,22 @@
         </div>
 
         <div class="form-group" jsf:id="postCategoryGroup">
-            <h:outputLabel for="postCat" value="Post category" rendered="#{!navigatorBean.showContent}"/>
+            <h:outputLabel for="postCat" value="Post category"/>
             <h:selectOneMenu  id="postCat" styleClass="form-control" 
                               value="#{navigatorBean.current.postCategory}"
                               converter="postCategoryConverter"
-                              hideNoSelectionOption="false"
-                              rendered="#{!navigatorBean.showContent}">
-
+                              hideNoSelectionOption="false">
                 <f:selectItems value="#{postCategoryBean.selectItems}"/>
             </h:selectOneMenu>
             <h:message for="postCat" 
                        styleClass="help-block" 
                        errorClass="text-danger"
                        infoClass="text-info"
-                       warnClass="text-warning"
-                       rendered="#{!navigatorBean.showContent}"/>
+                       warnClass="text-warning"/>
         </div>
 
-        <div class="form-group" jsf:id="contentGroup">
-            <h:outputLabel for="content" value="Content" rendered="#{navigatorBean.showContent}"/>
+        <div class="form-group">
+            <h:outputLabel for="content" value="Content"/>
             <h:inputTextarea id="content" styleClass="form-control tinymce" 
                              value="#{navigatorBean.current.content}"
                              rendered="#{navigatorBean.showContent}"/>
@@ -108,8 +103,7 @@
                        styleClass="help-block" 
                        errorClass="text-danger"
                        infoClass="text-info"
-                       warnClass="text-warning"
-                       rendered="#{navigatorBean.showContent}"/>
+                       warnClass="text-warning"/>
         </div>
 
         <div class="form-group">
@@ -140,13 +134,11 @@
                                  actionListener="#{navigatorBean.persist()}" 
                                  rendered="#{empty param.id}"
                                  value="Save">
-                    <f:ajax execute="@form" render="@all"/>
                 </h:commandButton>
                 <h:commandButton styleClass="btn btn-primary" 
                                  actionListener="#{navigatorBean.update()}" 
                                  rendered="#{not empty param.id}"
                                  value="Update">
-                    <f:ajax execute="@form" render="@all"/>
                 </h:commandButton>
             </div>
 
